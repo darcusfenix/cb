@@ -41,4 +41,25 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                 }]
             }
         })
+
+
+        .state('vendedorCorteCaja', {
+            url: "/corte-de-caja",
+            templateUrl: "angularjs-app/views/salesman/report-cash-out.gsp",
+            data: {pageTitle: 'Corte de Caja', pageSubTitle: ''},
+            controller: "SalesmanReportCashOutController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'CapitalBusApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            BASE_URL + 'rs/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            BASE_URL + 'rs/global/plugins/bootstrap-datepaginator/bootstrap-datepaginator.min.js',
+                            BASE_URL + 'angularjs-app/controllers/salesman/SalesmanReportCashOutController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 }]);
