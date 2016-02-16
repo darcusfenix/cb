@@ -20,8 +20,8 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: "create-drop"
-            url: jdbc:postgresql://localhost/test
+            dbCreate: ""
+            url: jdbc:postgresql://localhost/capitalbus
     test:
         dataSource:
             dbCreate: ""

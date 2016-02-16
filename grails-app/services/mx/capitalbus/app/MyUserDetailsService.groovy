@@ -27,9 +27,9 @@ class MyUserDetailsService implements GrailsUserDetailsService {
 
     @Transactional(readOnly=true, noRollbackFor=[IllegalArgumentException, UsernameNotFoundException])
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.error(username)
+
         User user = User.findByUsername(username)
-        log.error(user)
+
         if (!user) throw new NoStackUsernameNotFoundException()
 
         def authorities = user.authorities.collect {
