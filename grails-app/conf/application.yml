@@ -13,14 +13,14 @@ dataSource:
     dialect : org.hibernate.dialect.PostgreSQLDialect
     username: postgres
     password: 2706
-    logSql: false
+    logSql: true
 
 
 
 environments:
     development:
         dataSource:
-            dbCreate: ""
+            dbCreate: "create-drop"
             url: jdbc:postgresql://localhost/test
     test:
         dataSource:
