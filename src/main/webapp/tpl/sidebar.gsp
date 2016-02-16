@@ -33,6 +33,15 @@
                 </li>
             </sec:access>
 
+            <sec:access expression="hasRole('ROLE_SALESMAN')">
+                <li class="nav-item">
+                    <a href="#/corte-de-caja">
+                        <i class="icon-settings"></i>
+                        <span class="title">Corte de Caja</span>
+                    </a>
+                </li>
+            </sec:access>
+
         </ul>
         <!-- END SIDEBAR MENU -->
     </div>
