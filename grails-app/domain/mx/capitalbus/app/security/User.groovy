@@ -53,6 +53,7 @@ class User {
 
     static constraints = {
         username blank: false, unique: true
+        email unique: true, email: true
         password blank: false
     }
 
@@ -62,5 +63,6 @@ class User {
         id generator: 'identity'
         table '`user`'
         password column: '`password`'
+        email unique: true
     }
 }
