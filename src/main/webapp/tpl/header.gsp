@@ -35,6 +35,9 @@
                                 <sec:access expression="hasRole('ROLE_SALESMAN')">
                                     VENDEDOR
                                 </sec:access>
+                                <sec:access expression="hasRole('ROLE_ADMIN_CONTROL_BRACELET')">
+                                    CONTROL DE BRAZALETES
+                                </sec:access>
                             </span>
 
                             <img alt="" class="img-circle"

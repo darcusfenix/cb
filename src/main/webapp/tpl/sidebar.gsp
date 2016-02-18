@@ -33,6 +33,14 @@
                 </li>
             </sec:access>
 
+            <sec:access expression="hasRole('ROLE_ADMIN_CONTROL_BRACELET')">
+                <li class="nav-item">
+                    <a href="#/asignar-brazaletes">
+                        <i class="icon-settings"></i>
+                        <span class="title">Aasignar brazaletes</span>
+                    </a>
+                </li>
+            </sec:access>
             <sec:access expression="hasRole('ROLE_SALESMAN')">
                 <li class="nav-item">
                     <a href="#/corte-de-caja">
