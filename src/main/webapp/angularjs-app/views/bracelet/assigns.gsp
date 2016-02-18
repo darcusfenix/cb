@@ -107,15 +107,14 @@
     </div>
 </div>
 
-<div id="asignar" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
+<div id="asignar" class="modal fade bs-modal-lg" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Seleccione el rango de entrega para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+                <h4 class="modal-title">Seleccione el rango de IDENTIFICADOR de entrega para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
             </div>
             <div class="modal-body">
-
                 <div class="row">
                     <div class="table-scrollable table-scrollable-borderless">
                         <table class="table table-hover table-light">
@@ -135,27 +134,32 @@
                             </tr>
                             </thead>
                             <tr ng-repeat="avaliblecost in avalibleCostsList">
-                                <td class="text-right">
-                                    Serie {{avaliblecost[0].id}}
+                                <td class="text-left">
+                                    Serie {{deliveryBraceletResumen[$index].idCost}}
                                 </td>
                                 <td>
-                                    <input type="number" min="1" placeholder="Inicio del rango" class="form-control">
+                                    <input type="number" min="1" placeholder="Inicio del rango" class="form-control" ng-model="deliveryBraceletResumen[$index].startRange">
                                 </td>
                                 <td>
-                                    <input type="number" min="1" placeholder="Fin del rango" class="form-control">
+                                    <input type="number" min="1" placeholder="Fin del rango" class="form-control" ng-model="deliveryBraceletResumen[$index].endsRange">
                                 </td>
                                 <td class="text-center">
-                                    {{0}}
+                                    <span ng-class=" ( deliveryBraceletResumen[$index].endsRange < deliveryBraceletResumen[$index].startRange )
+                                                     || ( deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange < 0 )
+                                                     ? 'text-danger' : 'text-success'">
+                                        {{deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange}}
+                                    </span>
                                 </td>
                             </tr>
                         </table>
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn red" >Cancelar</button>
-                <button type="button" data-dismiss="modal" class="btn green" ng-click="generetingBracelets()">Sí, generar</button>
+                <button type="button" data-dismiss="modal" class="btn green" ng-click="generetingBracelets()" ng-show="validate()">
+                    Sí, generar
+                </button>
             </div>
         </div>
     </div>

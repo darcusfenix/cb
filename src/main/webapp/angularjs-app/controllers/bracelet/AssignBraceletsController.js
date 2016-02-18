@@ -15,7 +15,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     $scope.q;
     $scope.salesmanSelected;
 
-    $scope,deliveryBraceletResumen = [];
+    $scope.deliveryBraceletResumen = [];
 
     $scope.getVendedores = function () {
         if ($scope.q != null)
@@ -93,11 +93,35 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     $scope.prepareDelivery = function(){
         for (var i = 0; i < $scope.avalibleCostsList.length; i++){
             var temp = {
-                idCost: $scope.avalibleCostsList[i].id,
+                idCost: $scope.avalibleCostsList[i][0].id,
                 startRange:  0,
                 endsRange:  0
             };
-            $scope,deliveryBraceletResumen.push(temp);
+            $scope.deliveryBraceletResumen.push(temp);
         }
+    };
+    $scope.validate = function(){
+        var z = 0;
+        for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++){
+            if ( ($scope.deliveryBraceletResumen[i].endsRange - $scope.deliveryBraceletResumen[i].startRange) <= 0
+                || $scope.deliveryBraceletResumen[i].endsRange < $scope.deliveryBraceletResumen[i].startRange){
+                z++
+            }
+            if (i > 0){
+                if (
+                    ( ($scope.deliveryBraceletResumen[i-1].endsRange + $scope.deliveryBraceletResumen[i-1].startRange) >=
+                        ($scope.deliveryBraceletResumen[i].endsRange + $scope.deliveryBraceletResumen[i].startRange) )
+
+                    || ($scope.deliveryBraceletResumen[i-1].endsRange  == $scope.deliveryBraceletResumen[i].endsRange )
+                    || ($scope.deliveryBraceletResumen[i-1].startRange  == $scope.deliveryBraceletResumen[i].startRange )
+
+                    || ($scope.deliveryBraceletResumen[i].startRange  == $scope.deliveryBraceletResumen[i-1].endsRange )
+                    || ($scope.deliveryBraceletResumen[i].endsRange  == $scope.deliveryBraceletResumen[i-1].startRange )
+                ){
+                    z++
+                }
+            }
+        }
+        return (z == 0 ? true : false)
     };
 }
