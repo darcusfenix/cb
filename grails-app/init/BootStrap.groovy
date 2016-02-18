@@ -7,7 +7,10 @@ import mx.capitalbus.app.bracelet.PersonDuration
 import mx.capitalbus.app.circuit.Bus
 import mx.capitalbus.app.circuit.Circuit
 import mx.capitalbus.app.security.Role
+import mx.capitalbus.app.security.RoleGroup
+import mx.capitalbus.app.security.RoleGroupRole
 import mx.capitalbus.app.security.UserRole
+import mx.capitalbus.app.security.UserRoleGroup
 import mx.capitalbus.app.user.AdminControlBracelets
 import mx.capitalbus.app.user.Salesman
 import mx.capitalbus.app.user.SuperAdmin
@@ -54,8 +57,9 @@ class BootStrap {
         UserRole.create sm,salesManRole
         UserRole.create sa,superAdminRole
 */
-        def r = Role.findOrSaveByAuthority("ROLE_ADMIN_CONTROL_BRACELET")
-        def u = AdminControlBracelets.findByUsername("control-brazaletes")
+        //def r = Role.findOrSaveByAuthority("ROLE_ADMIN_CONTROL_BRACELET")
+      // def u = AdminControlBracelets.findByUsername("control-brazaletes")
+
         /*
         def sa = new AdminControlBracelets()
         sa.accountExpired = false
@@ -67,7 +71,9 @@ class BootStrap {
         sa.username = "control-brazaletes"
         sa.save()
         */
-        UserRole.create u,r
+      //  UserRole.create u,r
+
+
     }
     def destroy = {
     }
