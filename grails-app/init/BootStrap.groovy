@@ -60,7 +60,7 @@ class BootStrap {
         //def r = Role.findOrSaveByAuthority("ROLE_ADMIN_CONTROL_BRACELET")
       // def u = AdminControlBracelets.findByUsername("control-brazaletes")
 
-        /*
+/*
         def sa = new AdminControlBracelets()
         sa.accountExpired = false
         sa.accountLocked = false
@@ -71,7 +71,9 @@ class BootStrap {
         sa.username = "control-brazaletes"
         sa.save()
         */
-      //  UserRole.create u,r
+
+        //def sa = AdminControlBracelets.findByUsername("control-brazaletes")
+      //  UserRole.create sa,r
 
 
     }

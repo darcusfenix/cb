@@ -1,10 +1,12 @@
 package mx.capitalbus
 
-
+import grails.converters.JSON
 import grails.transaction.Transactional
+import groovy.json.JsonSlurper
 import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.BraceletState
 import mx.capitalbus.app.bracelet.CostBracelet
+import mx.capitalbus.app.user.Salesman
 
 import java.text.SimpleDateFormat
 
@@ -18,7 +20,7 @@ class BraceletService {
 
         def map = "ID,CODIGO,TIPO,FECHA_CREACION\n";
         //todo cuidar las secuencias con el id
-        def bs = BraceletState.findByName("activado")
+        def bs = BraceletState.findByName(1) // estado de brazalete como generado
         def dateNow = new Date()
 
 
@@ -90,11 +92,66 @@ class BraceletService {
             }
 	
             results.each { b ->
-		
                 mapCVS += b.id + "," + b.code.toLowerCase().trim() + "," + b.costBracelet.id + "," + b.creationDate + "\n"
             }
 
         }
         mapCVS
+    }
+    def updateBraceletsWithSalesman(String textJson, Integer idSalesman){
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
+        def s = Salesman.findById(idSalesman)
+        def mapMessage = [:]
+
+        if (s != null){
+            def bs = BraceletState.findById(2) // estado de brazalete como activado
+            def date = new Date()
+            def jsonSlurper = new JsonSlurper()
+            def object = jsonSlurper.parseText(textJson)
+
+            for (String p : object) {
+                def j = JSON.parse(p)
+                Integer i = j.idCost
+                long sr = j.startRange
+                long er = j.endsRange
+
+                def serie = CostBracelet.findById(i)
+                def query = Bracelet.where {
+                    (costBracelet == serie && salesman == null && deliveryDate == null && (id in sr..er))
+                }
+                def braceletsList = query.list()
+
+                /*def braceletsList = Bracelet.createCriteria().list {
+                    and {
+                        eq("costBracelet", serie)
+                        eq("salesman", null)
+                        eq("deliveryDate", null)
+                        between("id", sr, er)
+                    }
+                }
+                */
+
+                if (braceletsList.size() > 0){
+                    log.error("hubo resultados")
+                    braceletsList.each { b ->
+                        log.error(b)
+                        b.deliveryDate = date
+                        b.braceletState = bs
+                        b.salesman = s
+                        if (b.validate())
+                            b.save(flush: true)
+                        else
+                            log.error(b.errors)
+                    }
+                    mapMessage.put(i, "El rango se asignó exitoxamente")
+                }
+                else{
+                    log.error("no hubo resultados")
+                    mapMessage.put(i, "EL rango no coincide")
+                }
+
+            }
+        }
+        mapMessage
     }
 }

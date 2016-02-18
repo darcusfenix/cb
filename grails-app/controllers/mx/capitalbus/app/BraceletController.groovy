@@ -14,6 +14,7 @@ class BraceletController {
 
     def braceletService
 
+    @Secured('ROLE_ADMIN_CONTROL_BRACELET')
     def create (){
         render ( new Bracelet() as JSON)
     }
@@ -54,7 +55,6 @@ class BraceletController {
         if ( date != null) {
             def s = braceletService.getStringOfCSV(date)
             if (s != null){
-
                 response.setHeader("Content-disposition", "attachment; filename=brazaletes.csv")
                 render(contentType: "text/csv", text:s )
             }else{
@@ -77,5 +77,18 @@ class BraceletController {
             }
         }
         render(results as JSON)
+    }
+
+    @Secured(value=["hasRole('ROLE_ADMIN_CONTROL_BRACELET')"], httpMethod='POST')
+    def toAssignForSalesman(){
+        def jsonText = params.json
+        def salesman = params.int("salesman")
+        if (jsonText != null || !jsonText.empty || salesman > 0)
+        {
+            def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman)
+            render (res as JSON)
+        }
+        else
+            render( ["message":"hubo un error"] as JSON)
     }
 }
