@@ -41,5 +41,23 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                     });
                 }]
             }
+        }).state('brazaleteAssign', {
+            url: "/asignar-brazaletes",
+            templateUrl: "angularjs-app/views/bracelet/assigns.gsp",
+            data: {pageTitle: 'Asignación de Brazaletes a vendedores', pageSubTitle: ''},
+            controller: "AssignBraceletsController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'CapitalBusApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            BASE_URL + 'angularjs-app/resources/CircuitResource.js',
+                            BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
+                            BASE_URL + 'angularjs-app/controllers/bracelet/AssignBraceletsController.js'
+                        ]
+                    });
+                }]
+            }
         })
 }]);

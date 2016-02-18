@@ -84,4 +84,3 @@
         <!-- END PORTLET-->
     </div>
 </div>
-<script

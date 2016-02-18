@@ -74,6 +74,7 @@ function BraceleteGenerateController($rootScope,
             console.log(err)
         });
     };
+
     $scope.getCostBraceletByCircuit = function (idCircuit) {
         CostBracelet.getCostBraceletByCircuit({
             id: idCircuit

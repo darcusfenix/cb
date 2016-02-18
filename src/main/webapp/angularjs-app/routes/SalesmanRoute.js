@@ -34,7 +34,6 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                         name: 'CapitalBusApp',
                         insertBefore: '#ng_load_plugins_before',
                         files: [
-
                             BASE_URL + 'angularjs-app/controllers/vendedor/VendedorReporteController.js'
                         ]
                     });
