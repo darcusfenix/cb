@@ -7,7 +7,7 @@ import mx.capitalbus.app.circuit.Circuit
 
 @Secured('ROLE_SUPER_ADMIN')
 class CircuitController {
-
+    @Secured('ROLE_ADMIN_CONTROL_BRACELET')
     def index() {
         render (Circuit.findAllByEnabled(true) as JSON)
     }

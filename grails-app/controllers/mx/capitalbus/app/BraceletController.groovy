@@ -67,4 +67,15 @@ class BraceletController {
         }
 
     }
+    @Secured('ROLE_ADMIN_CONTROL_BRACELET')
+    def getListOfCreationsByCost(){
+        def b = Bracelet.createCriteria()
+        def results = b.list {
+            projections {
+                groupProperty('costBracelet')
+                count("costBracelet")
+            }
+        }
+        render(results as JSON)
+    }
 }
