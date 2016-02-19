@@ -17,13 +17,11 @@
                 <div class="widget-thumb-body">
                    <div class="col-md-6">
                        <span class="widget-thumb-subtitle">TOTAL</span>
-                       <span class="widget-thumb-body-stat" data-counter="counterup"
-                             data-value="5,071">{{avaliblecost[1]}}</span>
+                       <span class="widget-thumb-body-stat" >{{avaliblecost[1]}}</span>
                    </div>
                    <div class="col-md-6">
                        <span class="widget-thumb-subtitle">Asignadas</span>
-                       <span class="widget-thumb-body-stat" data-counter="counterup"
-                             data-value="5,071">{{0}}</span>
+                       <span class="widget-thumb-body-stat" >{{avaliblecost[2]}}</span>
                    </div>
                 </div>
             </div>

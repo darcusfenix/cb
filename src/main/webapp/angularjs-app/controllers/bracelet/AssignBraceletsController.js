@@ -37,7 +37,6 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
 
     Bracelet.costs(function (data) {
         $scope.avalibleCostsList = data;
-        console.log($scope.avalibleCostsList)
         $scope.getCircuits();
     }, function (err) {
 
@@ -192,11 +191,20 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
                 }
             }
         }
+        $scope.updataTotalSeries();
     };
     $scope.hideResponse = function () {
             $scope.f1 = false
             $scope.f2 = false;
         $("#response-failed").html(" ");
         $("#response-success").html(" ");
+    };
+
+    $scope.updataTotalSeries = function(){
+        Bracelet.costs(function (data) {
+            $scope.avalibleCostsList = data;
+        }, function (err) {
+
+        });
     };
 }

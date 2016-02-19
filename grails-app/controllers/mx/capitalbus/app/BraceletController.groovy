@@ -43,8 +43,8 @@ class BraceletController {
         def b = Bracelet.createCriteria()
         def results = b.list {
             projections {
-                groupProperty('creationDate')
                 count("creationDate")
+                groupProperty('creationDate')
             }
         }
         render(results as JSON)
@@ -74,6 +74,7 @@ class BraceletController {
             projections {
                 groupProperty('costBracelet')
                 count("costBracelet")
+                count("deliveryDate")
             }
         }
         render(results as JSON)
