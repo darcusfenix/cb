@@ -779,7 +779,7 @@ var App = function() {
                 }
                 el.block({
                     message: html,
-                    baseZ: options.zIndex ? options.zIndex : 1000,
+                    baseZ: options.zIndex ? options.zIndex : 10000000000000000,
                     centerY: options.cenrerY !== undefined ? options.cenrerY : false,
                     css: {
                         top: '10%',
@@ -788,7 +788,7 @@ var App = function() {
                         backgroundColor: 'none'
                     },
                     overlayCSS: {
-                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#000',
                         opacity: options.boxed ? 0.05 : 0.1,
                         cursor: 'wait'
                     }
@@ -796,14 +796,14 @@ var App = function() {
             } else { // page blocking
                 $.blockUI({
                     message: html,
-                    baseZ: options.zIndex ? options.zIndex : 1000,
+                    baseZ: options.zIndex ? options.zIndex : 10000000000000000,
                     css: {
                         border: '0',
                         padding: '0',
                         backgroundColor: 'none'
                     },
                     overlayCSS: {
-                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#000',
                         opacity: options.boxed ? 0.05 : 0.1,
                         cursor: 'wait'
                     }

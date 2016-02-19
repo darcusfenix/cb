@@ -77,7 +77,7 @@
                     <table class="table table-hover table-light">
                         <thead>
                         <tr class="uppercase">
-                            <th colspan="2" class="bold ">Nombres</th>
+                            <th class="bold ">Nombres</th>
                             <th class="bold ">Apellidos</th>
                             <th class="bold ">Correo</th>
                             <th class="bold ">NOmbre de Usuario</th>
@@ -85,17 +85,12 @@
                         </tr>
                         </thead>
                         <tr ng-repeat="salesman in vendedorList|filter:filtro">
-                            <td class="fit">
-                                <img class="user-pic rounded"
-                                     src="https://cdn3.iconfinder.com/data/icons/line/36/person-24.png"></td>
-                            <td>
-                                <a href="javascript:;" class="primary-link">{{salesman.firstName}}</a>
-                            </td>
+                            <td>{{salesman.firstName}}</td>
                             <td>{{salesman.lastName}}</td>
                             <td>{{salesman.email}}</td>
                             <td>{{salesman.username}}</td>
                             <td class="text-center">
-                                <a ng-click="selectSalesman(salesman)" class="btn btn-success" data-toggle="modal" href="#asignar">Asignar</a>
+                                <a ng-click="selectSalesman(salesman)" class="btn " data-toggle="modal" href="#asignar">Asignar</a>
                             </td>
                         </tr>
                     </table>
@@ -120,7 +115,7 @@
                         <table class="table table-hover table-light">
                             <thead>
                                 <th class="font-blue text-uppercase  text-center">
-                                    Serie
+
                                 </th>
                                 <th class="font-blue text-uppercase  text-center">
                                     inicio
@@ -129,9 +124,8 @@
                                     fin
                                 </th>
                                 <th class="font-blue text-uppercase  text-center">
-                                    total
+                                    total de brazaletes
                                 </th>
-                            </tr>
                             </thead>
                             <tr ng-repeat="avaliblecost in avalibleCostsList">
                                 <td class="text-left">
@@ -175,8 +169,81 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn red" >Cancelar</button>
-                <button type="button" data-dismiss="modal" class="btn green" ng-click="toAssignForSalesman()" ng-show="validate()">
-                    Sí, generar
+                <a href="#stack1"  class="btn green" data-toggle="modal" ng-click="null" ng-show="validate()">
+                    Asignar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="stack1" class="modal fade" tabindex="-1" data-width="400">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Por favor confirme la siguiente asignación para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b> </h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-scrollable table-scrollable-borderless">
+                    <table class="table table-hover table-light">
+                        <thead>
+                        <th class="font-blue text-uppercase  text-center">
+
+                        </th>
+                        <th class="font-blue text-uppercase  text-center">
+                            inicio
+                        </th>
+                        <th class="font-blue text-uppercase  text-center">
+                            fin
+                        </th>
+                        <th class="font-blue text-uppercase  text-center">
+                            total de brazaletes
+                        </th>
+                        </thead>
+
+                        <tr ng-repeat="avaliblecost in avalibleCostsList">
+                            <td class="text-center">
+                                Serie {{deliveryBraceletResumen[$index].idCost}}
+                            </td>
+                            <td class="font-blue text-uppercase  text-center">
+                                {{deliveryBraceletResumen[$index].startRange}}
+                            </td>
+                            <td class="font-blue text-uppercase  text-center">
+                                {{deliveryBraceletResumen[$index].endsRange}}
+                            </td>
+                            <td class="text-center">
+                                <span ng-class=" ( deliveryBraceletResumen[$index].endsRange < deliveryBraceletResumen[$index].startRange )
+                                                     || ( deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange < 0 )
+                                                     ? 'text-danger' : 'text-success'">
+                                    {{
+                                    (deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange) == 0 ?  0 :
+                                    deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange + 1
+                                    }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                TOTAL
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                            </td>
+                            <td class="text-center">
+                                <b>{{getTotal()}}</b>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancelar</button>
+                <button  class="btn green" data-dismiss="modal"  ng-click="toAssignForSalesman()" ng-show="validate()">
+                    Sí, Asignar
                 </button>
             </div>
         </div>

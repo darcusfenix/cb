@@ -21,7 +21,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
 
     $scope.deliveryBraceletResumen = [];
 
-    $scope.breceletInstance  = Bracelet.create(function (data) {
+    $scope.breceletInstance = Bracelet.create(function (data) {
         $scope.breceletInstance = data;
     });
 
@@ -135,17 +135,18 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     };
 
     $scope.toAssignForSalesman = function () {
-
+        $('#asignar').modal('hide');
         App.blockUI({
             boxed: !0,
-            message: "Asignando brazaletes a "+$scope.salesmanSelected.firstName+" "+$scope.salesmanSelected.lastName+" ... \n NO ACTUALIZAR O CERRAR PÁGINA"
+            message: "Asignando brazaletes a " + $scope.salesmanSelected.firstName + " " + $scope.salesmanSelected.lastName + " ... \n NO ACTUALIZAR O CERRAR PÁGINA"
         });
 
         $scope.breceletInstance.$toAssign({
             "json": $scope.prepareJSON(),
-            "salesman" : $scope.salesmanSelected.id
+            "salesman": $scope.salesmanSelected.id
         }, function (data) {
             $scope.responseList = data;
+
             App.unblockUI();
 
             $scope.showResponse();
@@ -185,29 +186,29 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     };
     $scope.showResponse = function () {
         console.log($scope.deliveryBraceletResumen)
-        for (var i = 0; i < Object.keys($scope.responseList).length; i++){
+        for (var i = 0; i < Object.keys($scope.responseList).length; i++) {
 
-            if(typeof $scope.responseList[i] !== 'undefined'){
-                if ($scope.responseList[i].status == 0){
+            if (typeof $scope.responseList[i] !== 'undefined') {
+                if ($scope.responseList[i].status == 0) {
                     $scope.f1 = true;
-                    $("#response-failed").append('<h5 style="padding-left: 20px;" class="block"> SERIE '+$scope.responseList[i].idCost+' ->'+$scope.responseList[i].message+'</h5>');
+                    $("#response-failed").append('<h5 style="padding-left: 20px;" class="block"> SERIE ' + $scope.responseList[i].idCost + ' ->' + $scope.responseList[i].message + '</h5>');
                 }
-                if ($scope.responseList[i].status == 1){
+                if ($scope.responseList[i].status == 1) {
                     $scope.f2 = true;
-                    $("#response-success").append('<h5  style="padding-left: 20px;" class="block"> SERIE '+$scope.responseList[i].idCost+' ->'+$scope.responseList[i].message+'</h5>');
+                    $("#response-success").append('<h5  style="padding-left: 20px;" class="block"> SERIE ' + $scope.responseList[i].idCost + ' ->' + $scope.responseList[i].message + '</h5>');
                 }
             }
         }
         $scope.updataTotalSeries();
     };
     $scope.hideResponse = function () {
-            $scope.f1 = false
-            $scope.f2 = false;
+        $scope.f1 = false
+        $scope.f2 = false;
         $("#response-failed").html(" ");
         $("#response-success").html(" ");
     };
 
-    $scope.updataTotalSeries = function(){
+    $scope.updataTotalSeries = function () {
         Bracelet.costs(function (data) {
             $scope.avalibleCostsList = data;
         }, function (err) {

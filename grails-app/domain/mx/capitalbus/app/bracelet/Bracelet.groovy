@@ -22,5 +22,8 @@ class Bracelet {
 
     static mapping = {
         id generator: 'identity'
+        salesman fetch: 'join'
+        braceletState fetch: 'join'
+        costBracelet fetch: 'join'
     }
 }
