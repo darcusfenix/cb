@@ -41,7 +41,7 @@
                             </span>
 
                             <img alt="" class="img-circle"
-                                 src="https://cdn3.iconfinder.com/data/icons/line/36/person-32.png"/>
+                                 src=""${resource(dir: 'static/rs/layouts/layout4/img', file: 'avatar.png')}""/>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
 

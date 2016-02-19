@@ -31,7 +31,7 @@ function HistoryBrazaletsController($rootScope,
         Bracelet.history(function (data) {
             $scope.historyList = data;
             App.unblockUI("#p-b-history-bracelets");
-console.log($scope.historyList)
+            console.log($scope.historyList)
         }, function (err) {
             console.log(err)
         });

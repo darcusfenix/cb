@@ -35,7 +35,7 @@
             <div class="form-body">
                 <div class="form-group">
                     <div class="input-group input-group-lg">
-                        <input type="text" class="form-control" placeholder="Escriba un correo o nombres del salesman"
+                        <input type="text" class="form-control" placeholder="Escribe un correo o nombres del vendedor"
                                ng-model="q" required ng-trim="true" ng-change="getVendedores()" onfocus="true">
 
                         <span class="input-group-btn">
@@ -112,6 +112,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Seleccione el rango de IDENTIFICADOR de entrega para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -158,6 +159,7 @@
                                     TOTAL
                                 </td>
                                 <td>
+
                                 </td>
                                 <td>
                                 </td>
@@ -166,7 +168,9 @@
                                 </td>
                             </tr>
                         </table>
+
                     </div>
+                    <span class="text-danger" ng-hide="validate()">Hay errores de validación, verifique que los números correspondan al rango de los brazaletes</span>
                 </div>
             </div>
             <div class="modal-footer">

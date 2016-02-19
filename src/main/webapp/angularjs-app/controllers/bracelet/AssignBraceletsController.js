@@ -16,7 +16,8 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     $scope.salesmanSelected;
     $scope.responseList = null;
 
-    $scope.f1 = false, $scope.f2 = false;
+    $scope.f1 = false;
+    $scope.f2 = false;
 
     $scope.deliveryBraceletResumen = [];
 
@@ -93,6 +94,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     };
 
     $scope.selectSalesman = function (it) {
+        $scope.resetValuesRange();
         $scope.salesmanSelected = it;
         $scope.hideResponse();
     };
@@ -100,9 +102,9 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     $scope.prepareDelivery = function () {
         for (var i = 0; i < $scope.avalibleCostsList.length; i++) {
             var temp = {
-                idCost: $scope.avalibleCostsList[i][0].id,
-                startRange: 0,
-                endsRange: 0
+                "idCost": $scope.avalibleCostsList[i][0].id,
+                "startRange": 0,
+                "endsRange": 0
             };
             $scope.deliveryBraceletResumen.push(temp);
         }
@@ -145,7 +147,8 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
         }, function (data) {
             $scope.responseList = data;
             App.unblockUI();
-            $scope.resetValuesRange();
+
+            $scope.showResponse();
         }, function (err) {
             App.unblockUI();
         });
@@ -164,10 +167,13 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     };
     $scope.resetValuesRange = function () {
         for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++) {
+
             $scope.deliveryBraceletResumen[i].startRange = 0;
             $scope.deliveryBraceletResumen[i].endsRange = 0;
+
+            console.log($scope.deliveryBraceletResumen[i])
         }
-        $scope.showResponse();
+
     };
     $scope.getTotal = function () {
         var total = 0;
@@ -178,6 +184,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
         return total;
     };
     $scope.showResponse = function () {
+        console.log($scope.deliveryBraceletResumen)
         for (var i = 0; i < Object.keys($scope.responseList).length; i++){
 
             if(typeof $scope.responseList[i] !== 'undefined'){
