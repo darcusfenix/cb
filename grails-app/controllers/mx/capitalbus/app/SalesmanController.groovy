@@ -4,14 +4,13 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import mx.capitalbus.app.repository.SalesmanRepository
 
-@Secured(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN_CONTROL_BRACELET'])
+@Secured(value = ["hasAnyRole('ROLE_SUPER_ADMIN','ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET')"])
 class SalesmanController {
 
     SalesmanRepository salesmanRepository
 
     def index(String q) {
         def s = q ?: params.list('q')
-        log.error(s)
         render(salesmanRepository.getBySearch(s) as JSON)
     }
 

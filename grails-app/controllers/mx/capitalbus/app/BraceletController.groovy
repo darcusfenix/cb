@@ -9,12 +9,11 @@ import mx.capitalbus.app.bracelet.CostBracelet
 
 import java.text.SimpleDateFormat
 
-@Secured('ROLE_SUPER_ADMIN')
+@Secured(value = ["hasAnyRole('ROLE_SUPER_ADMIN','ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET')"])
 class BraceletController {
 
     def braceletService
 
-    @Secured('ROLE_ADMIN_CONTROL_BRACELET')
     def create (){
         render ( new Bracelet() as JSON)
     }
@@ -46,6 +45,7 @@ class BraceletController {
                 count("creationDate")
                 groupProperty('creationDate')
             }
+            order("creationDate", "asc")
         }
         render(results as JSON)
     }
@@ -76,6 +76,7 @@ class BraceletController {
                 count("costBracelet")
                 count("deliveryDate")
             }
+            order("costBracelet", "asc")
         }
         render(results as JSON)
     }
