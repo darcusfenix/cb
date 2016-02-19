@@ -18,10 +18,10 @@ class BraceletService {
     def messageSource
 
     def generatingBracelets(Map objeto) {
-
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         def map = "ID,CODIGO,TIPO,FECHA_CREACION\n";
         //todo cuidar las secuencias con el id
-        def bs = BraceletState.findByName(1) // estado de brazalete como generado
+        def bs = BraceletState.findById(1) // estado de brazalete como generado
         def dateNow = new Date()
 
 
