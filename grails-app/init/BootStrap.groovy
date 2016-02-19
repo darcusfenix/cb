@@ -20,24 +20,48 @@ class BootStrap {
     def init = { servletContext ->
 
 /*
+
         def superAdminRole = new Role('ROLE_SUPER_ADMIN').save()
-        def salesManRole = new Role('ROLE_SALESMAN').save()
+
+*/
+        /*
+
+        def salesManRole = Role.findOrSaveByAuthority('ROLE_SALESMAN').save()
 
         def sm = new Salesman()
         sm.accountExpired = false
         sm.accountLocked = false
         sm.passwordExpired = false
-        sm.password = "vendedor"
-        sm.email = "vendedor-1@capitalbus.mx"
+        sm.password = "pepetillo"
+        sm.email = "pepe@capitalbus.mx"
         sm.enabled = true
-        sm.username = "halo"
+        sm.username = "pepetillo"
         sm.birthdate = new Date()
-        sm.firstName = "JUAN"
-        sm.lastName = "CRISÓSTOMO"
+        sm.firstName = "Miguel"
+        sm.lastName = "Angel"
         sm.telephone = "5530271655"
         sm.gender = "M"
         sm.save()
 
+        def sm2 = new Salesman()
+        sm2.accountExpired = false
+        sm2.accountLocked = false
+        sm2.passwordExpired = false
+        sm2.password = "cuadrado"
+        sm2.email = "cuadrado@capitalbus.mx"
+        sm2.enabled = true
+        sm2.username = "cuadrado"
+        sm2.birthdate = new Date()
+        sm2.firstName = "Cuadrado"
+        sm2.lastName = "al cuadrado"
+        sm2.telephone = "5530271655"
+        sm2.gender = "M"
+        sm2.save()
+
+        UserRole.create sm,salesManRole
+        UserRole.create sm2,salesManRole
+        */
+/*
         def sa = new SuperAdmin()
         sa.accountExpired = false
         sa.accountLocked = false
@@ -70,6 +94,7 @@ class BootStrap {
         sa.enabled = true
         sa.username = "control-brazaletes"
         sa.save()
+
         */
 
         //def sa = AdminControlBracelets.findByUsername("control-brazaletes")

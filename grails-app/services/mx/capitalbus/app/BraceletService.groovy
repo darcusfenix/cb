@@ -15,6 +15,7 @@ class BraceletService {
 
     def sessionFactory
     def grailsApplication
+    def messageSource
 
     def generatingBracelets(Map objeto) {
 
@@ -121,20 +122,9 @@ class BraceletService {
                 }
                 def braceletsList = query.list()
 
-                /*def braceletsList = Bracelet.createCriteria().list {
-                    and {
-                        eq("costBracelet", serie)
-                        eq("salesman", null)
-                        eq("deliveryDate", null)
-                        between("id", sr, er)
-                    }
-                }
-                */
 
-                if (braceletsList.size() > 0){
-                    log.error("hubo resultados")
+                if (braceletsList.size() > 0 && ( (er - sr + 1) == braceletsList.size() ) ){
                     braceletsList.each { b ->
-                        log.error(b)
                         b.deliveryDate = date
                         b.braceletState = bs
                         b.salesman = s
@@ -143,11 +133,10 @@ class BraceletService {
                         else
                             log.error(b.errors)
                     }
-                    mapMessage.put(i, "El rango se asignó exitoxamente")
+                    mapMessage.put(i,["idCost": i, "status" : 1, "message" : "Se asignó el siguiente rango correctamente de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
                 }
                 else{
-                    log.error("no hubo resultados")
-                    mapMessage.put(i, "EL rango no coincide")
+                    mapMessage.put(i, ["idCost": i, "status" : 0, "message" : "No fue posible asignar este rango de brazaletes de:  <b>" + sr + "</b> hasta:  <b>" + er+ "</b>"])
                 }
 
             }
