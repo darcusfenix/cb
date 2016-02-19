@@ -251,6 +251,7 @@ function BraceleteGenerateController($rootScope,
                 target: '_blank',
                 download: 'generación-de-'+$scope.getTotalOfBracelets()+'-brazaletes.csv'
             })[0].click();
+
             $scope.resetValuesBracelets();
         }, function (err) {
             App.unblockUI();

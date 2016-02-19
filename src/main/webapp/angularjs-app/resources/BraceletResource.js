@@ -24,6 +24,10 @@ angular.module('CapitalBusApp').factory('Bracelet', function ($resource) {
             method: 'GET',
             url: 'bracelet/save'
         },
+        toAssign: {
+            method: 'POST',
+            url: 'bracelet/toAssignForSalesman'
+        },
         history: {
             method: 'GET',
             isArray: true,

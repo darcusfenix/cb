@@ -14,8 +14,15 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     $scope.circuitList = null;
     $scope.q;
     $scope.salesmanSelected;
+    $scope.responseList = null;
+
+    $scope.f1 = false, $scope.f2 = false;
 
     $scope.deliveryBraceletResumen = [];
+
+    $scope.breceletInstance  = Bracelet.create(function (data) {
+        $scope.breceletInstance = data;
+    });
 
     $scope.getVendedores = function () {
         if ($scope.q != null)
@@ -86,42 +93,110 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
                 }
     };
 
-    $scope.selectSalesman = function(it){
+    $scope.selectSalesman = function (it) {
         $scope.salesmanSelected = it;
+        $scope.hideResponse();
     };
 
-    $scope.prepareDelivery = function(){
-        for (var i = 0; i < $scope.avalibleCostsList.length; i++){
+    $scope.prepareDelivery = function () {
+        for (var i = 0; i < $scope.avalibleCostsList.length; i++) {
             var temp = {
                 idCost: $scope.avalibleCostsList[i][0].id,
-                startRange:  0,
-                endsRange:  0
+                startRange: 0,
+                endsRange: 0
             };
             $scope.deliveryBraceletResumen.push(temp);
         }
     };
-    $scope.validate = function(){
+    $scope.validate = function () {
         var z = 0;
-        for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++){
-            if ( ($scope.deliveryBraceletResumen[i].endsRange - $scope.deliveryBraceletResumen[i].startRange) <= 0
-                || $scope.deliveryBraceletResumen[i].endsRange < $scope.deliveryBraceletResumen[i].startRange){
+        for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++) {
+            if (($scope.deliveryBraceletResumen[i].endsRange - $scope.deliveryBraceletResumen[i].startRange) <= 0
+                || $scope.deliveryBraceletResumen[i].endsRange < $scope.deliveryBraceletResumen[i].startRange) {
                 z++
             }
-            if (i > 0){
+            if (i > 0) {
                 if (
-                    ( ($scope.deliveryBraceletResumen[i-1].endsRange + $scope.deliveryBraceletResumen[i-1].startRange) >=
-                        ($scope.deliveryBraceletResumen[i].endsRange + $scope.deliveryBraceletResumen[i].startRange) )
+                    ( ($scope.deliveryBraceletResumen[i - 1].endsRange + $scope.deliveryBraceletResumen[i - 1].startRange) >=
+                    ($scope.deliveryBraceletResumen[i].endsRange + $scope.deliveryBraceletResumen[i].startRange) )
 
-                    || ($scope.deliveryBraceletResumen[i-1].endsRange  == $scope.deliveryBraceletResumen[i].endsRange )
-                    || ($scope.deliveryBraceletResumen[i-1].startRange  == $scope.deliveryBraceletResumen[i].startRange )
+                    || ($scope.deliveryBraceletResumen[i - 1].endsRange == $scope.deliveryBraceletResumen[i].endsRange )
+                    || ($scope.deliveryBraceletResumen[i - 1].startRange == $scope.deliveryBraceletResumen[i].startRange )
 
-                    || ($scope.deliveryBraceletResumen[i].startRange  == $scope.deliveryBraceletResumen[i-1].endsRange )
-                    || ($scope.deliveryBraceletResumen[i].endsRange  == $scope.deliveryBraceletResumen[i-1].startRange )
-                ){
+                    || ($scope.deliveryBraceletResumen[i].startRange == $scope.deliveryBraceletResumen[i - 1].endsRange )
+                    || ($scope.deliveryBraceletResumen[i].endsRange == $scope.deliveryBraceletResumen[i - 1].startRange )
+                ) {
                     z++
                 }
             }
         }
         return (z == 0 ? true : false)
+    };
+
+    $scope.toAssignForSalesman = function () {
+
+        App.blockUI({
+            boxed: !0,
+            message: "Asignando brazaletes a "+$scope.salesmanSelected.firstName+" "+$scope.salesmanSelected.lastName+" ... \n NO ACTUALIZAR O CERRAR PÁGINA"
+        });
+
+        $scope.breceletInstance.$toAssign({
+            "json": $scope.prepareJSON(),
+            "salesman" : $scope.salesmanSelected.id
+        }, function (data) {
+            $scope.responseList = data;
+            App.unblockUI();
+            $scope.resetValuesRange();
+        }, function (err) {
+            App.unblockUI();
+        });
+    };
+    $scope.prepareJSON = function () {
+        var jsonText = '[';
+        for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++) {
+            jsonText += '{"idCost":"' + $scope.deliveryBraceletResumen[i].idCost
+                + '", "startRange":"' + $scope.deliveryBraceletResumen[i].startRange
+                + '", "endsRange":"' + $scope.deliveryBraceletResumen[i].endsRange
+                + '"}';
+            if (i < $scope.deliveryBraceletResumen.length - 1)
+                jsonText += ','
+        }
+        return jsonText + ']';
+    };
+    $scope.resetValuesRange = function () {
+        for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++) {
+            $scope.deliveryBraceletResumen[i].startRange = 0;
+            $scope.deliveryBraceletResumen[i].endsRange = 0;
+        }
+        $scope.showResponse();
+    };
+    $scope.getTotal = function () {
+        var total = 0;
+        for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++) {
+            var d = $scope.deliveryBraceletResumen[i].endsRange - $scope.deliveryBraceletResumen[i].startRange;
+            total += d == 0 ? 0 : d + 1;
+        }
+        return total;
+    };
+    $scope.showResponse = function () {
+        for (var i = 0; i < Object.keys($scope.responseList).length; i++){
+
+            if(typeof $scope.responseList[i] !== 'undefined'){
+                if ($scope.responseList[i].status == 0){
+                    $scope.f1 = true;
+                    $("#response-failed").append('<h5 style="padding-left: 20px;" class="block"> SERIE '+$scope.responseList[i].idCost+' ->'+$scope.responseList[i].message+'</h5>');
+                }
+                if ($scope.responseList[i].status == 1){
+                    $scope.f2 = true;
+                    $("#response-success").append('<h5  style="padding-left: 20px;" class="block"> SERIE '+$scope.responseList[i].idCost+' ->'+$scope.responseList[i].message+'</h5>');
+                }
+            }
+        }
+    };
+    $scope.hideResponse = function () {
+            $scope.f1 = false
+            $scope.f2 = false;
+        $("#response-failed").html(" ");
+        $("#response-success").html(" ");
     };
 }

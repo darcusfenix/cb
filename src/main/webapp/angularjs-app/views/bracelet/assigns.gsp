@@ -56,9 +56,7 @@
         <div class="portlet light bordered ">
             <div class="portlet-title">
                 <div class="caption caption-md">
-                    <i class="icon-bar-chart font-red"></i>
-                    <span class="caption-subject font-red bold uppercase">Resultados de la búsqueda</span>
-                    <span class="caption-helper hide">weekly stats...</span>
+                    <span class="caption-subject bold uppercase">Resultados de la búsqueda</span>
                 </div>
 
                 <div class="tools">
@@ -67,17 +65,25 @@
             </div>
 
             <div class="portlet-body" id="rs-busqueda">
-
+                <div class="note note-danger" ng-show="f1">
+                    <h4 class="block">Error para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+                    <div class="row" id="response-failed">
+                    </div>
+                </div>
+                <div class="note note-success"  ng-show="f2">
+                    <h4 class="block">BIen para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+                    <div class="row" id="response-success">
+                    </div>
+                </div>
                 <div class="table-scrollable table-scrollable-borderless">
                     <table class="table table-hover table-light">
                         <thead>
                         <tr class="uppercase">
-                            <th colspan="2" class="bold font-green">Nombres</th>
-                            <th class="bold font-green">Apellidos</th>
-                            <th class="bold font-green">Correo</th>
-                            <th class="bold font-green">NOmbre de Usuario</th>
-                            <th class="text-center bold font-green">Historial</th>
-                            <th class="text-center bold font-green">Asignar Brazaletes</th>
+                            <th colspan="2" class="bold ">Nombres</th>
+                            <th class="bold ">Apellidos</th>
+                            <th class="bold ">Correo</th>
+                            <th class="bold ">NOmbre de Usuario</th>
+                            <th class="text-center bold ">Asignar Brazaletes</th>
                         </tr>
                         </thead>
                         <tr ng-repeat="salesman in vendedorList|filter:filtro">
@@ -91,14 +97,9 @@
                             <td>{{salesman.email}}</td>
                             <td>{{salesman.username}}</td>
                             <td class="text-center">
-                                <a href="#/salesman/{{salesman.id}}/historial" class="btn btn-success">Ver historial</a>
-                            </td>
-                            <td class="text-center">
                                 <a ng-click="selectSalesman(salesman)" class="btn btn-success" data-toggle="modal" href="#asignar">Asignar</a>
                             </td>
-
                         </tr>
-
                     </table>
                 </div>
             </div>
@@ -147,8 +148,23 @@
                                     <span ng-class=" ( deliveryBraceletResumen[$index].endsRange < deliveryBraceletResumen[$index].startRange )
                                                      || ( deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange < 0 )
                                                      ? 'text-danger' : 'text-success'">
-                                        {{deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange}}
+                                        {{
+                                        (deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange) == 0 ?  0 :
+                                        deliveryBraceletResumen[$index].endsRange - deliveryBraceletResumen[$index].startRange + 1
+                                        }}
                                     </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    TOTAL
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td class="text-center">
+                                    <b>{{getTotal()}}</b>
                                 </td>
                             </tr>
                         </table>
@@ -157,7 +173,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn red" >Cancelar</button>
-                <button type="button" data-dismiss="modal" class="btn green" ng-click="generetingBracelets()" ng-show="validate()">
+                <button type="button" data-dismiss="modal" class="btn green" ng-click="toAssignForSalesman()" ng-show="validate()">
                     Sí, generar
                 </button>
             </div>
