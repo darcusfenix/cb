@@ -12,10 +12,30 @@ import java.text.SimpleDateFormat
 @Secured(value = ["hasAnyRole('ROLE_SUPER_ADMIN','ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET')"])
 class BraceletController {
 
+
     def braceletService
+    def braceletRepository
 
     def create (){
         render ( new Bracelet() as JSON)
+    }
+
+    def index (){
+        def rs
+        def p = params.list("sort")
+
+        String r = getPrincipal().authorities.authority
+        r = r.substring(0, r.length()-1).substring(1)
+
+        def id = getPrincipal().id
+
+        switch (r){
+            case "ROLE_SALESMAN":
+                rs = braceletRepository.getBySalesmanOrderAndGroupBy(1)
+
+                break
+        }
+        render ( ["id" : rs] as JSON)
     }
 
     def save (){

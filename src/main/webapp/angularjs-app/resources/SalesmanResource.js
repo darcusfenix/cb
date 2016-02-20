@@ -30,10 +30,10 @@ angular.module('CapitalBusApp').factory('Salesman', function ($resource) {
             isArray: true,
             url: 'salesman/:id/pulseras/total'
         },
-        getAsignaciones: {
+        getMyAssignments: {
             method: 'GET',
             isArray: true,
-            url: 'salesman/:id/pulseras/asignaciones'
+            url: 'salesman/bracelet/'
         }
     });
 });

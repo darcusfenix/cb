@@ -61,4 +61,21 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                 }]
             }
         })
+        .state('salesmanMyAssignments', {
+            url: "/mis-asignaciones",
+            templateUrl: "angularjs-app/views/salesman/my-assignments.gsp",
+            data: {pageTitle: 'Brazaletes', pageSubTitle: 'Asignaciones'},
+            controller: "SalesmanReportCashOutController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'CapitalBusApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            BASE_URL + 'angularjs-app/controllers/salesman/SalesmanMyAssignmentsController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 }]);
