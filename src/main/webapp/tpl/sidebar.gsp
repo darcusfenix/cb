@@ -48,6 +48,12 @@
                         <span class="title">Corte de Caja</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#/mis-asignaciones">
+                        <i class="icon-settings"></i>
+                        <span class="title">Mis asignaciones</span>
+                    </a>
+                </li>
             </sec:access>
 
         </ul>

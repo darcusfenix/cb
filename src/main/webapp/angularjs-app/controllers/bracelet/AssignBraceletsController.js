@@ -15,6 +15,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     $scope.q;
     $scope.salesmanSelected;
     $scope.responseList = null;
+    $scope.isSalesman = false;
 
     $scope.f1 = false;
     $scope.f2 = false;

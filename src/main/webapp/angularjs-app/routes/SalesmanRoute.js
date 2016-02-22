@@ -53,8 +53,10 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                         name: 'CapitalBusApp',
                         insertBefore: '#ng_load_plugins_before',
                         files: [
+                            /*
                             BASE_URL + 'rs/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
                             BASE_URL + 'rs/global/plugins/bootstrap-datepaginator/bootstrap-datepaginator.min.js',
+                            */
                             BASE_URL + 'angularjs-app/controllers/salesman/SalesmanReportCashOutController.js'
                         ]
                     });
@@ -65,13 +67,15 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
             url: "/mis-asignaciones",
             templateUrl: "angularjs-app/views/salesman/my-assignments.gsp",
             data: {pageTitle: 'Brazaletes', pageSubTitle: 'Asignaciones'},
-            controller: "SalesmanReportCashOutController",
+            controller: "SalesmanMyAssignmentsController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'CapitalBusApp',
                         insertBefore: '#ng_load_plugins_before',
                         files: [
+                            BASE_URL + 'angularjs-app/resources/CircuitResource.js',
+                            BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
                             BASE_URL + 'angularjs-app/controllers/salesman/SalesmanMyAssignmentsController.js'
                         ]
                     });

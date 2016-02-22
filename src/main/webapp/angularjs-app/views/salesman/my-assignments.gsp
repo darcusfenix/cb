@@ -1,3 +1,6 @@
+<div class="row widget-row"  data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light bordered ">
