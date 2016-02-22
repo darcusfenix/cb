@@ -10,18 +10,35 @@ import mx.capitalbus.app.user.Salesman
 class BraceletRepositoryImpl implements BraceletRepository{
 
     @Override
-    def getBySalesmanOrderAndGroupBy(long s) {
-        //println(Salesman.findById(1))
+    def getBySalesmanOrderAndGroupByCostBracelet(Salesman s) {
         def b = Bracelet.createCriteria()
-
         def results = b.list {
             projections {
                 groupProperty('costBracelet')
                 count("costBracelet")
             }
+            and{
+                eq("salesman", s)
+            }
             order("costBracelet", "asc")
         }
+        results
+    }
 
+    @Override
+    def getBySalesmanOrderAndGroupBySold(Salesman s) {
+        def b = Bracelet.createCriteria()
+        def results = b.list {
+            projections {
+                groupProperty('costBracelet')
+                count("costBracelet")
+            }
+            and{
+                eq("salesman", s)
+                eq("sold", true)
+            }
+            order("costBracelet", "asc")
+        }
         results
     }
 }

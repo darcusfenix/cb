@@ -4,10 +4,9 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonSlurper
 import mx.capitalbus.app.bracelet.Bracelet
-import mx.capitalbus.app.bracelet.BraceletState
-import mx.capitalbus.app.bracelet.CostBracelet
+import mx.capitalbus.app.user.Salesman
 
-import java.text.SimpleDateFormat
+
 
 @Secured(value = ["hasAnyRole('ROLE_SUPER_ADMIN','ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET')"])
 class BraceletController {
@@ -15,6 +14,7 @@ class BraceletController {
 
     def braceletService
     def braceletRepository
+    def springSecurityService
 
     def create (){
         render ( new Bracelet() as JSON)
@@ -22,20 +22,29 @@ class BraceletController {
 
     def index (){
         def rs
-        def p = params.list("sort")
-
-        String r = getPrincipal().authorities.authority
-        r = r.substring(0, r.length()-1).substring(1)
-
-        def id = getPrincipal().id
-
-        switch (r){
+        def so
+        def principal = springSecurityService.principal
+        long id = principal.id
+        switch (principal.authorities[0]){
             case "ROLE_SALESMAN":
-                rs = braceletRepository.getBySalesmanOrderAndGroupBy(1)
+                def s = Salesman.findById(id)
+                rs = braceletRepository.getBySalesmanOrderAndGroupByCostBracelet(s)
 
                 break
         }
-        render ( ["id" : rs] as JSON)
+        render ( rs as JSON)
+    }
+    def getMyAssignmentsSold (){
+        def rs
+        def principal = springSecurityService.principal
+        long id = principal.id
+        switch (principal.authorities[0]){
+            case "ROLE_SALESMAN":
+                def s = Salesman.findById(id)
+                rs = braceletRepository.getBySalesmanOrderAndGroupBySold(s)
+                break
+        }
+        render ( rs as JSON)
     }
 
     def save (){
@@ -64,6 +73,24 @@ class BraceletController {
             projections {
                 count("creationDate")
                 groupProperty('creationDate')
+            }
+            order("creationDate", "asc")
+        }
+        render(results as JSON)
+    }
+
+    def getListOfAssignnments(){
+        def principal = springSecurityService.principal
+        long id = principal.id
+        def b = Bracelet.createCriteria()
+        def results = b.list {
+            projections {
+                count("creationDate")
+                groupProperty('creationDate')
+                groupProperty('costBracelet')
+            }
+            and{
+                eq("salesman",Salesman.findById(id))
             }
             order("creationDate", "asc")
         }

@@ -7,6 +7,6 @@ import mx.capitalbus.app.user.Salesman
  */
 interface BraceletRepository {
 
-    def getBySalesmanOrderAndGroupBy(long s);
-
+    def getBySalesmanOrderAndGroupByCostBracelet(Salesman s);
+    def getBySalesmanOrderAndGroupBySold(Salesman s);
 }

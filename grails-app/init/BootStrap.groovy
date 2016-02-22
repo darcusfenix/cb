@@ -18,7 +18,8 @@ import mx.capitalbus.app.user.SuperAdmin
 class BootStrap {
 
     def init = { servletContext ->
-
+// ALTER TABLE bracelet ADD COLUMN "sold" BOOLEAN DEFAULT FALSE;
+        // UPDATE bracelet set sold = FALSE;
 /*
 
         def superAdminRole = new Role('ROLE_SUPER_ADMIN').save()

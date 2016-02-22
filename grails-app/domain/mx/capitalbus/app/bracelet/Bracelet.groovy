@@ -9,11 +9,11 @@ class Bracelet {
     Date activationDate
     Date deliveryDate
     Date creationDate
+    boolean sold = false
 
     static belongsTo = [salesman: Salesman, braceletState: BraceletState, costBracelet: CostBracelet]
 
     static constraints = {
-      //  currentBus nullable: true
         salesman nullable: true
         deliveryDate nullable: true
         activationDate nullable: true
@@ -25,5 +25,6 @@ class Bracelet {
         salesman fetch: 'join'
         braceletState fetch: 'join'
         costBracelet fetch: 'join'
+        sold defaultValue: false
     }
 }
