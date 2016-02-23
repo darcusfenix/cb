@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" id="corte">
         <div class="portlet light bordered">
             <div class="portlet-title tabbable-line">
                 <div class="caption">
@@ -21,8 +21,8 @@
                         {{braceletNotSoldList.length != 0 ?  '' : "No tienes brazaletes por reportar de esta serie"}}
                         <div class="col-md-1" ng-repeat="bracelet in braceletNotSoldList">
                             <div class="color-demo tooltips">
-                                <div class="color-view bg-yellow-soft bg-font-yellow-soft ">{{bracelet.id}}</div>
-                                <div class="color-info bg-white c-font-14 sbold">{{bracelet.code}}</div>
+                                <div class="color-view" style="background-color: {{colors[avaliblecost[0].id - 1 ].bg}}; color: {{colors[avaliblecost[0].id - 1].tc}}">{{bracelet.id}}</div>
+                                <div class="color-info c-font-14 sbold">{{bracelet.code}}</div>
                             </div>
                         </div>
                     </div>

@@ -16,7 +16,20 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     $scope.braceletNotSoldList = null;
     $scope.historyResumeList = [];
 
+    $scope.colors =  [
+        {"bg" :"#FFFFFF", "tc" : "#b02c6d"},
+        {"bg" :"#FFFFFF", "tc" : "#496DA6"},
+        {"bg" :"#b02c6d", "tc" : "#FFFFFF"},
+        {"bg" :"#496DA6", "tc" : "#FFFFFF"}
+    ];
+
     $scope.getMyAssignments = function () {
+        App.blockUI(
+            {
+                target: "#corte",
+                boxed: !0,
+                message: "Cargando..."
+            });
         Bracelet.query(function (data) {
             $scope.avalibleCostsList = data;
             $scope.getCircuits();
@@ -28,6 +41,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
             cb : idCost
         },function (data) {
             $scope.braceletNotSoldList = data;
+            App.unblockUI("#corte");
         }, function (err) {
         });
     };
