@@ -45,7 +45,7 @@
                 <li class="nav-item">
                     <a href="#/corte-de-caja">
                         <i class="icon-settings"></i>
-                        <span class="title">Corte de Caja</span>
+                        <span class="title">Corte de caja</span>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -42,6 +42,21 @@ angular.module('CapitalBusApp').factory('Bracelet', function ($resource) {
             method: 'GET',
             isArray: true,
             url: 'bracelet/salesman/sold'
+        },
+        historyBySalesman: {
+            method: 'GET',
+            isArray: true,
+            url: 'bracelet/salesman/history'
+        },
+        getResumeHistoryByDate: {
+            method: 'GET',
+            isArray: true,
+            url: 'bracelet/salesman/history/resume'
+        },
+        getBraceletsNotSold: {
+            method: 'GET',
+            isArray: true,
+            url: 'bracelet/salesman/notSold'
         }
     });
 });

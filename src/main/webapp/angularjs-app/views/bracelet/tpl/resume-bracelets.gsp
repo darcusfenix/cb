@@ -15,11 +15,12 @@
             <div class="widget-thumb-body">
                 <div class="col-md-6">
                     <span class="widget-thumb-subtitle">TOTAL</span>
-                    <span class="widget-thumb-body-stat" >{{avaliblecost[1]}}</span>
+                    <span class="widget-thumb-body-stat" >{{avaliblecost[1]| number}}</span>
                 </div>
                 <div class="col-md-6">
                     <span class="widget-thumb-subtitle">{{isSalesman ? 'Vendidas': 'Asignadas'}}</span>
-                    <span class="widget-thumb-body-stat" >{{avaliblecost[2] ? braceletSoldList[$index][2] : 0 }}</span>
+                    <span class="widget-thumb-body-stat" ng-hide="isSalesman" >{{avaliblecost[2]| number}}</span>
+                    <span class="widget-thumb-body-stat" ng-show="isSalesman" >{{ getTotalBraceletsSold(avaliblecost[0].id) ? getTotalBraceletsSold(avaliblecost[0].id) : 0 | number}}</span>
                 </div>
             </div>
         </div>

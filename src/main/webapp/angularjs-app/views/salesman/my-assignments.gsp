@@ -1,42 +1,45 @@
-<div class="row widget-row"  data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
+<div class="row widget-row" data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="portlet light bordered ">
+    <!-- BEGIN SAMPLE TABLE PORTLET-->
+    <div class="col-md-12 ">
+        <div class="portlet light portlet-fit bordered">
             <div class="portlet-title">
-                <div class="caption caption-md">
-                    <span class="caption-subject bold uppercase">Mis asignaciones de brazaletes</span>
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>Historial de {{isSalesman ? 'Asignaciones' : 'Generaciones' }} de Brazaletes
                 </div>
 
                 <div class="tools">
                     <a href="javascript:;" class="collapse"></a>
                 </div>
             </div>
-            <div class="portlet-body" id="rs-busqueda">
-                <div class="table-scrollable table-scrollable-borderless">
-                    <table class="table table-hover table-light">
+
+            <div class="portlet-body" id="p-b-history-bracelets">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
                         <thead>
-                        <tr class="uppercase">
-                            <th class="bold ">Nombres</th>
-                            <th class="bold ">Apellidos</th>
-                            <th class="bold ">Correo</th>
-                            <th class="bold ">NOmbre de Usuario</th>
-                            <th class="text-center bold ">Asignar Brazaletes</th>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Fecha</th>
+                            <th class="text-center"
+                                ng-repeat="avaliblecost in avalibleCostsList">SERIE {{avaliblecost[0].id}}</th>
+                            <th class="text-center">Total</th>
                         </tr>
                         </thead>
-                        <tr ng-repeat="salesman in vendedorList|filter:filtro">
-                            <td>{{salesman.firstName}}</td>
-                            <td>{{salesman.lastName}}</td>
-                            <td>{{salesman.email}}</td>
-                            <td>{{salesman.username}}</td>
-                            <td class="text-center">
-                                <a ng-click="selectSalesman(salesman)" class="btn " data-toggle="modal" href="#asignar">Asignar</a>
-                            </td>
+                        <tbody>
+                        <tr ng-repeat="h in historyList">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{h[1] | date:'yyyy-MM-dd hh:mm:ss a' : 'GMT+/-6:00'}}</td>
+                            <th class="text-center"
+                                ng-repeat="avaliblecost in avalibleCostsList">{{getTotalBySerie(h[1], avaliblecost[0].id) | number}}</th>
+                            <td class="text-center">{{h[0]| number}}</td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    <!-- END SAMPLE TABLE PORTLET-->
 </div>

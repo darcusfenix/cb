@@ -57,6 +57,8 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                             BASE_URL + 'rs/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
                             BASE_URL + 'rs/global/plugins/bootstrap-datepaginator/bootstrap-datepaginator.min.js',
                             */
+                            BASE_URL + 'angularjs-app/resources/CircuitResource.js',
+                            BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
                             BASE_URL + 'angularjs-app/controllers/salesman/SalesmanReportCashOutController.js'
                         ]
                     });
@@ -76,7 +78,8 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                         files: [
                             BASE_URL + 'angularjs-app/resources/CircuitResource.js',
                             BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
-                            BASE_URL + 'angularjs-app/controllers/salesman/SalesmanMyAssignmentsController.js'
+                            BASE_URL + 'angularjs-app/controllers/salesman/SalesmanMyAssignmentsController.js',
+                            BASE_URL + 'angularjs-app/services/ResumeBraceletsService.js'
                         ]
                     });
                 }]
