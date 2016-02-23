@@ -4,8 +4,10 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonSlurper
 import mx.capitalbus.app.bracelet.Bracelet
+import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
 
+import java.text.SimpleDateFormat
 
 
 @Secured(value = ["hasAnyRole('ROLE_SUPER_ADMIN','ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET')"])
@@ -85,15 +87,37 @@ class BraceletController {
         def b = Bracelet.createCriteria()
         def results = b.list {
             projections {
-                count("creationDate")
-                groupProperty('creationDate')
-                groupProperty('costBracelet')
+                count("deliveryDate")
+                groupProperty('deliveryDate')
             }
             and{
                 eq("salesman",Salesman.findById(id))
             }
-            order("creationDate", "asc")
+            order("deliveryDate", "asc")
         }
+        render(results as JSON)
+    }
+
+    def getResumeHistoryByDate(){
+        def principal = springSecurityService.principal
+        long id = principal.id
+
+        def results = []
+            results = braceletRepository.getBySalesmanOrderAndGroupByDeliveryDate(Salesman.findById(id), "")
+        render(results as JSON)
+    }
+
+    def getBraceletsNotSold(){
+
+        def cb = params.int("cb")
+        def sd = params.sd
+        def ed = params.ed
+
+        def principal = springSecurityService.principal
+        long id = principal.id
+
+        def results = []
+            results = braceletRepository.getBySalesmanNotSold(Salesman.findById(id), CostBracelet.findById(cb), sd, ed)
         render(results as JSON)
     }
 
@@ -112,8 +136,8 @@ class BraceletController {
             response.sendError(404)
             render([message: "error"] as JSON)
         }
-
     }
+
     @Secured('ROLE_ADMIN_CONTROL_BRACELET')
     def getListOfCreationsByCost(){
         def b = Bracelet.createCriteria()

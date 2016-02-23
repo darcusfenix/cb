@@ -1,5 +1,6 @@
 package mx.capitalbus.app.repository
 
+import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
 
 /**
@@ -7,6 +8,8 @@ import mx.capitalbus.app.user.Salesman
  */
 interface BraceletRepository {
 
-    def getBySalesmanOrderAndGroupByCostBracelet(Salesman s);
-    def getBySalesmanOrderAndGroupBySold(Salesman s);
+    def getBySalesmanOrderAndGroupByCostBracelet(Salesman s)
+    def getBySalesmanOrderAndGroupBySold(Salesman s)
+    def getBySalesmanOrderAndGroupByDeliveryDate(Salesman s, String dateText)
+    def getBySalesmanNotSold(Salesman s, CostBracelet cb, String sd, String ed)
 }
