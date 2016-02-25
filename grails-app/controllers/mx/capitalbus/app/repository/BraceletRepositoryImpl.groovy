@@ -66,8 +66,10 @@ class BraceletRepositoryImpl implements BraceletRepository {
     @Override
     def getBySalesmanNotSold(Salesman s, CostBracelet cb, String sd, String ed) {
         Date start, end
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+/-6:00"));
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+        println(sd + "          ----------------------                   " + ed)
 
         Calendar now = Calendar.getInstance();
         if (sd == null && ed == null){
@@ -77,6 +79,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.HOUR_OF_DAY, 0);
             start = now.getTime()
             end = new Date()
+            println( "" + start + "          ----------------------                   " + end + "")
         }else{
 
             now.setTime(sdf.parse(ed));

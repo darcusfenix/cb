@@ -15,12 +15,13 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     $scope.historyList = null;
     $scope.braceletNotSoldList = null;
     $scope.historyResumeList = [];
+    $scope.reportList = [];
 
-    $scope.colors =  [
-        {"bg" :"#FFFFFF", "tc" : "#b02c6d"},
-        {"bg" :"#FFFFFF", "tc" : "#496DA6"},
-        {"bg" :"#b02c6d", "tc" : "#FFFFFF"},
-        {"bg" :"#496DA6", "tc" : "#FFFFFF"}
+    $scope.colors = [
+        {"bg": "#FFFFFF", "tc": "#b02c6d"},
+        {"bg": "#FFFFFF", "tc": "#496DA6"},
+        {"bg": "#b02c6d", "tc": "#FFFFFF"},
+        {"bg": "#496DA6", "tc": "#FFFFFF"}
     ];
 
     $scope.getMyAssignments = function () {
@@ -38,9 +39,10 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     };
     $scope.getBraceletsNotSold = function (idCost) {
         Bracelet.getBraceletsNotSold({
-            cb : idCost
-        },function (data) {
+            cb: idCost
+        }, function (data) {
             $scope.braceletNotSoldList = data;
+            $scope.reportList = [];
             App.unblockUI("#corte");
         }, function (err) {
         });
@@ -91,5 +93,21 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
                     return $scope.circuitList[j].name;
                 }
     };
-
+    $scope.addToReport = function (idCost, idBracelet) {
+        var tem = {
+            "idCost": idCost,
+            "idBracelet": idBracelet
+        };
+        var f = false;
+        if ($scope.reportList.length >= 0) {
+            for (var i = 0; i < $scope.reportList.length; i++) {
+                if ($scope.reportList[i].idCost == idCost && $scope.reportList[i].idBracelet == idBracelet) {
+                    $scope.reportList.splice($scope.reportList.indexOf(i), 1);
+                    f = true;
+                }
+            }
+        }
+        if (!f)
+            $scope.reportList.push(tem)
+    };
 }
