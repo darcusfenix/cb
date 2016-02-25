@@ -114,6 +114,9 @@
         type="text/javascript"></script>
 <!-- END CORE JQUERY PLUGINS -->
 
+<script src="${resource(dir: 'rs/global/plugins/', file: 'moment.min.js')}"
+        type="text/javascript"></script>
+
 <!-- BEGIN CORE ANGULARJS PLUGINS -->
 <script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'angular.min.js')}" type="text/javascript"></script>
 <script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'angular-route.min.js')}"

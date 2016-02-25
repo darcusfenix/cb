@@ -96,6 +96,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.SECOND, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
             start = now.getTime()
+            println( "" + start + "          ----------------------                   " + end + "")
         }
 
 
