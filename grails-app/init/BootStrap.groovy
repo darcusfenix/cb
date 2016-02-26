@@ -18,25 +18,21 @@ import mx.capitalbus.app.user.SuperAdmin
 class BootStrap {
 
     def init = { servletContext ->
-// ALTER TABLE bracelet ADD COLUMN "sold" BOOLEAN DEFAULT FALSE;
+
+        //todo modificar en producción antes de desplegar
+        // ALTER TABLE bracelet ADD COLUMN "sold" BOOLEAN DEFAULT FALSE;
         // UPDATE bracelet set sold = FALSE;
 /*
-
-        def superAdminRole = new Role('ROLE_SUPER_ADMIN').save()
-
-*/
-        /*
-
         def salesManRole = Role.findOrSaveByAuthority('ROLE_SALESMAN').save()
 
         def sm = new Salesman()
         sm.accountExpired = false
         sm.accountLocked = false
         sm.passwordExpired = false
-        sm.password = "pepetillo"
+        sm.password = "pepe"
         sm.email = "pepe@capitalbus.mx"
         sm.enabled = true
-        sm.username = "pepetillo"
+        sm.username = "pepe"
         sm.birthdate = new Date()
         sm.firstName = "Miguel"
         sm.lastName = "Angel"
@@ -61,31 +57,10 @@ class BootStrap {
 
         UserRole.create sm,salesManRole
         UserRole.create sm2,salesManRole
-        */
-/*
-        def sa = new SuperAdmin()
-        sa.accountExpired = false
-        sa.accountLocked = false
-        sa.passwordExpired = false
-        sa.password = "capitalbus"
-        sa.email = "super-admin@capitalbus.mx"
-        sa.enabled = true
-        sa.username = "admin"
-        sa.birthdate = new Date()
-        sa.firstName = "Benito"
-        sa.lastName = "Mendoza"
-        sa.telephone = "5530271655"
-        sa.gender = "M"
-        sa.save()
+
+        def r = Role.findOrSaveByAuthority("ROLE_ADMIN_CONTROL_BRACELET")
 
 
-        UserRole.create sm,salesManRole
-        UserRole.create sa,superAdminRole
-*/
-        //def r = Role.findOrSaveByAuthority("ROLE_ADMIN_CONTROL_BRACELET")
-      // def u = AdminControlBracelets.findByUsername("control-brazaletes")
-
-/*
         def sa = new AdminControlBracelets()
         sa.accountExpired = false
         sa.accountLocked = false
@@ -96,12 +71,8 @@ class BootStrap {
         sa.username = "control-brazaletes"
         sa.save()
 
-        */
-
-        //def sa = AdminControlBracelets.findByUsername("control-brazaletes")
-      //  UserRole.create sa,r
-
-
+        UserRole.create sa,r
+*/
     }
     def destroy = {
     }

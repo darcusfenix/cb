@@ -121,6 +121,19 @@ class BraceletController {
         render(results as JSON)
     }
 
+    def getHistoryBySalesmanYesSold(){
+
+        def sd = params.sd
+        def ed = params.ed
+
+        def principal = springSecurityService.principal
+        long id = principal.id
+
+        def results = []
+        results = braceletRepository.getHistoryBySalesmanYesSold(sd, ed, id)
+        render(results as JSON)
+    }
+
     def getCSV(){
         String date = params.d
         if ( date != null) {

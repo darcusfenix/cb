@@ -21,6 +21,8 @@ class UrlMappings {
         "/bracelet/salesman/history/resume"(controller: 'bracelet', action: 'getResumeHistoryByDate')
         "/bracelet/salesman/sold"(controller: 'bracelet', action: 'getMyAssignmentsSold')
         "/bracelet/salesman/notSold"(controller: 'bracelet', action: 'getBraceletsNotSold')
+        "/bracelet/salesman/yesSold"(controller: 'bracelet', action: 'getHistoryBySalesmanYesSold')
+
         "/bracelet/costs"(controller: 'bracelet', action: 'getListOfCreationsByCost')
         "/bracelet/date"(controller: 'bracelet', action: 'getCSV')
         "/bracelet/toAssignForSalesman"(controller: 'bracelet', action: 'toAssignForSalesman')

@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat
  */
 class BraceletRepositoryImpl implements BraceletRepository {
 
+    def springSecurityService
+
     @Override
     def getBySalesmanOrderAndGroupByCostBracelet(Salesman s) {
         def b = Bracelet.createCriteria()
@@ -107,6 +109,74 @@ class BraceletRepositoryImpl implements BraceletRepository {
         }
         results = query.order( 'id', 'asc' ).list()
         println("-------------------------------------->"  + results.size())
+        results
+    }
+    @Override
+    def getHistoryBySalesmanYesSold(String sd, String ed, long id) {
+        Date start, end
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+        println(sd + "          ----------------------                   " + ed)
+
+        Calendar now = Calendar.getInstance();
+        if (sd == null && ed == null){
+            now.set(Calendar.HOUR, 0);
+            now.set(Calendar.MINUTE, 0);
+            now.set(Calendar.SECOND, 0);
+            now.set(Calendar.HOUR_OF_DAY, 0);
+            end = new Date()
+            now.set(Calendar.DAY_OF_MONTH, -29);
+            start = now.getTime()
+            println( "" + start + "          ----------------------          FIN-->         " + end + "")
+        }else{
+
+            now.setTime(sdf.parse(ed));
+            now.set(Calendar.HOUR, 23);
+            now.set(Calendar.MINUTE, 59);
+            now.set(Calendar.SECOND, 59);
+            now.set(Calendar.HOUR_OF_DAY, 23);
+
+            end = now.getTime()
+
+            now.setTime(sdf.parse(sd));
+            now.set(Calendar.HOUR, 0);
+            now.set(Calendar.MINUTE, 0);
+            now.set(Calendar.SECOND, 0);
+            now.set(Calendar.HOUR_OF_DAY, 0);
+            start = now.getTime()
+            println( "" + start + "          ----------------------                   " + end + "")
+        }
+
+
+
+        def results
+
+        /*
+        def query = Bracelet.where {
+            (salesman == Salesman.findById(id)) && (sold == true) && (sold_date >= start && sold_date <= end)
+        }
+        results = query.order( 'id', 'asc' ).list()
+        println("-------------------------------------->"  + results.size())
+        */
+
+        def query = Bracelet.createCriteria()
+        results = query.list {
+
+            projections {
+         //       groupProperty('costBracelet')
+                groupProperty('soldDate')
+                count("soldDate")
+                // count("soldDate")
+            }
+            and {
+                eq("salesman", Salesman.findById(id))
+                eq("sold", true)
+                between("soldDate", start, end)
+            }
+            order("soldDate", "asc")
+        }
+
         results
     }
 }
