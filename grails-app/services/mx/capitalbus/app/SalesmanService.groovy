@@ -9,6 +9,8 @@ import mx.capitalbus.app.bracelet.CostBracelet
 @Transactional
 class SalesmanService {
 
+    def springSecurityService
+
     def saveBraceletsSold(String j) {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         def jsonSlurper = new JsonSlurper()
@@ -16,6 +18,11 @@ class SalesmanService {
 
         def listCost = CostBracelet.list()
         Date d = new Date()
+
+        def principal = springSecurityService.principal
+        long id = principal.id
+
+
         for (String a : object) {
             def cc = JSON.parse(a)
 
@@ -23,7 +30,7 @@ class SalesmanService {
 
             def b = Bracelet.findById(cc.idBracelet)
 
-            if (b != null)
+            if (b != null && b.salesman.id == id)
             {
                 b.sold = true
                 b.soldDate = d
