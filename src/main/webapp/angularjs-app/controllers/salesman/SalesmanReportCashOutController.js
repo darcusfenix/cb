@@ -10,6 +10,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     });
 
     $scope.isSalesman = true;
+    $scope.successSave = false;
 
     $scope.startDate = null;
     $scope.endDate = null;
@@ -21,6 +22,13 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     $scope.braceletNotSoldList = null;
     $scope.historyResumeList = [];
     $scope.reportList = [];
+
+
+    $scope.checkboxModelFilter = {
+        selected: false,
+        scanningBus: false,
+        all: true
+    };
 
     $scope.braceletInstance = Bracelet.create(function (data) {
         $scope.braceletInstance = data;
@@ -60,7 +68,8 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
             });
         Bracelet.query(function (data) {
             $scope.avalibleCostsList = data;
-            $scope.getCircuits();
+            if ($scope.avalibleCostsList.length != 0)
+                $scope.getCircuits();
         }, function (err) {
         });
     };
@@ -80,6 +89,8 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
         }, function (data) {
             $scope.braceletNotSoldList = data;
             App.unblockUI("#corte");
+            $scope.addToReportOnlyScanned();
+            $scope.successSave = false;
         }, function (err) {
         });
     };
@@ -133,20 +144,50 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     $scope.addToReport = function (idCost, idBracelet) {
         var tem = {
             "idCost": idCost,
-            "idBracelet": idBracelet
+            "idBracelet": idBracelet,
+            "move": true
         };
         var f = false;
         if ($scope.reportList.length >= 0) {
             for (var i = 0; i < $scope.reportList.length; i++) {
-                if ($scope.reportList[i].idCost == idCost && $scope.reportList[i].idBracelet == idBracelet) {
-                    $scope.reportList.splice(i, 1);
-                    f = true;
+                if ($scope.reportList[i].idCost == idCost
+                    && $scope.reportList[i].idBracelet == idBracelet) {
+                    if ($scope.reportList[i].move) {
+                        $scope.reportList.splice(i, 1);
+                        f = true;
+                    } else {
+                        return;
+                    }
                 }
             }
         }
         if (!f)
             $scope.reportList.push(tem);
     };
+
+
+    $scope.addToReportOnlyScanned = function () {
+        for (var i = 0; i < $scope.braceletNotSoldList.length; i++) {
+            if ($scope.braceletNotSoldList[i].activationDate != null) {
+                var f = false;
+                if ($scope.reportList.length != 0)
+                    for (var j = 0; j < $scope.reportList.length; j++) {
+                        if ($scope.reportList[j].idCost == $scope.braceletNotSoldList[i].costBracelet.id
+                            && $scope.reportList[j].idBracelet == $scope.braceletNotSoldList[i].id)
+                            f = true;
+                    }
+                if (!f) {
+                    var tem = {
+                        "idCost": $scope.braceletNotSoldList[i].costBracelet.id,
+                        "idBracelet": $scope.braceletNotSoldList[i].id,
+                        "move": false
+                    };
+                    $scope.reportList.push(tem);
+                }
+            }
+        }
+    };
+
     $scope.verify = function (idBracelet) {
         var f = false;
         for (var i = 0; i < $scope.reportList.length; i++) {
@@ -200,6 +241,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
                 $scope.getMyAssignmentsSold();
                 App.unblockUI();
                 $scope.reportList = [];
+                $scope.successSave = true;
             }, function (err) {
 
             });
@@ -233,18 +275,18 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
                     "Sa"
                 ],
                 "monthNames": [
-                    "Enero",
-                    "Febrero",
-                    "Marzo",
-                    "Abril",
-                    "Mayo",
-                    "Junio",
-                    "Julio",
-                    "Agosto",
-                    "Septiembre",
-                    "Octubre",
-                    "Noviembre",
-                    "Deciembre"
+                    "ENERO",
+                    "FEBRERO",
+                    "MARZO",
+                    "ABRIL",
+                    "MAYO",
+                    "JUNIO",
+                    "JULIO",
+                    "AGOSTO",
+                    "SEPTIEMBRE",
+                    "OCTUBRE",
+                    "NOVIEMBRE",
+                    "DICIEMBRE"
                 ],
                 "firstDay": 1
             },
@@ -260,6 +302,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
 
         $('#dashboard-report-range span').html(moment().format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
         $('#dashboard-report-range').show();
+
         $scope.startDate = moment().format('YYYY-MM-DD hh:mm:ss a');
         $scope.endDate = moment().format('YYYY-MM-DD hh:mm:ss a');
 

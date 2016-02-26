@@ -3,8 +3,32 @@
     background-color: #03D511;
     color: white;
 }
+.scanning-bus{
+    background-color: #ff0000;
+    color: white;
+}
+
+.rec-exp {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    margin: 0;
+}
+.content-exp label{
+    padding-top: 3px;
+}
+.content-exp div, .content-exp label {
+    display: inline-block;
+    vertical-align: middle;
+}
 </style>
 
+
+<div class="row">
+    <div class="note note-success"  ng-show="successSave">
+        <h4 class="block">Se ha guardado el corte de caja correctamente</h4>
+    </div>
+</div>
 
 <div class="row widget-row" data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
 </div>
@@ -47,13 +71,46 @@
                            ng-click="null">Resumen</a>
                     </li>
                     <li>
-                        <a href="#portlet_serie_resumen_selected" data-toggle="tab"  ng-show="reportList.length > 0"
+                        <a href="#portlet_serie_resumen_selected" data-toggle="tab" ng-show="reportList.length > 0"
                            ng-click="null">brazaletes seleccionados</a>
                     </li>
                 </ul>
             </div>
 
             <div class="portlet-body">
+
+                <div class="row text-right margin-bottom-20 margin-right-10">
+                    <div class="col-md-6 text-left content-exp">
+                        <div class="rec-exp"
+                             style="background-color: #03D511"></div> <label>Brazalete seleccionado      <b class="text-success" ng-show="checkboxModelFilter.selected">Se est�n mostrando solo los seleccionados</b>  </label><br>
+
+                        <div class="rec-exp"
+                             style="background-color: #ff0000"></div> <label>Brazalete escaneado en el Autobús <b  class="text-danger" ng-show="checkboxModelFilter.scanningBus">Se est�n mostrando solo los escaneados</b></label>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn btn-sm blue btn-outline btn-circle" href="javascript:;"
+                                   data-toggle="dropdown"
+                                   data-hover="dropdown" data-close-others="true">Filtrar por:
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+
+                                <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
+                                    <label>
+                                        <input type="checkbox" ng-model="checkboxModelFilter.selected"/> Seleccionadas
+                                    </label>
+                                    <label>
+                                        <input type="checkbox"
+                                               ng-model="checkboxModelFilter.scanningBus"/> Ya escaneadas</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="tab-content"
                      style="{{braceletNotSoldList.length > 0 ? 'height: 500px; overflow-y: auto' : ''}}">
 
@@ -65,8 +122,9 @@
 
                             <div class="color-demo tooltips" soldBracelet="false"
                                  bs-bg-color="{{colors[avaliblecost[0].id - 1 ].bg}}"
-                                 ng-click="addToReport(avaliblecost[0].id,bracelet.id)">
-                                <div class="color-view {{verify(bracelet.id) ? 'active-sold' : ''}}">{{bracelet.id}}</div>
+                                 ng-click="addToReport(avaliblecost[0].id,bracelet.id)"
+                                 ng-hide="(checkboxModelFilter.selected && ( !verify(bracelet.id)  || bracelet.activationDate != null)) || (checkboxModelFilter.scanningBus && ( !verify(bracelet.id)  || bracelet.activationDate == null) )">
+                                <div class="color-view {{verify(bracelet.id) ? 'active-sold' : ''}}  {{bracelet.activationDate != null ? 'scanning-bus' : ''}}" >{{bracelet.id}}</div>
 
                                 <div class="color-info c-font-14 sbold">{{bracelet.code}}</div>
                             </div>
@@ -83,7 +141,8 @@
                                         <thead>
                                         <tr>
                                             <th class="text-center"></th>
-                                            <th class="text-center text-success" ng-repeat="avaliblecost in avalibleCostsList">
+                                            <th class="text-center text-success"
+                                                ng-repeat="avaliblecost in avalibleCostsList">
                                                 Serie {{avaliblecost[0].id}}
                                             </th>
                                             <th class="text-center">Total</th>
@@ -108,6 +167,7 @@
                                     </table>
                                 </div>
                             </div>
+
                             <div class="col-md-10 col-md-offset-1 text-right">
                                 <a href="#static" class="btn btn-success" ng-click="null"
                                    data-toggle="modal">Generar corte de caja</a>
@@ -123,6 +183,7 @@
                                         <span class="mt-comment-author">Serie {{avaliblecost[0].id}}</span>
                                         <span class="mt-comment-date"></span>
                                     </div>
+
                                     <div class="mt-comment-text">{{getBraceletsSelected(avaliblecost[0].id)}}</div>
                                 </div>
                             </div>
@@ -136,4 +197,5 @@
 </div>
 
 
-<div id="static" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" data-ng-include="'angularjs-app/views/salesman/tpl/tpl-corte-caja.gsp'"></div>
+<div id="static" class="modal fade bs-modal-lg" tabindex="-1" data-backdrop="static" data-keyboard="false"
+     data-ng-include="'angularjs-app/views/salesman/tpl/tpl-corte-caja.gsp'"></div>

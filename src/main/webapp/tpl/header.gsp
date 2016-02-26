@@ -4,6 +4,8 @@
     <div class="page-header-inner" xmlns:g="http://www.w3.org/1999/xhtml">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
+            <a href="/#">
+                <img src="https://capitalbus.mx/capitalbus/global/foundr/img/logo.png" style="margin-top: 12px" alt="logo" class="logo-default" /> </a>
 
             <div class="menu-toggler sidebar-toggler">
                 <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -29,15 +31,7 @@
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                            data-close-others="true">
                             <span class="username username-hide-on-mobile">
-                                <sec:access expression="hasRole('ROLE_SUPER_ADMIN')">
-                                    SUPER ADMINISTRADOR
-                                </sec:access>
-                                <sec:access expression="hasRole('ROLE_SALESMAN')">
-                                    VENDEDOR
-                                </sec:access>
-                                <sec:access expression="hasRole('ROLE_ADMIN_CONTROL_BRACELET')">
-                                    CONTROL DE BRAZALETES
-                                </sec:access>
+                                <sec:loggedInUserInfo field='fullName'/>
                             </span>
 
                             <img alt="" class="img-circle"
