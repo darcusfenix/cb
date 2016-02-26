@@ -20,7 +20,7 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: "update"
+            dbCreate: ""
             url: jdbc:postgresql://localhost/capitalbus
     test:
         dataSource:

@@ -9,6 +9,7 @@ class Bracelet {
     Date activationDate
     Date deliveryDate
     Date creationDate
+    Date soldDate
     boolean sold = false
 
     static belongsTo = [salesman: Salesman, braceletState: BraceletState, costBracelet: CostBracelet]
@@ -17,6 +18,7 @@ class Bracelet {
         salesman nullable: true
         deliveryDate nullable: true
         activationDate nullable: true
+        soldDate nullable: true
         code  unique: true
     }
 

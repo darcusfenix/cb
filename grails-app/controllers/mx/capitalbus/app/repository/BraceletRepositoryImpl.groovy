@@ -105,7 +105,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         def query = Bracelet.where {
             (salesman == s) && (costBracelet == cb) && (sold == false) && (deliveryDate >= start && deliveryDate <= end)
         }
-        results = query.list()
+        results = query.order( 'id', 'asc' ).list()
         println("-------------------------------------->"  + results.size())
         results
     }

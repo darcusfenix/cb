@@ -8,8 +8,13 @@ import mx.capitalbus.app.repository.SalesmanRepository
 class SalesmanController {
 
     SalesmanRepository salesmanRepository
+    def salesmanService
 
     def index(String q) {
+        def s = q ?: params.list('q')
+        render(salesmanRepository.getBySearch(s) as JSON)
+    }
+    def create(String q) {
         def s = q ?: params.list('q')
         render(salesmanRepository.getBySearch(s) as JSON)
     }
@@ -22,6 +27,14 @@ class SalesmanController {
             response.status = 404
             render([message: message(code: "vendedor.notFound")] as JSON)
         }
+    }
+
+    def saveCorteCaja() {
+        def j = params.list('json')
+        def r = []
+        if (j != null)
+            r = salesmanService.saveBraceletsSold(j)
+        render (r as JSON)
     }
 
 }
