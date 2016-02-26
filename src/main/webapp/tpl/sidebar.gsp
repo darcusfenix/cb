@@ -45,7 +45,13 @@
                 <li class="nav-item">
                     <a href="#/corte-de-caja">
                         <i class="icon-settings"></i>
-                        <span class="title">Corte de caja</span>
+                        <span class="title">Generar corte de caja</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#/mis-corte-de-caja">
+                        <i class="icon-settings"></i>
+                        <span class="title">Mis cortes de caja</span>
                     </a>
                 </li>
                 <li class="nav-item">

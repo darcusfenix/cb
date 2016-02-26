@@ -57,6 +57,10 @@ angular.module('CapitalBusApp').factory('Bracelet', function ($resource) {
             method: 'GET',
             isArray: true,
             url: 'bracelet/salesman/notSold'
+        },
+        saveCorteCaja: {
+            method: 'POST',
+            url: 'salesman/corteCaja'
         }
     });
 });

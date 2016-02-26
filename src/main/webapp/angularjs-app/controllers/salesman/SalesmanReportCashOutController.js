@@ -2,7 +2,7 @@
  * Created by becm on 2/16/16.
  */
 
-function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, KindPerson, DaysDuration) {
+function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, KindPerson, DaysDuration, Salesman) {
     $scope.$on('$viewContentLoaded', function () {
         App.initAjax();
         $scope.getMyAssignments();
@@ -10,8 +10,10 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     });
 
     $scope.isSalesman = true;
+
     $scope.startDate = null;
     $scope.endDate = null;
+    $scope.idCost = null;
 
     $scope.avalibleCostsList;
     $scope.braceletSoldList = null;
@@ -19,6 +21,28 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     $scope.braceletNotSoldList = null;
     $scope.historyResumeList = [];
     $scope.reportList = [];
+
+    $scope.braceletInstance = Bracelet.create(function (data) {
+        $scope.braceletInstance = data;
+        console.log($scope.braceletInstance);
+    });
+
+    $scope.getMyAssignmentsSold = function () {
+        Bracelet.getMyAssignmentsSold(function (data) {
+            $scope.braceletSoldList = data;
+        }, function (err) {
+        });
+    };
+
+    $scope.getTotalBraceletsSold = function (id) {
+        if ($scope.braceletSoldList == null)
+            return;
+        for (var i = 0; i < $scope.braceletSoldList.length; i++) {
+            if ($scope.braceletSoldList[i][0].id == id)
+                return $scope.braceletSoldList[i][1]
+        }
+    };
+
 
     $scope.colors = [
         {"bg": "#FFFFFF", "tc": "#b02c6d"},
@@ -42,6 +66,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     };
 
     $scope.getBraceletsNotSold = function (idCost) {
+        $scope.idCost = idCost;
         App.blockUI(
             {
                 target: "#corte",
@@ -78,6 +103,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
         DaysDuration.query(function (data) {
             $scope.daysDurationList = data;
             $scope.getBraceletsNotSold($scope.avalibleCostsList[0][0].id);
+            $scope.getMyAssignmentsSold();
         }, function (err) {
         });
     };
@@ -125,7 +151,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
         var f = false;
         for (var i = 0; i < $scope.reportList.length; i++) {
             if ($scope.reportList[i].idBracelet == idBracelet) {
-                f =  true;
+                f = true;
             }
         }
         return f;
@@ -142,13 +168,43 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
     $scope.getTotalSold = function () {
         var f = 0;
         if (typeof $scope.avalibleCostsList !== 'undefined') {
-                for (var j = 0; j < $scope.avalibleCostsList.length; j++) {
-                    f += $scope.getTotalByCostSelected($scope.avalibleCostsList[j][0].id) * $scope.avalibleCostsList[j][0].cost
-                }
+            for (var j = 0; j < $scope.avalibleCostsList.length; j++) {
+                f += $scope.getTotalByCostSelected($scope.avalibleCostsList[j][0].id) * $scope.avalibleCostsList[j][0].cost
+            }
         }
         return f;
     };
-    
+    $scope.getBraceletsSelected = function (idCost) {
+        var f = "";
+
+        for (var i = 0; i < $scope.reportList.length; i++) {
+            if ($scope.reportList[i].idCost == idCost) {
+                f += $scope.reportList[i].idBracelet + ", "
+            }
+        }
+
+        return f;
+    };
+
+    $scope.saveCorteCaja = function () {
+        App.blockUI(
+            {
+                boxed: !0,
+                message: "Generando corte de caja..."
+            });
+        var l = JSON.stringify($scope.reportList);
+        $scope.braceletInstance.$saveCorteCaja(
+            {
+                "json": l
+            }, function (data) {
+                $scope.getMyAssignmentsSold();
+                App.unblockUI();
+                $scope.reportList = [];
+            }, function (err) {
+
+            });
+    };
+
     $scope.updateRangeDate = function () {
         $('#dashboard-report-range').daterangepicker({
             "ranges": {
@@ -195,11 +251,11 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
 
             opens: (App.isRTL() ? 'right' : 'left'),
 
-        }, function(start, end, label) {
+        }, function (start, end, label) {
             $('#dashboard-report-range span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             $scope.startDate = start.format('YYYY-MM-DD hh:mm:ss a');
             $scope.endDate = end.format('YYYY-MM-DD hh:mm:ss a');
-            $scope.getBraceletsNotSold($scope.avalibleCostsList[0][0].id);
+            $scope.getBraceletsNotSold($scope.idCost);
         });
 
         $('#dashboard-report-range span').html(moment().format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
@@ -208,5 +264,5 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
         $scope.endDate = moment().format('YYYY-MM-DD hh:mm:ss a');
 
     };
-    
+
 }

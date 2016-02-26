@@ -1,21 +1,20 @@
 <style type="text/css">
-.active-sold{
+.active-sold {
     background-color: #03D511;
     color: white;
 }
 </style>
 
 
-<div class="row widget-row"  data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
+<div class="row widget-row" data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
 </div>
 
 
 <div class="row margin-bottom-20 margin-right-10 text-center">
 
-    <div class="col-md-4 col-md-offset-2">
-        <a href="javascript:;" class="btn btn-sm btn-circle red easy-pie-chart-reload uppercase"
-           ng-hide="reportList.length > 0">
-            Selecciona Brazaletes que vendiste en esta fecha
+    <div class="col-md-4 col-md-offset-2 text-left">
+        <a href="javascript:;" class="btn btn-sm red easy-pie-chart-reload uppercase text-left">
+            Selecciona los Brazaletes que vendiste hoy
         </a>
     </div>
 
@@ -44,8 +43,12 @@
                            ng-click="getBraceletsNotSold(avaliblecost[0].id)">Serie {{avaliblecost[0].id}}</a>
                     </li>
                     <li>
-                        <a href="#portlet_serie_resumen" data-toggle="tab"
+                        <a href="#portlet_serie_resumen" data-toggle="tab" ng-show="reportList.length > 0"
                            ng-click="null">Resumen</a>
+                    </li>
+                    <li>
+                        <a href="#portlet_serie_resumen_selected" data-toggle="tab"  ng-show="reportList.length > 0"
+                           ng-click="null">brazaletes seleccionados</a>
                     </li>
                 </ul>
             </div>
@@ -71,35 +74,58 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane" id="portlet_serie_resumen"
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th class="text-center"></th>
-                                    <th class="text-center text-success" ng-repeat="avaliblecost in avalibleCostsList">
-                                        Serie {{avaliblecost[0].id}}
-                                    </th>
-                                    <th class="text-center">Total</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Total de brazaletes: </td>
-                                    <td class="text-center" ng-repeat="avaliblecost in avalibleCostsList">
-                                        {{getTotalByCostSelected(avaliblecost[0].id)}}
-                                    </td>
-                                    <td class="text-center">{{reportList.length}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Total de ventas: </td>
-                                    <td class="text-center" ng-repeat="avaliblecost in avalibleCostsList">
-                                        {{getTotalByCostSelected(avaliblecost[0].id) * avaliblecost[0].cost | currency}}
-                                    </td>
-                                    <td class="text-center">{{ getTotalSold() | currency}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    <div class="tab-pane" id="portlet_serie_resumen">
+
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center"></th>
+                                            <th class="text-center text-success" ng-repeat="avaliblecost in avalibleCostsList">
+                                                Serie {{avaliblecost[0].id}}
+                                            </th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Total de brazaletes:</td>
+                                            <td class="text-center" ng-repeat="avaliblecost in avalibleCostsList">
+                                                {{getTotalByCostSelected(avaliblecost[0].id)}}
+                                            </td>
+                                            <td class="text-center">{{reportList.length}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total de ventas:</td>
+                                            <td class="text-center" ng-repeat="avaliblecost in avalibleCostsList">
+                                                {{getTotalByCostSelected(avaliblecost[0].id) * avaliblecost[0].cost | currency}}
+                                            </td>
+                                            <td class="text-center">{{ getTotalSold() | currency}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-10 col-md-offset-1 text-right">
+                                <a href="#static" class="btn btn-success" ng-click="null"
+                                   data-toggle="modal">Generar corte de caja</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="portlet_serie_resumen_selected">
+                        <div class="mt-comments">
+                            <div class="mt-comment" ng-repeat="avaliblecost in avalibleCostsList">
+                                <div class="mt-comment-body">
+                                    <div class="mt-comment-info">
+                                        <span class="mt-comment-author">Serie {{avaliblecost[0].id}}</span>
+                                        <span class="mt-comment-date"></span>
+                                    </div>
+                                    <div class="mt-comment-text">{{getBraceletsSelected(avaliblecost[0].id)}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,3 +136,4 @@
 </div>
 
 
+<div id="static" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" data-ng-include="'angularjs-app/views/salesman/tpl/tpl-corte-caja.gsp'"></div>
