@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#/mis-corte-de-caja">
+                    <a href="#/historial-corte-de-caja">
                         <i class="icon-settings"></i>
                         <span class="title">Mis cortes de caja</span>
                     </a>

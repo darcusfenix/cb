@@ -22,6 +22,7 @@ function SalesmanMyAssignmentsController($scope, $filter, Bracelet, Circuit, Kin
         }, function (err) {
         });
     };
+
     $scope.getMyhistory = function () {
         Bracelet.historyBySalesman(function (data) {
             $scope.historyList = data;

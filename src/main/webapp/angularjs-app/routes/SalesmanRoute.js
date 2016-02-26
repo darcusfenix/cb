@@ -41,7 +41,6 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
             }
         })
 
-
         .state('vendedorCorteCaja', {
             url: "/corte-de-caja",
             templateUrl: "angularjs-app/views/salesman/report-cash-out.gsp",
@@ -65,6 +64,7 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                 }]
             }
         })
+
         .state('salesmanMyAssignments', {
             url: "/mis-asignaciones",
             templateUrl: "angularjs-app/views/salesman/my-assignments.gsp",
@@ -80,6 +80,26 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                             BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
                             BASE_URL + 'angularjs-app/controllers/salesman/SalesmanMyAssignmentsController.js',
                             BASE_URL + 'angularjs-app/services/ResumeBraceletsService.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        .state('salesmanMyCashOut', {
+            url: "/historial-corte-de-caja",
+            templateUrl: "angularjs-app/views/salesman/my-cash-out.gsp",
+            data: {pageTitle: 'Corte de Caja', pageSubTitle: 'Mi historial generado'},
+            controller: "SalesmanHistoryCashOutController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'CapitalBusApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            BASE_URL + 'angularjs-app/resources/CircuitResource.js',
+                            BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
+                            BASE_URL + 'angularjs-app/controllers/salesman/SalesmanHistoryCashOutController.js'
                         ]
                     });
                 }]
