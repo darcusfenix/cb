@@ -112,12 +112,10 @@ class BraceletRepositoryImpl implements BraceletRepository {
         results
     }
     @Override
-    def getHistoryBySalesmanYesSold(String sd, String ed, long id) {
+    def getHistoryBySalesmanYesSold(String sd, String ed, long id, String ss) {
         Date start, end
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-
-        println(sd + "          ----------------------                   " + ed)
 
         Calendar now = Calendar.getInstance();
         if (sd == null && ed == null){
@@ -128,7 +126,6 @@ class BraceletRepositoryImpl implements BraceletRepository {
             end = new Date()
             now.set(Calendar.DAY_OF_MONTH, -29);
             start = now.getTime()
-            println( "" + start + "          ----------------------          FIN-->         " + end + "")
         }else{
 
             now.setTime(sdf.parse(ed));
@@ -145,38 +142,35 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.SECOND, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
             start = now.getTime()
-            println( "" + start + "          ----------------------                   " + end + "")
         }
-
-
 
         def results
-
-        /*
-        def query = Bracelet.where {
-            (salesman == Salesman.findById(id)) && (sold == true) && (sold_date >= start && sold_date <= end)
-        }
-        results = query.order( 'id', 'asc' ).list()
-        println("-------------------------------------->"  + results.size())
-        */
-
         def query = Bracelet.createCriteria()
         results = query.list {
-
             projections {
-         //       groupProperty('costBracelet')
                 groupProperty('soldDate')
                 count("soldDate")
-                // count("soldDate")
+                if(ss){
+                    groupProperty('costBracelet')
+                    count("costBracelet")
+                }
             }
             and {
                 eq("salesman", Salesman.findById(id))
                 eq("sold", true)
-                between("soldDate", start, end)
+                if(ss){
+                    def a = sdf.parse(ss)
+                    now.setTime(a);
+                    now.add(Calendar.SECOND, 1);
+                    def e = now.getTime()
+                    println(" -- " + a + " -- " + e)
+                    between("soldDate", a, e)
+                }else{
+                    between("soldDate", start, end)
+                }
             }
-            order("soldDate", "asc")
+            order("soldDate", "desc")
         }
-
         results
     }
 }

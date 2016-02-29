@@ -125,12 +125,13 @@ class BraceletController {
 
         def sd = params.sd
         def ed = params.ed
+        def ss = params.ss
 
         def principal = springSecurityService.principal
         long id = principal.id
 
         def results = []
-        results = braceletRepository.getHistoryBySalesmanYesSold(sd, ed, id)
+        results = braceletRepository.getHistoryBySalesmanYesSold(sd, ed, id, ss)
         render(results as JSON)
     }
 
