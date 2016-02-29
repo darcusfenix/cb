@@ -21,3 +21,4 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 ]
 
 grails.plugin.springsecurity.securityConfigType = "Annotation"
+grails.plugin.springsecurity.secureChannel.useHeaderCheckChannelSecurity = true
