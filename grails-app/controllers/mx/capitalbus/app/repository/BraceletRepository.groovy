@@ -13,4 +13,5 @@ interface BraceletRepository {
     def getBySalesmanOrderAndGroupByDeliveryDate(Salesman s, String dateText)
     def getBySalesmanNotSold(Salesman s, CostBracelet cb, String sd, String ed)
     def getHistoryBySalesmanYesSold(String sd, String ed, long id, String ss)
+    def verifyCodeScanner(String code, long bus, float lan, float lat)
 }

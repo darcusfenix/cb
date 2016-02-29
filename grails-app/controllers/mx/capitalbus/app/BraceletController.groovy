@@ -18,58 +18,59 @@ class BraceletController {
     def braceletRepository
     def springSecurityService
 
-    def create (){
-        render ( new Bracelet() as JSON)
+    def create() {
+        render(new Bracelet() as JSON)
     }
 
-    def index (){
+    def index() {
         def rs
         def so
         def principal = springSecurityService.principal
         long id = principal.id
-        switch (principal.authorities[0]){
+        switch (principal.authorities[0]) {
             case "ROLE_SALESMAN":
                 def s = Salesman.findById(id)
                 rs = braceletRepository.getBySalesmanOrderAndGroupByCostBracelet(s)
 
                 break
         }
-        render ( rs as JSON)
+        render(rs as JSON)
     }
-    def getMyAssignmentsSold (){
+
+    def getMyAssignmentsSold() {
         def rs
         def principal = springSecurityService.principal
         long id = principal.id
-        switch (principal.authorities[0]){
+        switch (principal.authorities[0]) {
             case "ROLE_SALESMAN":
                 def s = Salesman.findById(id)
                 rs = braceletRepository.getBySalesmanOrderAndGroupBySold(s)
                 break
         }
-        render ( rs as JSON)
+        render(rs as JSON)
     }
 
-    def save (){
+    def save() {
         String json = params.list("json");
         if (json != null) {
             def jsonSlurper = new JsonSlurper()
             def object = jsonSlurper.parseText(json)
-            def map  = [:]
+            def map = [:]
             for (String a : object) {
                 def cc = JSON.parse(a)
                 Integer ic = cc.idCost
                 Integer ca = cc.amount
-                map.put(ic,ca)
+                map.put(ic, ca)
             }
-            def mapCVS =  braceletService.generatingBracelets(map)
-            render( [text : mapCVS + ""] as JSON )
-        }else {
+            def mapCVS = braceletService.generatingBracelets(map)
+            render([text: mapCVS + ""] as JSON)
+        } else {
             response.status = 404
             render([message: message(code: "vendedor.notFound")] as JSON)
         }
     }
 
-    def getListOfCreations(){
+    def getListOfCreations() {
         def b = Bracelet.createCriteria()
         def results = b.list {
             projections {
@@ -81,7 +82,7 @@ class BraceletController {
         render(results as JSON)
     }
 
-    def getListOfAssignnments(){
+    def getListOfAssignnments() {
         def principal = springSecurityService.principal
         long id = principal.id
         def b = Bracelet.createCriteria()
@@ -90,24 +91,24 @@ class BraceletController {
                 count("deliveryDate")
                 groupProperty('deliveryDate')
             }
-            and{
-                eq("salesman",Salesman.findById(id))
+            and {
+                eq("salesman", Salesman.findById(id))
             }
             order("deliveryDate", "asc")
         }
         render(results as JSON)
     }
 
-    def getResumeHistoryByDate(){
+    def getResumeHistoryByDate() {
         def principal = springSecurityService.principal
         long id = principal.id
 
         def results = []
-            results = braceletRepository.getBySalesmanOrderAndGroupByDeliveryDate(Salesman.findById(id), "")
+        results = braceletRepository.getBySalesmanOrderAndGroupByDeliveryDate(Salesman.findById(id), "")
         render(results as JSON)
     }
 
-    def getBraceletsNotSold(){
+    def getBraceletsNotSold() {
 
         def cb = params.int("cb")
         def sd = params.sd
@@ -117,11 +118,11 @@ class BraceletController {
         long id = principal.id
 
         def results = []
-            results = braceletRepository.getBySalesmanNotSold(Salesman.findById(id), CostBracelet.findById(cb), sd, ed)
+        results = braceletRepository.getBySalesmanNotSold(Salesman.findById(id), CostBracelet.findById(cb), sd, ed)
         render(results as JSON)
     }
 
-    def getHistoryBySalesmanYesSold(){
+    def getHistoryBySalesmanYesSold() {
 
         def sd = params.sd
         def ed = params.ed
@@ -135,14 +136,14 @@ class BraceletController {
         render(results as JSON)
     }
 
-    def getCSV(){
+    def getCSV() {
         String date = params.d
-        if ( date != null) {
+        if (date != null) {
             def s = braceletService.getStringOfCSV(date)
-            if (s != null){
+            if (s != null) {
                 response.setHeader("Content-disposition", "attachment; filename=brazaletes.csv")
-                render(contentType: "text/csv", text:s )
-            }else{
+                render(contentType: "text/csv", text: s)
+            } else {
                 response.sendError(404)
                 render([message: "error"] as JSON)
             }
@@ -153,7 +154,7 @@ class BraceletController {
     }
 
     @Secured('ROLE_ADMIN_CONTROL_BRACELET')
-    def getListOfCreationsByCost(){
+    def getListOfCreationsByCost() {
         def b = Bracelet.createCriteria()
         def results = b.list {
             projections {
@@ -166,16 +167,45 @@ class BraceletController {
         render(results as JSON)
     }
 
-    @Secured(value=["hasRole('ROLE_ADMIN_CONTROL_BRACELET')"], httpMethod='POST')
-    def toAssignForSalesman(){
+    @Secured(value = ["hasRole('ROLE_ADMIN_CONTROL_BRACELET')"], httpMethod = 'POST')
+    def toAssignForSalesman() {
         def jsonText = params.json
         def salesman = params.int("salesman")
-        if (jsonText != null || !jsonText.empty || salesman > 0)
-        {
+        if (jsonText != null || !jsonText.empty || salesman > 0) {
             def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman)
-            render (res as JSON)
-        }
-        else
-            render( ["message":"hubo un error"] as JSON)
+            render(res as JSON)
+        } else
+            render(["message": "hubo un error"] as JSON)
     }
+
+    def verifyCodeScanner() {
+
+        String code = params.code
+        long bus = params.long("bus") ? params.long("bus") : 0
+
+        float lon = params.float("lon") ? params.float("lon") : 0f
+        float lat = params.float("lat") ? params.float("lat") : 0f
+
+        def res = braceletRepository.verifyCodeScanner(code,bus,lon,lat)
+        def r
+
+        switch (res){
+            case 0 :
+                r = ["message" : "el código no existe"]
+                break
+            case 1 :
+                r = ["message" : "el brazalete no ha sido entregado a un vendedor"]
+                break
+            case 2 :
+                r = ["message" : "el brazalete ha exedido con más de 48 horas de validez"]
+                break
+            case 3 :
+                r = ["message" : "el tiempo de validez excedió de 24 horas a 48 horas"]
+                break
+        }
+
+        render(r as JSON)
+
+    }
+
 }

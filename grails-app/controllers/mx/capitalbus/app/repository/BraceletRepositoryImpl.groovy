@@ -1,6 +1,8 @@
 package mx.capitalbus.app.repository
 
 import grails.converters.JSON
+import groovy.time.TimeCategory
+import groovy.time.TimeDuration
 import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
@@ -173,4 +175,45 @@ class BraceletRepositoryImpl implements BraceletRepository {
         }
         results
     }
+/*
+* LISTADO DE RESPUESTAS
+*
+* 0 -> el brazalete no existe en la base de datos. ALARMA  #
+* 1 -> existe brazalete, pero no tiene fecha de entrega a un vendedor. ALARMA #
+* 2 -> el tiempo de validez excedió más de 48 horas. ALARMA #
+* 3 -> el tiempo de validez excedió de 24 horas a 48 horas. ALARMA #
+* 4 -> existe brazalete, pero el vendedor no está autorizado a vendeder. ALARMA
+* 5 -> el tiempo de validez excedió 24 horas.
+* 6 -> si el escaneo tien el estado 3 (ABORDO), Cambiar estado a BLOQUEADA.
+* 7 -> todo bien, sólo actuaizar fecha de venta
+* 8 ->
+*
+* */
+
+
+    @Override
+    def verifyCodeScanner(String code, long bus, float lan, float lat) {
+        def r
+
+        r = Bracelet.findByCode(code)
+
+        if (!r)
+            return 0
+        if (r.deliveryDate == null)
+            return 1
+        if (r.activationDate)
+        {
+            def timeStart = r.activationDate
+            def timeStop = new Date()
+            TimeDuration duration = TimeCategory.minus(timeStop, timeStart)
+            if (duration.days < 2)
+                return 3
+            else
+                return 2
+        }
+
+
+        r
+    }
+
 }
