@@ -4,6 +4,7 @@ import grails.converters.JSON
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
 import mx.capitalbus.app.bracelet.Bracelet
+import mx.capitalbus.app.bracelet.BraceletState
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
 
@@ -76,15 +77,15 @@ class BraceletRepositoryImpl implements BraceletRepository {
         println(sd + "          ----------------------                   " + ed)
 
         Calendar now = Calendar.getInstance();
-        if (sd == null && ed == null){
+        if (sd == null && ed == null) {
             now.set(Calendar.HOUR, 0);
             now.set(Calendar.MINUTE, 0);
             now.set(Calendar.SECOND, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
             start = now.getTime()
             end = new Date()
-            println( "" + start + "          ----------------------                   " + end + "")
-        }else{
+            println("" + start + "          ----------------------                   " + end + "")
+        } else {
 
             now.setTime(sdf.parse(ed));
             now.set(Calendar.HOUR, 23);
@@ -100,7 +101,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.SECOND, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
             start = now.getTime()
-            println( "" + start + "          ----------------------                   " + end + "")
+            println("" + start + "          ----------------------                   " + end + "")
         }
 
 
@@ -109,10 +110,11 @@ class BraceletRepositoryImpl implements BraceletRepository {
         def query = Bracelet.where {
             (salesman == s) && (costBracelet == cb) && (sold == false) && (deliveryDate >= start && deliveryDate <= end)
         }
-        results = query.order( 'id', 'asc' ).list()
-        println("-------------------------------------->"  + results.size())
+        results = query.order('id', 'asc').list()
+        println("-------------------------------------->" + results.size())
         results
     }
+
     @Override
     def getHistoryBySalesmanYesSold(String sd, String ed, long id, String ss) {
         Date start, end
@@ -120,7 +122,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 
         Calendar now = Calendar.getInstance();
-        if (sd == null && ed == null){
+        if (sd == null && ed == null) {
             now.set(Calendar.HOUR, 0);
             now.set(Calendar.MINUTE, 0);
             now.set(Calendar.SECOND, 0);
@@ -128,7 +130,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             end = new Date()
             now.set(Calendar.DAY_OF_MONTH, -29);
             start = now.getTime()
-        }else{
+        } else {
 
             now.setTime(sdf.parse(ed));
             now.set(Calendar.HOUR, 23);
@@ -152,7 +154,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             projections {
                 groupProperty('soldDate')
                 count("soldDate")
-                if(ss){
+                if (ss) {
                     groupProperty('costBracelet')
                     count("costBracelet")
                 }
@@ -160,14 +162,14 @@ class BraceletRepositoryImpl implements BraceletRepository {
             and {
                 eq("salesman", Salesman.findById(id))
                 eq("sold", true)
-                if(ss){
+                if (ss) {
                     def a = sdf.parse(ss)
                     now.setTime(a);
                     now.add(Calendar.SECOND, 1);
                     def e = now.getTime()
                     println(" -- " + a + " -- " + e)
                     between("soldDate", a, e)
-                }else{
+                } else {
                     between("soldDate", start, end)
                 }
             }
@@ -175,6 +177,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         }
         results
     }
+
 /*
 * LISTADO DE RESPUESTAS
 *
@@ -183,37 +186,121 @@ class BraceletRepositoryImpl implements BraceletRepository {
 * 2 -> el tiempo de validez excedió más de 48 horas. ALARMA #
 * 3 -> el tiempo de validez excedió de 24 horas a 48 horas. ALARMA #
 * 4 -> existe brazalete, pero el vendedor no está autorizado a vendeder. ALARMA
-* 5 -> el tiempo de validez excedió 24 horas.
-* 6 -> si el escaneo tien el estado 3 (ABORDO), Cambiar estado a BLOQUEADA.
-* 7 -> todo bien, sólo actuaizar fecha de venta
-* 8 ->
+* 5 -> si el escaneo tiene el estado 3 (ABORDO), Cambiar estado a BLOQUEADA.
+* 6 -> todo bien, sólo actuaizar fecha de venta
+* 7 -> el brazalete ha sido bloqueado por no scanear en bajada
+* 8 -> el brazalete ha pasado a estado de bajada
+* 9 -> el brazalete se escaneó otra vez que sí pasó por bajada
+* 10 -> el brazalete sin fecha de activación
 *
 * */
-
-
     @Override
-    def verifyCodeScanner(String code, long bus, float lan, float lat) {
+    def validarSubida(String code, long bus, float lon, float lat ) {
         def r
 
-        r = Bracelet.findByCode(code)
+        r = Bracelet.findByCode(code, [fetch: [salesman: 'eager']])
 
-        if (!r)
+        if (!r)  // no existe
             return 0
-        if (r.deliveryDate == null)
+
+        if (r.deliveryDate == null) // existe, pero no fue entregado a un vendedor
             return 1
-        if (r.activationDate)
-        {
+
+        if (r.activationDate) { // ya activado, pero...
+
             def timeStart = r.activationDate
             def timeStop = new Date()
             TimeDuration duration = TimeCategory.minus(timeStop, timeStart)
-            if (duration.days < 2)
+
+            if (duration.days >= 1 && duration.days <= 2) // validez excedió de 1 a 2 días
                 return 3
-            else
+            if (duration.days > 2) // validez tiene más de 2 días
                 return 2
         }
 
+        if (!r.salesman.enabled) // el vendedor entregó un brazalete no autorizado
+            return 4
 
-        r
+
+        if (r.braceletState.id == 3l) {
+            r.braceletState = BraceletState.findById(5)
+            if (r.validate()) {
+                r.save(flush: true)
+            }
+            return 5
+        }
+        if (r.braceletState.id == 4l) {
+            r.braceletState = BraceletState.findById(3)
+            if (r.validate()) {
+                r.save(flush: true)
+            }
+            return 9
+        }
+        if (r.braceletState.id == 2l && r.activationDate == null) {
+            r.braceletState = BraceletState.findById(3)
+            r.activationDate = new Date()
+            if (r.validate()) {
+                r.save(flush: true)
+            }
+            return 6
+        }
+
+        if (r.braceletState.id == 5l) {
+            return 7
+        }
+        return -1
+    }
+
+    @Override
+    def validarBajada(String code, long bus, float lon, float lat ) {
+        def r
+
+        r = Bracelet.findByCode(code, [fetch: [salesman: 'eager']])
+
+        if (!r)  // no existe
+            return 0
+
+        if (r.deliveryDate == null) // existe, pero no fue entregado a un vendedor
+            return 1
+
+        if (r.activationDate) { // ya activado, pero...
+
+            def timeStart = r.activationDate
+            def timeStop = new Date()
+            TimeDuration duration = TimeCategory.minus(timeStop, timeStart)
+
+            if (duration.days >= 1 && duration.days <= 2) // validez excedió de 1 a 2 días
+                return 3
+            if (duration.days > 2) // validez tiene más de 2 días
+                return 2
+        }
+
+        if (!r.salesman.enabled) // el vendedor entregó un brazalete no autorizado
+            return 4
+
+        if (r.braceletState.id == 5l) {
+            return 7
+        }
+
+        if (r.braceletState.id == 2l && r.activationDate != null) {
+            return 10
+        }
+
+        if (r.braceletState.id == 3l && r.activationDate) {
+            def timeStart = r.activationDate
+            def timeStop = new Date()
+            TimeDuration duration = TimeCategory.minus(timeStop, timeStart)
+            if (duration.days <= 1){
+                r.braceletState = BraceletState.findById(4)
+                return 8
+            }
+        }
+
+        if (r.braceletState.id == 4l) {
+            return 13
+        }
+
+        return -1
     }
 
 }

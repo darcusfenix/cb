@@ -178,7 +178,8 @@ class BraceletController {
             render(["message": "hubo un error"] as JSON)
     }
 
-    def verifyCodeScanner() {
+    @Secured(value = ["hasRole('ROLE_ADMIN_CONTROL_BRACELET')"], httpMethod = 'POST')
+    def verifyCodeWithScannerFirst() {
 
         String code = params.code
         long bus = params.long("bus") ? params.long("bus") : 0
@@ -186,26 +187,43 @@ class BraceletController {
         float lon = params.float("lon") ? params.float("lon") : 0f
         float lat = params.float("lat") ? params.float("lat") : 0f
 
-        def res = braceletRepository.verifyCodeScanner(code,bus,lon,lat)
-        def r
+        def res
 
-        switch (res){
-            case 0 :
-                r = ["message" : "el código no existe"]
-                break
-            case 1 :
-                r = ["message" : "el brazalete no ha sido entregado a un vendedor"]
-                break
-            case 2 :
-                r = ["message" : "el brazalete ha exedido con más de 48 horas de validez"]
-                break
-            case 3 :
-                r = ["message" : "el tiempo de validez excedió de 24 horas a 48 horas"]
-                break
-        }
+        if (code.length() == 10)
+            res = braceletRepository.validarSubida(code,bus,lon,lat)
+        else
+            res = 12
+
+        def r = braceletService.getResponse(res);
+
+        if (res < 6 && res == 7)
+            response.status = 500
 
         render(r as JSON)
+    }
 
+    @Secured(value = ["hasRole('ROLE_ADMIN_CONTROL_BRACELET')"], httpMethod = 'POST')
+    def verifyCodeWithScannerSecond() {
+
+        String code = params.code
+        long bus = params.long("bus") ? params.long("bus") : 0
+
+        float lon = params.float("lon") ? params.float("lon") : 0f
+        float lat = params.float("lat") ? params.float("lat") : 0f
+
+        def res
+
+        if (code.length() == 10)
+            res = braceletRepository.validarBajada(code,bus,lon,lat)
+        else
+            res = 12
+
+        def r = braceletService.getResponse(res);
+
+        if (res < 6 && res == 7)
+            response.status = 500
+
+        render(r as JSON)
     }
 
 }
