@@ -26,7 +26,7 @@ class BraceletService {
         log.error(dateNow)
 
         objeto.each { w ->
-            if (w.value > 0){
+            if (w.value > 0) {
                 def sp = getLastAutoIncrementBracelet();
 
                 def cc = CostBracelet.findById(w.key)
@@ -73,7 +73,7 @@ class BraceletService {
         (Integer) sqlQuery.uniqueResult() ?: 0
     }
 
-    def String getStringOfCSV(String date){
+    def String getStringOfCSV(String date) {
         String mapCVS = null;
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
@@ -91,7 +91,7 @@ class BraceletService {
             def results = bb.list {
                 between("creationDate", d, changeDate)
             }
-	
+
             results.each { b ->
                 mapCVS += b.id + "," + b.code.toLowerCase().trim() + "," + b.costBracelet.id + "," + b.creationDate + "\n"
             }
@@ -99,12 +99,13 @@ class BraceletService {
         }
         mapCVS
     }
-    def updateBraceletsWithSalesman(String textJson, Integer idSalesman){
+
+    def updateBraceletsWithSalesman(String textJson, Integer idSalesman) {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+/-6:00"));
         def s = Salesman.findById(idSalesman)
         def mapMessage = [:]
 
-        if (s != null){
+        if (s != null) {
             def bs = BraceletState.findById(2) // estado de brazalete como activado
             def date = new Date()
             def jsonSlurper = new JsonSlurper()
@@ -123,7 +124,7 @@ class BraceletService {
                 def braceletsList = query.list()
 
 
-                if (braceletsList.size() > 0 && ( (er - sr + 1) == braceletsList.size() ) ){
+                if (braceletsList.size() > 0 && ((er - sr + 1) == braceletsList.size())) {
                     braceletsList.each { b ->
                         b.deliveryDate = date
                         b.braceletState = bs
@@ -133,14 +134,96 @@ class BraceletService {
                         else
                             log.error(b.errors)
                     }
-                    mapMessage.put(i,["idCost": i, "status" : 1, "message" : "Se asignó el siguiente rango correctamente de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
-                }
-                else{
-                    mapMessage.put(i, ["idCost": i, "status" : 0, "message" : "No fue posible asignar este rango de brazaletes de:  <b>" + sr + "</b> hasta:  <b>" + er+ "</b>"])
+                    mapMessage.put(i, ["idCost": i, "status": 1, "mensaje": "Se asignó el siguiente rango correctamente de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
+                } else {
+                    mapMessage.put(i, ["idCost": i, "status": 0, "mensaje": "No fue posible asignar este rango de brazaletes de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
                 }
 
             }
         }
         mapMessage
     }
+
+    def validarSubida(Bracelet r) {
+
+        if (r.braceletState.id == 3l) {
+            r.braceletState = BraceletState.findById(5)
+            if (r.validate()) {
+                r.save(flush: true)
+            }
+            return 5
+        }
+        if (r.braceletState.id == 4l) { // propio de subida
+            r.braceletState = BraceletState.findById(3)
+            if (r.validate()) {
+                r.save(flush: true)
+            }
+            return 9
+        }
+        if (r.braceletState.id == 2l && r.activationDate == null) {
+            r.braceletState = BraceletState.findById(3)
+            r.activationDate = new Date()
+            if (r.validate()) {
+                r.save(flush: true)
+            }
+            return 6
+        }
+
+        if (r.braceletState.id == 5l) {
+            return 7
+        }
+    }
+
+    def getResponse(Integer res) {
+        def r
+        switch (res) {
+            case -1:
+                r = ["estado": "error", "codigo": res, "mensaje": "desconocido"]
+                break
+            case 0:
+                r = ["estado": "error", "codigo": res, "mensaje": "el código no existe"]
+                break
+            case 1:
+                r = ["estado": "error", "codigo": res, "mensaje": "el brazalete no ha sido entregado a un vendedor"]
+                break
+            case 2:
+                r = ["estado": "error", "codigo": res, "mensaje": "el brazalete ha exedido con más de 48 horas de validez"]
+                break
+            case 3:
+                r = ["estado": "error", "codigo": res, "mensaje": "el tiempo de validez excedió de 24 horas a 48 horas"]
+                break
+            case 4:
+                r = ["estado": "error", "codigo": res, "mensaje": "el brazalete fue entregado sin autorización"]
+                break
+            case 5:
+                r = ["estado": "error", "codigo": res, "mensaje": "el brazalete no fue scaneado al bajar, se bloquea"]
+                break
+            case 6:
+                r = ["estado": "success", "codigo": res, "mensaje": "el brazalete se cambió al estado: abordo"]
+                break
+            case 7:
+                r = ["estado": "error", "codigo": res, "mensaje": "el brazalete está bloqueado, no se scaneo anteriormente en bajada"]
+                break
+            case 8:
+                r = ["estado": "success", "codigo": res, "mensaje": "el brazalete pasó a estado de bajada"]
+                break
+            case 9:
+                r = ["estado": "success", "codigo": res, "mensaje": "el brazalete sí pasó por escanner de bajada y subió al autobús"]
+                break
+            case 10:
+                r = ["estado": "error", "codigo": res, "mensaje": "el brazalete no fue escaneado en subida"]
+                break
+            case 11:
+                r = ["estado": "success", "codigo": res, "mensaje": "el brazalete sí pasó por escanner de bajada y subió al autobús"]
+                break
+            case 12:
+                r = ["estado": "error", "codigo": res, "mensaje": "código no válido"]
+                break
+            case 13:
+                r = ["estado": "error", "codigo": res, "mensaje": "el brazalete tiene estado de bajada"]
+                break
+        }
+        r
+    }
+
 }

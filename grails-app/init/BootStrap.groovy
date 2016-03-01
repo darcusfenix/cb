@@ -22,6 +22,11 @@ class BootStrap {
         //todo modificar en producción antes de desplegar
         // ALTER TABLE bracelet ADD COLUMN "sold" BOOLEAN DEFAULT FALSE;
         // UPDATE bracelet set sold = FALSE;
+        // delete from bracelet_state where id >= 5 and id <=8;
+        // ALTER SEQUENCE bracelet_state_id_seq RESTART WITH 5;
+
+        // todo recomiendo hacer esto para más análisis
+        // UPDATE bracelet set last_date_scan=null, latitude=0.0, longitude=0.0, number_scans=0;
 /*
         def salesManRole = Role.findOrSaveByAuthority('ROLE_SALESMAN').save()
 
@@ -72,6 +77,14 @@ class BootStrap {
         sa.save()
 
         UserRole.create sa,r
+
+
+        BraceletState bs = new BraceletState()
+        bs.description = "..."
+        bs.name = "bloqueado"
+        if(bs.validate()){
+            bs.save(flush: true)
+        }
 */
     }
     def destroy = {
