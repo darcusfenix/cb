@@ -186,7 +186,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
         return total;
     };
     $scope.showResponse = function () {
-        
+
         for (var i = 0; i < Object.keys($scope.responseList).length; i++) {
 
             if (typeof $scope.responseList[i] !== 'undefined') {
