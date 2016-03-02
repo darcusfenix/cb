@@ -173,6 +173,7 @@ class BraceletController {
         def salesman = params.int("salesman")
         if (jsonText != null || !jsonText.empty || salesman > 0) {
             def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman)
+            log.error("---------------------->   " + res)
             render(res as JSON)
         } else
             render(["message": "hubo un error"] as JSON)
