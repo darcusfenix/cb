@@ -1,4 +1,15 @@
-
+<div class="row">
+    <div class="note note-danger" ng-show="f1">
+        <h4 class="block">Error para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+        <div class="row" id="response-failed">
+        </div>
+    </div>
+    <div class="note note-success"  ng-show="f2">
+        <h4 class="block">BIen para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+        <div class="row" id="response-success">
+        </div>
+    </div>
+</div>
 <div class="row widget-row"  data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
 </div>
 
@@ -36,16 +47,6 @@
             </div>
 
             <div class="portlet-body" id="rs-busqueda">
-                <div class="note note-danger" ng-show="f1">
-                    <h4 class="block">Error para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
-                    <div class="row" id="response-failed">
-                    </div>
-                </div>
-                <div class="note note-success"  ng-show="f2">
-                    <h4 class="block">BIen para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
-                    <div class="row" id="response-success">
-                    </div>
-                </div>
                 <div class="table-scrollable table-scrollable-borderless">
                     <table class="table table-hover table-light">
                         <thead>

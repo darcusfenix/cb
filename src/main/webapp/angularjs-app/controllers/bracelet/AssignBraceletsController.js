@@ -186,17 +186,17 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
         return total;
     };
     $scope.showResponse = function () {
-        console.log($scope.deliveryBraceletResumen)
+        
         for (var i = 0; i < Object.keys($scope.responseList).length; i++) {
 
             if (typeof $scope.responseList[i] !== 'undefined') {
                 if ($scope.responseList[i].status == 0) {
                     $scope.f1 = true;
-                    $("#response-failed").append('<h5 style="padding-left: 20px;" class="block"> SERIE ' + $scope.responseList[i].idCost + ' ->' + $scope.responseList[i].message + '</h5>');
+                    $("#response-failed").append('<h5 style="padding-left: 20px;" class="block"> SERIE ' + $scope.responseList[i].idCost + ' ->' + $scope.responseList[i].mensaje + '</h5>');
                 }
                 if ($scope.responseList[i].status == 1) {
                     $scope.f2 = true;
-                    $("#response-success").append('<h5  style="padding-left: 20px;" class="block"> SERIE ' + $scope.responseList[i].idCost + ' ->' + $scope.responseList[i].message + '</h5>');
+                    $("#response-success").append('<h5  style="padding-left: 20px;" class="block"> SERIE ' + $scope.responseList[i].idCost + ' ->' + $scope.responseList[i].mensaje + '</h5>');
                 }
             }
         }
