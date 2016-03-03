@@ -99,7 +99,8 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                         files: [
                             BASE_URL + 'angularjs-app/resources/CircuitResource.js',
                             BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
-                            BASE_URL + 'angularjs-app/controllers/salesman/SalesmanHistoryCashOutController.js'
+                            BASE_URL + 'angularjs-app/controllers/salesman/SalesmanHistoryCashOutController.js',
+                            BASE_URL + 'angularjs-app/directives/ReportPDFDirective.js'
                         ]
                     });
                 }]

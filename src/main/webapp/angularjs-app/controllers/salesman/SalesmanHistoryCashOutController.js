@@ -1,4 +1,3 @@
-
 function SalesmanHistoryCashOutController($scope, $filter, Bracelet) {
 
     $scope.historyList = [];
@@ -23,7 +22,7 @@ function SalesmanHistoryCashOutController($scope, $filter, Bracelet) {
             App.unblockUI("#p-b-history-bracelets");
             $scope.getMyAssignments();
 
-            for (var i = 0; i < $scope.historyList.length; i++){
+            for (var i = 0; i < $scope.historyList.length; i++) {
                 $scope.historyList[i][0] = $filter('date')($scope.historyList[i][0], 'yyyy-MM-dd hh:mm:ss a', 'GMT+/-6:00');
             }
 
@@ -41,8 +40,8 @@ function SalesmanHistoryCashOutController($scope, $filter, Bracelet) {
 
     $scope.getTotalByCurrentDate = function () {
         var t = 0;
-        for (var i = 0; i < $scope.currentResumen.length; i++){
-                t += $scope.currentResumen[i][1];
+        for (var i = 0; i < $scope.currentResumen.length; i++) {
+            t += $scope.currentResumen[i][1];
         }
         return t;
     };
@@ -59,8 +58,8 @@ function SalesmanHistoryCashOutController($scope, $filter, Bracelet) {
 
     $scope.getTotalByCostSelected = function (id) {
         var t = 0;
-        for (var i = 0; i < $scope.currentResumen.length; i++){
-            if($scope.currentResumen[i][2].id == id)
+        for (var i = 0; i < $scope.currentResumen.length; i++) {
+            if ($scope.currentResumen[i][2].id == id)
                 t += $scope.currentResumen[i][1];
         }
         return t;
