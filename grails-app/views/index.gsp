@@ -116,6 +116,10 @@
 
 <script src="${resource(dir: 'rs/global/plugins/', file: 'moment.min.js')}"
         type="text/javascript"></script>
+<script src="${resource(dir: 'rs/pdf/', file: 'jspdf.min.js')}"
+        type="text/javascript"></script>
+<script src="${resource(dir: 'rs/pdf/', file: 'html2canvas.min.js')}"
+        type="text/javascript"></script>
 
 <!-- BEGIN CORE ANGULARJS PLUGINS -->
 <script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'angular.min.js')}" type="text/javascript"></script>
