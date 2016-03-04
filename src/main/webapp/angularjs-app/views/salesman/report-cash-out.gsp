@@ -68,6 +68,10 @@
             </div>
             <div class="portlet-body">
                 <div class="row text-right margin-bottom-20 margin-right-10">
+                    <div class="row text-center">
+                        <a href="#static" class="btn btn-sm purple" ng-click="null" ng-show="reportList.length > 0"
+                           data-toggle="modal">Generar corte de caja</a>
+                    </div>
                     <div class="col-md-6 text-left content-exp">
                         <div class="rec-exp"
                              style="background-color: #03D511"></div> <label>Brazalete seleccionado

@@ -13,7 +13,7 @@ dataSource:
     dialect : org.hibernate.dialect.PostgreSQLDialect
     username: postgres
     password: 2706
-    logSql: true
+    logSql: false
 
 
 

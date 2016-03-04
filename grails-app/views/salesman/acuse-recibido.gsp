@@ -23,20 +23,25 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 text-center">
-                <img src="https://capitalbus.mx/capitalbus/global/foundr/img/logo.png" style="margin-top: 12px" alt="logo" class="logo-default">
+                <img src="https://capitalbus.mx/capitalbus/global/foundr/img/logo.png" style="margin-top: 12px"
+                     alt="logo" class="logo-default">
             </div>
+
             <div class="col-md-6 text-center">
                 <h6 class="text-right">Capital bus 2016</h6>
+
                 <h3 id="name-salesman">${salesman.firstName}  ${salesman.lastName}</h3>
                 <h5 class="text-right">Acuse de recibido - Corte de caja</h5>
                 <h5 class="text-right">${date}</h5>
             </div>
         </div>
+
         <div class="row" style="margin-top: 50px;">
             <div class="col-md-12">
                 <h5><b>Corte de caja generado con fecha: ${date}</b></h5>
             </div>
         </div>
+
         <div class="row" style="margin-top: 50px;">
             <div class="col-md-12">
                 <table class="table table-striped">
@@ -51,20 +56,21 @@
                     <tr>
                         <td>Total de brazaletes</td>
                         <g:each var="serie" in="${resultados}">
-                            <td  class="text-right">${serie[1]}</td>
+                            <td class="text-right">${serie[1]}</td>
                         </g:each>
-                        <td  class="text-right">
+                        <td class="text-right">
                             ${totalBracelets}
                         </td>
                     </tr>
                     <tr>
-                        <td>Total </td>
+                        <td>Total</td>
                         <g:each var="serie" in="${resultados}">
-                            <td  class="text-right">
-                                <g:formatNumber number="${serie[1] * serie[2].cost}" type="currency" currencyCode="USD" />
+                            <td class="text-right">
+                                <g:formatNumber number="${serie[1] * serie[2].cost}" type="currency"
+                                                currencyCode="USD"/>
                             </td>
                         </g:each>
-                        <td  class="text-right">
+                        <td class="text-right">
                             <g:formatNumber number="${totalMoney}" type="currency" currencyCode="USD"/>
                         </td>
                     </tr>
@@ -72,12 +78,14 @@
                 </table>
             </div>
         </div>
+
         <div class="row" style="margin-top: 350px;">
             <div class="col-md-6 text-center">
                 <h4>${salesman.firstName}  ${salesman.lastName}</h4>
                 <hr style="border: 1px  solid black; margin-top: 85px"/>
                 <h6>nombre y firma</h6>
             </div>
+
             <div class="col-md-6 text-center">
                 <h4>JUAN CRISÓSTOMO VÁZQUEZ</h4>
                 <hr style="border: 1px  solid black; margin-top: 85px"/>
