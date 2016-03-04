@@ -8,6 +8,7 @@ import mx.capitalbus.app.bracelet.BraceletState
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
 
+import java.text.ParseException
 import java.text.SimpleDateFormat
 
 /**
@@ -118,7 +119,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
     @Override
     def getHistoryBySalesmanYesSold(String sd, String ed, long id, String ss) {
         Date start, end
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
+      //  TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 
         Calendar now = Calendar.getInstance();
@@ -131,21 +132,26 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.DAY_OF_MONTH, -29);
             start = now.getTime()
         } else {
+            try
+            {
+                now.setTime(sdf.parse(ed));
+                now.set(Calendar.HOUR, 23);
+                now.set(Calendar.MINUTE, 59);
+                now.set(Calendar.SECOND, 59);
+                now.set(Calendar.HOUR_OF_DAY, 23);
 
-            now.setTime(sdf.parse(ed));
-            now.set(Calendar.HOUR, 23);
-            now.set(Calendar.MINUTE, 59);
-            now.set(Calendar.SECOND, 59);
-            now.set(Calendar.HOUR_OF_DAY, 23);
+                end = now.getTime()
 
-            end = now.getTime()
+                now.setTime(sdf.parse(sd));
+                now.set(Calendar.HOUR, 0);
+                now.set(Calendar.MINUTE, 0);
+                now.set(Calendar.SECOND, 0);
+                now.set(Calendar.HOUR_OF_DAY, 0);
+                start = now.getTime()
 
-            now.setTime(sdf.parse(sd));
-            now.set(Calendar.HOUR, 0);
-            now.set(Calendar.MINUTE, 0);
-            now.set(Calendar.SECOND, 0);
-            now.set(Calendar.HOUR_OF_DAY, 0);
-            start = now.getTime()
+            }catch(ParseException e) {
+
+            }
         }
 
         def results
@@ -163,7 +169,14 @@ class BraceletRepositoryImpl implements BraceletRepository {
                 eq("salesman", Salesman.findById(id))
                 eq("sold", true)
                 if (ss) {
-                    def a = sdf.parse(ss)
+                    def a
+                    try
+                    {
+                        a = sdf.parse(ss)
+                    }catch(ParseException pe) {
+                        a = new Date()
+                    }
+
                     now.setTime(a);
                     now.add(Calendar.SECOND, 1);
                     def e = now.getTime()
