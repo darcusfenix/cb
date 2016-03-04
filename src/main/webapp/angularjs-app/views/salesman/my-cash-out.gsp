@@ -29,14 +29,14 @@
                             <td class="text-center">{{h[0]}}</td>
                             <td class="text-center">{{h[1]| number}}</td>
                             <td class="text-center">
-                                <a href="#static" ng-click="getResumen(h[0])" class="btn btn-circle btn-success" data-toggle="modal">
+                                <a href="#static" ng-click="getResumen(h[0])" class="btn btn-circle btn-success  btn-sm" data-toggle="modal">
                                     Ver detalles
                                 </a>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-circle btn-small btn-success ">
+                                <a href="${request.contextPath}/vendedor/acuse/{{h[0]}}" target="_blank"  class="btn btn-circle btn-small purple btn-sm ">
                                     Obtener acuse
-                                </button>
+                                </a>
                             </td>
                         </tr>
                         </tbody>
@@ -79,7 +79,7 @@
                                 </tr>
                                 <tr>
                                     <td>Total de ventas:</td>
-                                    <td class="text-center" ng-repeat="current in currentResumen" directive-report-pdf>
+                                    <td class="text-center" ng-repeat="current in currentResumen">
                                         {{getTotalByCostSelected(current[2].id) * current[2].cost | currency}}
                                     </td>
                                     <td class="text-center">{{ getTotalSold() | currency}}</td>
@@ -92,20 +92,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn purple">Cerrar</button>
-                <button type="button" class="btn purple btn-get-report">Obtener acuse</button>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="row" id="cabecera">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="https://capitalbus.mx/capitalbus/global/foundr/img/logo.png" style="margin-top: 12px" alt="logo" class="logo-default">
-        </div>
-        <div class="col-md-6 text-right padding-tb-10">
-            <h4>Acuse de recibido: </h4>
-            <h5><b>{{d}}</b></h5>
         </div>
     </div>
 </div>

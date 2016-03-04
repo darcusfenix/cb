@@ -73,16 +73,13 @@ function SalesmanHistoryCashOutController($scope, $filter, Bracelet) {
                 boxed: !0,
                 message: "Cargando..."
             });
-
         Bracelet.getBraceletsYesSold({
             "ss": d
         }, function (data) {
             $scope.currentResumen = data;
             App.unblockUI("#p-b-history-bracelets");
         }, function (err) {
-
             console.log(err)
-
         });
     };
 }
