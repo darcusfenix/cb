@@ -25,15 +25,19 @@
                             <th class="text-center"
                                 ng-repeat="avaliblecost in avalibleCostsList">SERIE {{avaliblecost[0].id}}</th>
                             <th class="text-center">Total</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="h in historyList">
                             <td class="text-center">{{$index + 1}}</td>
-                            <td class="text-center">{{h[1] | date:'yyyy-MM-dd hh:mm:ss a' : 'GMT+/-6:00'}}</td>
+                            <td class="text-center">{{h[1] | date:'yyyy-MM-dd hh:mm:ss a' }}</td>
                             <th class="text-center"
                                 ng-repeat="avaliblecost in avalibleCostsList">{{getTotalBySerie(h[1], avaliblecost[0].id) | number}}</th>
                             <td class="text-center">{{h[0]| number}}</td>
+                            <td class="text-center">
+                                <a class="btn btn-circle btn-small purple btn-sm"  href="${request.contextPath}/vendedor/acuse/asignacion/{{h[1] | date:'yyyy-MM-dd hh:mm:ss a'}}" target="_blank">Ver acuse</a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

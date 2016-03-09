@@ -34,7 +34,7 @@
                                 </a>
                             </td>
                             <td class="text-center">
-                                <a href="${request.contextPath}/vendedor/acuse/{{h[0]}}" target="_blank"  class="btn btn-circle btn-small purple btn-sm ">
+                                <a href="${request.contextPath}/vendedor/acuse/corte-caja/{{h[0]}}" target="_blank"  class="btn btn-circle btn-small purple btn-sm ">
                                     Obtener acuse
                                 </a>
                             </td>

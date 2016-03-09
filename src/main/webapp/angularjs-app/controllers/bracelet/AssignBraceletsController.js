@@ -113,10 +113,12 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
     $scope.validate = function () {
         var z = 0;
         for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++) {
+            /*
             if (($scope.deliveryBraceletResumen[i].endsRange - $scope.deliveryBraceletResumen[i].startRange) <= 0
                 || $scope.deliveryBraceletResumen[i].endsRange < $scope.deliveryBraceletResumen[i].startRange) {
                 z++
             }
+
             if (i > 0) {
                 if (
                     ( ($scope.deliveryBraceletResumen[i - 1].endsRange + $scope.deliveryBraceletResumen[i - 1].startRange) >=
@@ -131,6 +133,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
                     z++
                 }
             }
+            */
         }
         return (z == 0 ? true : false)
     };

@@ -16,7 +16,7 @@ function createPDF() {
                 unit: 'px',
                 format: 'a4'
             });
-        doc.addImage(img, 'JPEG', 20, 20);
+        doc.addImage(img, 'PNG', 20, 20);
         doc.save('acuse-' + $("#name-salesman").text().toLowerCase() + '.pdf');
         form.width(cache_width);
     });

@@ -143,7 +143,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn red" >Cancelar</button>
-                <a href="#stack1"  class="btn green" data-toggle="modal" ng-click="null" ng-show="validate()">
+                <a href="#stack1"  class="btn green" data-toggle="modal" ng-click="null" ng-show="getTotal() > 0 ? true : false">
                     Asignar
                 </a>
             </div>
