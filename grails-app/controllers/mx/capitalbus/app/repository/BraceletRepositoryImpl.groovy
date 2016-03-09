@@ -75,7 +75,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 
-        println(sd + "          ----------------------                   " + ed)
+
 
         Calendar now = Calendar.getInstance();
         if (sd == null && ed == null) {
@@ -85,7 +85,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.HOUR_OF_DAY, 0);
             start = now.getTime()
             end = new Date()
-            println("" + start + "          ----------------------                   " + end + "")
+
         } else {
 
             now.setTime(sdf.parse(ed));
@@ -102,7 +102,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.SECOND, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
             start = now.getTime()
-            println("" + start + "          ----------------------                   " + end + "")
+
         }
 
 
@@ -112,14 +112,13 @@ class BraceletRepositoryImpl implements BraceletRepository {
             (salesman == s) && (costBracelet == cb) && (sold == false) && (deliveryDate >= start && deliveryDate <= end)
         }
         results = query.order('id', 'asc').list()
-        println("-------------------------------------->" + results.size())
+
         results
     }
 
     @Override
     def getHistoryBySalesmanYesSold(String sd, String ed, long id, String ss) {
         Date start, end
-      //  TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 
         Calendar now = Calendar.getInstance();
@@ -314,6 +313,70 @@ class BraceletRepositoryImpl implements BraceletRepository {
         }
 
         return -1
+    }
+
+    @Override
+    def getBySalesmanAndDate(Salesman s, String sd, boolean f) {
+        Date start, end
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(sdf.parse(sd));
+        start = now.getTime()
+
+        now.add(Calendar.SECOND, 1);
+        end = now.getTime()
+
+
+
+        def results
+        def query = Bracelet.where {
+            salesman == s
+            if (f){
+                (soldDate >= start && soldDate <= end)
+            }else{
+                (deliveryDate >= start && deliveryDate <= end)
+            }
+        }
+        results = query.order('id', 'asc').list()
+        results
+    }
+    @Override
+    def getCostBraceletsBySalesman(Salesman s, String sd, boolean f) {
+        Date start, end
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(sdf.parse(sd));
+        start = now.getTime()
+
+        now.add(Calendar.SECOND, 1);
+        end = now.getTime()
+
+        def results
+        def query = Bracelet.createCriteria()
+        results = query.list {
+            projections {
+                    groupProperty('costBracelet')
+                    count("costBracelet")
+            }
+            and {
+                eq("salesman", s)
+                if (f){
+                    eq("sold",f)
+                    between("soldDate", start, end)
+                }else{
+                    between("deliveryDate", start, end)
+                }
+            }
+            order("costBracelet", "asc")
+        }
+
+        println("##################################### -------------> " + results)
+
+        results
     }
 
 }

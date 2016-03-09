@@ -40,29 +40,62 @@ class SalesmanController {
         render (r as JSON)
     }
 
-    def acuseRecibido() {
+    def acuseRecibidoCorteCaja() {
 
-        def sd = params.sd
-        def ed = params.ed
         def ss = params.ss
 
         def principal = springSecurityService.principal
         long id = principal.id
 
         def results = []
+        def series = []
         def totalBracelets = 0
         def totalMoney = 0
+        def s = Salesman.findById(id)
 
-        results = braceletRepository.getHistoryBySalesmanYesSold(sd, ed, id, ss)
+        results = braceletRepository.getBySalesmanAndDate(s, ss, true)
+        series = braceletRepository.getCostBraceletsBySalesman(s, ss, true)
 
-        results.each { i ->
-            totalBracelets += i[1]
-            totalMoney += i[1] * i[2].cost
+        series.each { item ->
+            totalBracelets += item[1]
+            totalMoney += item[0].cost * item[1]
         }
 
-        def s = Salesman.findById(id)
+        log.error(results)
+
+
         if (results)
-            render(view:"acuse-recibido",  model: [ resultados : results, salesman : s, date : ss, totalBracelets : totalBracelets, totalMoney : totalMoney])
+            render(view: "acuse-recibido-cj", model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series])
+        else
+            redirect(uri: "/")
+    }
+
+    def acuseRecibidoAsignacion() {
+
+        def ss = params.ss
+
+        def principal = springSecurityService.principal
+        long id = principal.id
+
+        def results = []
+        def series = []
+        def totalBracelets = 0
+        def totalMoney = 0
+        def s = Salesman.findById(id)
+
+        results = braceletRepository.getBySalesmanAndDate(s, ss, false)
+        series = braceletRepository.getCostBraceletsBySalesman(s, ss, false)
+
+        series.each { item ->
+            totalBracelets += item[1]
+            totalMoney += item[0].cost * item[1]
+        }
+
+        log.error(results)
+
+
+        if (results)
+            render(view:"acuse-recibido-as",  model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series])
         else
             redirect(uri: "/")
     }

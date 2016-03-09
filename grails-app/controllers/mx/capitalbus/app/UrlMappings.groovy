@@ -33,6 +33,7 @@ class UrlMappings {
 
         "/costBracelet/circuit/$id"(controller: 'costBracelet', action: 'costBraceletByCircuit')
 
-        "/vendedor/acuse/$ss"(view: 'salesman/acuse-recibido', controller: 'salesman', action: 'acuseRecibido')
+        "/vendedor/acuse/corte-caja/$ss"(view: 'salesman/acuse-recibido-cj', controller: 'salesman', action: 'acuseRecibidoCorteCaja')
+        "/vendedor/acuse/asignacion/$ss"(view: 'salesman/acuse-recibido-as', controller: 'salesman', action: 'acuseRecibidoAsignacion')
     }
 }

@@ -15,4 +15,6 @@ interface BraceletRepository {
     def getHistoryBySalesmanYesSold(String sd, String ed, long id, String ss)
     def validarSubida(String code, long bus, float lan, float lat)
     def validarBajada(String code, long bus, float lan, float lat)
+    def getBySalesmanAndDate(Salesman id, String sd, boolean f)
+    def getCostBraceletsBySalesman(Salesman s, String sd, boolean f)
 }
