@@ -260,7 +260,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         if (r.braceletState.id == 5l) {
             return 7
         }
-        return -1
+        return 14
     }
 
     @Override
@@ -312,7 +312,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             return 13
         }
 
-        return -1
+        return 14
     }
 
     @Override

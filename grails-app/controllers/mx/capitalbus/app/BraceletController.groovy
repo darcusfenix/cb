@@ -179,7 +179,7 @@ class BraceletController {
             render(["message": "hubo un error"] as JSON)
     }
 
-    @Secured(value = ["hasRole('ROLE_ADMIN_CONTROL_BRACELET')"], httpMethod = 'POST')
+    @Secured(value = 'permitAll', httpMethod = 'POST')
     def verifyCodeWithScannerFirst() {
 
         String code = params.code
@@ -197,13 +197,10 @@ class BraceletController {
 
         def r = braceletService.getResponse(res);
 
-        if (res < 6 && res == 7)
-            response.status = 500
-
         render(r as JSON)
     }
 
-    @Secured(value = ["hasRole('ROLE_ADMIN_CONTROL_BRACELET')"], httpMethod = 'POST')
+    @Secured(value = 'permitAll', httpMethod = 'POST')
     def verifyCodeWithScannerSecond() {
 
         String code = params.code
@@ -220,9 +217,6 @@ class BraceletController {
             res = 12
 
         def r = braceletService.getResponse(res);
-
-        if (res < 6 && res == 7)
-            response.status = 500
 
         render(r as JSON)
     }
