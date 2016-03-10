@@ -177,9 +177,11 @@ class BraceletService {
     def getResponse(Integer res) {
         def r
         switch (res) {
+            /*
             case -1:
                 r = ["estado": "error", "codigo": res, "mensaje": "desconocido"]
                 break
+                }*/
             case 0:
                 r = ["estado": "error", "codigo": res, "mensaje": "el código no existe"]
                 break
@@ -221,6 +223,9 @@ class BraceletService {
                 break
             case 13:
                 r = ["estado": "error", "codigo": res, "mensaje": "el brazalete tiene estado de bajada"]
+                break
+            case 14:
+                r = ["estado": "error", "codigo": res, "mensaje": "desconocido"]
                 break
         }
         r
