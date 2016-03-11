@@ -5,6 +5,7 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.userdetails.GrailsUserDetailsService
 import grails.plugin.springsecurity.userdetails.NoStackUsernameNotFoundException
 import mx.capitalbus.app.security.User
+import mx.capitalbus.app.user.Salesman
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -30,6 +31,8 @@ class MyUserDetailsService implements GrailsUserDetailsService {
 
         User user = User.findByUsername(username)
 
+        Salesman s = Salesman.findById(user.id)
+
         if (!user) throw new NoStackUsernameNotFoundException()
 
         def authorities = user.authorities.collect {
@@ -38,7 +41,6 @@ class MyUserDetailsService implements GrailsUserDetailsService {
 
         return new MyUserDetails(user.username, user.password, user.enabled,
                 !user.accountExpired, !user.passwordExpired,
-                !user.accountLocked, authorities ?: NO_ROLES, user.id,
-                user.email)
+                !user.accountLocked, authorities ?: NO_ROLES, user.id, s ? s.firstName + " " + s.lastName : user.email)
     }
 }

@@ -75,7 +75,7 @@ class BraceletService {
 
     def String getStringOfCSV(String date) {
         String mapCVS = null;
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
+      //  TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 
         def d = dateParser.parse(date)
@@ -114,8 +114,8 @@ class BraceletService {
             for (String p : object) {
                 def j = JSON.parse(p)
                 Integer i = j.idCost
-                long sr = j.startRange
-                long er = j.endsRange
+                long sr = j.startRange ? j.startRange : 0
+                long er = j.endsRange ? j.endsRange : 0
 
                 def serie = CostBracelet.findById(i)
                 def query = Bracelet.where {

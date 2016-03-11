@@ -49,15 +49,15 @@
             <div class="col-md-6">
                 <table>
                     <tr>
-                        <td>FECHA:</td>
+                        <td>FECHA: </td>
                         <td>${date}</td>
                     </tr>
                     <tr>
-                        <td>AUDÍFONOS:</td>
+                        <td>AUDÍFONOS: </td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>PROMOTOR</td>
+                        <td>PROMOTOR: </td>
                         <td><b id="name-salesman">${salesman.firstName}  ${salesman.lastName}</b></td>
                     </tr>
                 </table>

@@ -373,9 +373,6 @@ class BraceletRepositoryImpl implements BraceletRepository {
             }
             order("costBracelet", "asc")
         }
-
-        println("##################################### -------------> " + results)
-
         results
     }
 

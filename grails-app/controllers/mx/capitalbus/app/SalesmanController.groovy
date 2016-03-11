@@ -61,9 +61,6 @@ class SalesmanController {
             totalMoney += item[0].cost * item[1]
         }
 
-        log.error(results)
-
-
         if (results)
             render(view: "acuse-recibido-cj", model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series])
         else
@@ -90,9 +87,6 @@ class SalesmanController {
             totalBracelets += item[1]
             totalMoney += item[0].cost * item[1]
         }
-
-        log.error(results)
-
 
         if (results)
             render(view:"acuse-recibido-as",  model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series])

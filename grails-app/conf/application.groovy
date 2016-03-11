@@ -13,11 +13,17 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/**/favicon.ico',            access: ['permitAll']],
         [pattern: '/login',                     access: ['permitAll']],
         [pattern: '/login/**',                  access: ['permitAll']],
+        [pattern: '/api/autobus/brazalete/subida',  access: ['permitAll']],
+        [pattern: '/api/autobus/brazalete/bajada',  access: ['permitAll']],
         [pattern: '/logout',                    access: ['ROLE_SUPER_ADMIN', 'ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET']],
         [pattern: '/logout/**',                 access: ['ROLE_SUPER_ADMIN', 'ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET']],
         [pattern: '/static',                    access: ['ROLE_SUPER_ADMIN', 'ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET']],
         [pattern: '/static/**',                 access: ['ROLE_SUPER_ADMIN', 'ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET']],
         [pattern: '/angularjs-app/views/**',    access: ['ROLE_SUPER_ADMIN', 'ROLE_SALESMAN', 'ROLE_ADMIN_CONTROL_BRACELET']]
+]
+grails.plugin.springsecurity.interceptUrlMap = [
+        [pattern: '/api/autobus/brazalete/subida/**',  access: ['permitAll']],
+        [pattern: '/api/autobus/brazalete/bajada/**',  access: ['permitAll']]
 ]
 
 grails.plugin.springsecurity.securityConfigType = "Annotation"

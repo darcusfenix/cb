@@ -18,7 +18,6 @@ import mx.capitalbus.app.user.SuperAdmin
 class BootStrap {
 
     def init = { servletContext ->
-
     }
     def destroy = {
     }
