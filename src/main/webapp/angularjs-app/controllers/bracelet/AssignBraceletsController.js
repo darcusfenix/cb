@@ -154,6 +154,7 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
             App.unblockUI();
 
             $scope.showResponse();
+            $('body').scrollTop(0);
         }, function (err) {
             App.unblockUI();
         });
@@ -162,8 +163,8 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
         var jsonText = '[';
         for (var i = 0; i < $scope.deliveryBraceletResumen.length; i++) {
             jsonText += '{"idCost":"' + $scope.deliveryBraceletResumen[i].idCost
-                + '", "startRange":"' + $scope.deliveryBraceletResumen[i].startRange
-                + '", "endsRange":"' + $scope.deliveryBraceletResumen[i].endsRange
+                + '", "startRange":"' + (Number.isInteger($scope.deliveryBraceletResumen[i].startRange) ?  $scope.deliveryBraceletResumen[i].startRange : 0)
+                + '", "endsRange":"' + (Number.isInteger($scope.deliveryBraceletResumen[i].endsRange) ? $scope.deliveryBraceletResumen[i].endsRange : 0)
                 + '"}';
             if (i < $scope.deliveryBraceletResumen.length - 1)
                 jsonText += ','

@@ -242,6 +242,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
                 App.unblockUI();
                 $scope.reportList = [];
                 $scope.successSave = true;
+                $('body').scrollTop(0);
             }, function (err) {
 
             });
