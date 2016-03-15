@@ -90,7 +90,6 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
             $scope.braceletNotSoldList = data;
             App.unblockUI("#corte");
             $scope.addToReportOnlyScanned();
-            $scope.successSave = false;
         }, function (err) {
         });
     };
@@ -142,6 +141,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
                 }
     };
     $scope.addToReport = function (idCost, idBracelet) {
+        $scope.successSave = false;
         var tem = {
             "idCost": idCost,
             "idBracelet": idBracelet,
@@ -243,6 +243,7 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
                 $scope.reportList = [];
                 $scope.successSave = true;
                 $('body').scrollTop(0);
+                $scope.getBraceletsNotSold($scope.idCost);
             }, function (err) {
 
             });

@@ -3,37 +3,45 @@
     background-color: #03D511;
     color: white;
 }
-.scanning-bus{
+
+.scanning-bus {
     background-color: #ff0000;
     color: white;
 }
+
 .rec-exp {
     width: 15px;
     height: 15px;
     padding: 0;
     margin: 0;
 }
-.content-exp label{
+
+.content-exp label {
     padding-top: 3px;
 }
+
 .content-exp div, .content-exp label {
     display: inline-block;
     vertical-align: middle;
 }
 </style>
+
 <div class="row">
-    <div class="note note-success"  ng-show="successSave">
+    <div class="note note-success" ng-show="successSave">
         <h4 class="block">Se ha guardado el corte de caja correctamente</h4>
     </div>
 </div>
+
 <div class="row widget-row" data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
 </div>
+
 <div class="row margin-bottom-20 margin-right-10 text-center">
     <div class="col-md-4 col-md-offset-2 text-left">
         <a href="javascript:;" class="btn btn-sm red easy-pie-chart-reload uppercase text-left">
             Selecciona los Brazaletes que vendiste hoy
         </a>
     </div>
+
     <div class="col-md-4 col-md-offset-2">
         <div id="dashboard-report-range" class="pull-right tooltips btn btn-fit-height green" data-placement="top"
              data-original-title="Change dashboard date range">
@@ -43,6 +51,7 @@
         </div>
     </div>
 </div>
+
 <div class="row ">
     <div class="col-md-12" id="corte">
         <div class="portlet light bordered">
@@ -66,20 +75,27 @@
                     </li>
                 </ul>
             </div>
+
             <div class="portlet-body">
                 <div class="row text-right margin-bottom-20 margin-right-10">
                     <div class="row text-center">
                         <a href="#static" class="btn btn-sm purple" ng-click="null" ng-show="reportList.length > 0"
                            data-toggle="modal">Generar corte de caja</a>
                     </div>
+
                     <div class="col-md-6 text-left content-exp">
                         <div class="rec-exp"
                              style="background-color: #03D511"></div> <label>Brazalete seleccionado
-                        <b class="text-success" ng-show="checkboxModelFilter.selected">Se están mostrando solo los seleccionados</b>  </label><br>
+                        <b class="text-success"
+                           ng-show="checkboxModelFilter.selected">Se están mostrando solo los seleccionados</b>
+                    </label><br>
+
                         <div class="rec-exp"
                              style="background-color: #ff0000"></div> <label>Brazalete escaneado en el Autobús
-                        <b  class="text-danger" ng-show="checkboxModelFilter.scanningBus">Se están mostrando solo los escaneados</b></label>
+                        <b class="text-danger"
+                           ng-show="checkboxModelFilter.scanningBus">Se están mostrando solo los escaneados</b></label>
                     </div>
+
                     <div class="col-md-6">
                         <div class="actions">
                             <div class="btn-group">
@@ -101,6 +117,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-content"
                      style="{{braceletNotSoldList.length > 0 ? 'height: 500px; overflow-y: auto' : ''}}">
                     <div ng-repeat="avaliblecost in avalibleCostsList"
@@ -112,13 +129,14 @@
                                  bs-bg-color="{{colors[avaliblecost[0].id - 1 ].bg}}"
                                  ng-click="addToReport(avaliblecost[0].id,bracelet.id)"
                                  ng-hide="(checkboxModelFilter.selected && ( !verify(bracelet.id)  || bracelet.activationDate != null)) || (checkboxModelFilter.scanningBus && ( !verify(bracelet.id)  || bracelet.activationDate == null) )">
-                                <div class="color-view {{verify(bracelet.id) ? 'active-sold' : ''}}  {{bracelet.activationDate != null ? 'scanning-bus' : ''}}" >{{bracelet.id}}</div>
+                                <div class="color-view {{verify(bracelet.id) ? 'active-sold' : ''}}  {{bracelet.activationDate != null ? 'scanning-bus' : ''}}">{{bracelet.id}}</div>
 
                                 <div class="color-info c-font-14 sbold">{{bracelet.code}}</div>
                             </div>
 
                         </div>
                     </div>
+
                     <div class="tab-pane" id="portlet_serie_resumen">
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
@@ -160,6 +178,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="tab-pane" id="portlet_serie_resumen_selected">
                         <div class="mt-comments">
                             <div class="mt-comment" ng-repeat="avaliblecost in avalibleCostsList">
