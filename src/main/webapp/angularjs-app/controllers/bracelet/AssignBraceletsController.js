@@ -2,7 +2,7 @@
  * Created by becm on 2/17/16.
  */
 
-function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman, Bracelet, Circuit, KindPerson, DaysDuration) {
+function AssignBraceletsController($rootScope, $scope, $http, $filter, Salesman, Bracelet, Circuit, KindPerson, DaysDuration) {
 
     $scope.$on('$viewContentLoaded', function () {
         App.initAjax();
@@ -203,6 +203,10 @@ function AssignBraceletsController($rootScope, $scope, $http, $timeout, Salesman
                     $("#response-success").append('<h5  style="padding-left: 20px;" class="block"> SERIE ' + $scope.responseList[i].idCost + ' ->' + $scope.responseList[i].mensaje + '</h5>');
                 }
             }
+        }
+        if ($scope.responseList.fecha) {
+            $scope.responseList.fecha = $filter('date')($scope.responseList.fecha, 'yyyy-MM-dd hh:mm:ss a');
+            $("#response-btn").html('<a class="btn purple btn-sm"  href="/vendedor/acuse/asignacion/'+$scope.responseList.fecha+'?idS='+$scope.salesmanSelected.id+'" target="_blank">VER ACUSE</a>');
         }
         $scope.updataTotalSeries();
     };

@@ -1,16 +1,26 @@
 <div class="row">
+
+
+    <div class="row text-center" id="response-btn">
+    </div>
+
     <div class="note note-danger" ng-show="f1">
         <h4 class="block">Error para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+
         <div class="row" id="response-failed">
         </div>
     </div>
-    <div class="note note-success"  ng-show="f2">
+
+    <div class="note note-success" ng-show="f2">
         <h4 class="block">BIen para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+
         <div class="row" id="response-success">
         </div>
     </div>
+
 </div>
-<div class="row widget-row"  data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
+
+<div class="row widget-row" data-ng-include="'angularjs-app/views/bracelet/tpl/resume-bracelets.gsp'">
 </div>
 
 <div class="row center">
@@ -64,7 +74,8 @@
                             <td>{{salesman.email}}</td>
                             <td>{{salesman.username}}</td>
                             <td class="text-center">
-                                <a ng-click="selectSalesman(salesman)" class="btn " data-toggle="modal" href="#asignar">Asignar</a>
+                                <a ng-click="selectSalesman(salesman)" class="btn " data-toggle="modal"
+                                   href="#asignar">Asignar</a>
                             </td>
                         </tr>
                     </table>
@@ -80,36 +91,40 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Seleccione el rango de IDENTIFICADOR de entrega para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b></h4>
+                <h4 class="modal-title">Seleccione el rango de IDENTIFICADOR de entrega para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b>
+                </h4>
 
             </div>
+
             <div class="modal-body">
                 <div class="row">
                     <div class="table-scrollable table-scrollable-borderless">
                         <table class="table table-hover table-light">
                             <thead>
-                                <th class="font-blue text-uppercase  text-center">
+                            <th class="font-blue text-uppercase  text-center">
 
-                                </th>
-                                <th class="font-blue text-uppercase  text-center">
-                                    inicio
-                                </th>
-                                <th class="font-blue text-uppercase  text-center">
-                                    fin
-                                </th>
-                                <th class="font-blue text-uppercase  text-center">
-                                    total de brazaletes
-                                </th>
+                            </th>
+                            <th class="font-blue text-uppercase  text-center">
+                                inicio
+                            </th>
+                            <th class="font-blue text-uppercase  text-center">
+                                fin
+                            </th>
+                            <th class="font-blue text-uppercase  text-center">
+                                total de brazaletes
+                            </th>
                             </thead>
                             <tr ng-repeat="avaliblecost in avalibleCostsList">
                                 <td class="text-left">
                                     Serie {{deliveryBraceletResumen[$index].idCost}}
                                 </td>
                                 <td>
-                                    <input type="number" min="1" placeholder="Inicio del rango" class="form-control" ng-model="deliveryBraceletResumen[$index].startRange">
+                                    <input type="number" min="1" placeholder="Inicio del rango" class="form-control"
+                                           ng-model="deliveryBraceletResumen[$index].startRange">
                                 </td>
                                 <td>
-                                    <input type="number" min="1" placeholder="Fin del rango" class="form-control" ng-model="deliveryBraceletResumen[$index].endsRange">
+                                    <input type="number" min="1" placeholder="Fin del rango" class="form-control"
+                                           ng-model="deliveryBraceletResumen[$index].endsRange">
                                 </td>
                                 <td class="text-center">
                                     <span ng-class=" ( deliveryBraceletResumen[$index].endsRange < deliveryBraceletResumen[$index].startRange )
@@ -138,12 +153,15 @@
                         </table>
 
                     </div>
-                    <span class="text-danger" ng-hide="validate()">Hay errores de validación, verifique que los números correspondan al rango de los brazaletes</span>
+                    <span class="text-danger"
+                          ng-hide="validate()">Hay errores de validación, verifique que los números correspondan al rango de los brazaletes</span>
                 </div>
             </div>
+
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn red" >Cancelar</button>
-                <a href="#stack1"  class="btn green" data-toggle="modal" ng-click="null" ng-show="getTotal() > 0 ? true : false">
+                <button type="button" data-dismiss="modal" class="btn red">Cancelar</button>
+                <a href="#stack1" class="btn green" data-toggle="modal" ng-click="null"
+                   ng-show="getTotal() > 0 ? true : false">
                     Asignar
                 </a>
             </div>
@@ -157,8 +175,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Por favor confirme la siguiente asignación para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b> </h4>
+                <h4 class="modal-title">Por favor confirme la siguiente asignación para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b>
+                </h4>
             </div>
+
             <div class="modal-body">
                 <div class="table-scrollable table-scrollable-borderless">
                     <table class="table table-hover table-light">
@@ -214,9 +234,10 @@
                     </table>
                 </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancelar</button>
-                <button  class="btn green" data-dismiss="modal"  ng-click="toAssignForSalesman()" ng-show="validate()">
+                <button class="btn green" data-dismiss="modal" ng-click="toAssignForSalesman()" ng-show="validate()">
                     Sí, Asignar
                 </button>
             </div>
