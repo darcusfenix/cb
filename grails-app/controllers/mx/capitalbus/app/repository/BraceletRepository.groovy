@@ -17,4 +17,5 @@ interface BraceletRepository {
     def validarBajada(String code, long bus, float lan, float lat)
     def getBySalesmanAndDate(Salesman id, String sd, boolean f)
     def getCostBraceletsBySalesman(Salesman s, String sd, boolean f)
+    def getBySalesmanAndDate(Salesman s, Date date)
 }

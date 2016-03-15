@@ -101,13 +101,13 @@ class BraceletService {
     }
 
     def updateBraceletsWithSalesman(String textJson, Integer idSalesman) {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+/-6:00"));
         def s = Salesman.findById(idSalesman)
         def mapMessage = [:]
+        def date = new Date()
 
         if (s != null) {
             def bs = BraceletState.findById(2) // estado de brazalete como activado
-            def date = new Date()
+
             def jsonSlurper = new JsonSlurper()
             def object = jsonSlurper.parseText(textJson)
 
@@ -141,6 +141,9 @@ class BraceletService {
 
             }
         }
+
+        mapMessage.put("fecha", date)
+
         mapMessage
     }
 

@@ -52,8 +52,13 @@ class SalesmanController {
         def totalBracelets = 0
         def totalMoney = 0
         def s = Salesman.findById(id)
+        def m = [:]
 
         results = braceletRepository.getBySalesmanAndDate(s, ss, true)
+        results.each { b ->
+            m.put(b.deliveryDate, braceletRepository.getBySalesmanAndDate(s, b.deliveryDate))
+        }
+
         series = braceletRepository.getCostBraceletsBySalesman(s, ss, true)
 
         series.each { item ->
@@ -62,7 +67,7 @@ class SalesmanController {
         }
 
         if (results)
-            render(view: "acuse-recibido-cj", model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series])
+            render(view: "acuse-recibido-cj", model: [brazaletes: m, resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series])
         else
             redirect(uri: "/")
     }
@@ -70,6 +75,10 @@ class SalesmanController {
     def acuseRecibidoAsignacion() {
 
         def ss = params.ss
+        def idSalesman = params.long('idS')
+
+        log.error(ss)
+        log.error(idSalesman)
 
         def principal = springSecurityService.principal
         long id = principal.id
@@ -78,7 +87,9 @@ class SalesmanController {
         def series = []
         def totalBracelets = 0
         def totalMoney = 0
-        def s = Salesman.findById(id)
+        def s = Salesman.findById(idSalesman ? idSalesman  :id)
+
+        log.error(s)
 
         results = braceletRepository.getBySalesmanAndDate(s, ss, false)
         series = braceletRepository.getCostBraceletsBySalesman(s, ss, false)

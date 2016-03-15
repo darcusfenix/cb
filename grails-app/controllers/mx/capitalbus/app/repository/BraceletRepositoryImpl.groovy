@@ -343,6 +343,17 @@ class BraceletRepositoryImpl implements BraceletRepository {
         results
     }
     @Override
+    def getBySalesmanAndDate(Salesman s, Date date) {
+
+        def results
+        def query = Bracelet.where {
+            salesman == s && deliveryDate == date
+        }
+        results = query.order('id', 'asc').list()
+        results
+    }
+
+    @Override
     def getCostBraceletsBySalesman(Salesman s, String sd, boolean f) {
         Date start, end
 

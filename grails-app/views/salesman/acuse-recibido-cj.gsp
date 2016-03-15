@@ -23,7 +23,7 @@
     }
 
     td {
-        padding: 10px;
+        padding: 5px;
     }
 
     </style>
@@ -38,7 +38,7 @@
 <section id="acuse">
     <div class="container">
         <div class="row text-center">
-            <h3><b>CAPITAL BUS, S.A. DE C.V.</b></h3>
+            <h4><b>CAPITAL BUS, S.A. DE C.V.</b></h4>
         </div>
 
         <div class="row separacion text-center">
@@ -77,7 +77,7 @@
             <h5><b>folios vendidos</b></h5>
         </div>
 
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 5px;">
             <table class="table table-striped">
                 <g:each var="serie" in="${series}">
                     <tr>
@@ -94,11 +94,38 @@
             </table>
         </div>
 
+
+        <g:each var="brazalete" in="${brazaletes}">
+            <div class="row separacion text-center">
+                <h5><b>folios entregados con fecha: <g:formatDate format="yyyy-MM-dd hh:mm:ss a" date="${brazalete.key}"/></b></h5>
+            </div>
+
+            <div class="row" style="margin-top: 5px;">
+                <table class="table table-striped">
+                    <g:each var="serie" in="${series}">
+                        <g:if test="${brazalete.value[0].costBracelet.id == serie[0].id}">
+                            <tr>
+                                <td style="width: 10%">SERIE ${serie[0].id}</td>
+                                <td style="width: 90%">
+                                    <g:each var="b" in="${brazalete.value}">
+                                        <g:if test="${b.costBracelet.id == serie[0].id}">
+                                            ${b.id} -
+                                        </g:if>
+                                    </g:each>
+                                </td>
+                            </tr>
+                        </g:if>
+                    </g:each>
+                </table>
+            </div>
+
+        </g:each>
+
         <div class="row separacion text-center">
             <h5><b>Resumen</b></h5>
         </div>
 
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 5px;">
             <div class="col-md-12" style="margin-top: 10px;">
                 <table class="table table-bordered">
                     <thead>
@@ -122,11 +149,11 @@
                         <td>Total</td>
                         <g:each var="serie" in="${series}">
                             <th class="text-right">
-                                <g:formatNumber number="${serie[0].cost * serie[1]}" type="currency"/>
+                                <g:formatNumber number="${serie[0].cost * serie[1]}" type="currency" currencyCode="MXN" currencySymbol="\$ "  />
                             </th>
                         </g:each>
                         <td class="text-right">
-                            <g:formatNumber number="${totalMoney}" type="currency"/>
+                            <g:formatNumber number="${totalMoney}" type="currency" currencyCode="MXN" currencySymbol="\$ " />
                         </td>
                     </tr>
                     </tbody>
@@ -134,7 +161,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 5px;">
             <div class="col-md-12" style="margin-top: 10px;">
                 <table class="table table-bordered">
                     <thead>
@@ -157,7 +184,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 5px;">
             <div class="col-md-6 text-center">
                 <hr style="border: 1px  solid black; margin-top: 85px"/>
                 <h6>ENTREGA</h6>
