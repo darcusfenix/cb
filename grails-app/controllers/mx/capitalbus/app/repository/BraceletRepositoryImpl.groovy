@@ -346,8 +346,26 @@ class BraceletRepositoryImpl implements BraceletRepository {
     def getBySalesmanAndDate(Salesman s, Date date) {
 
         def results
+
         def query = Bracelet.where {
             salesman == s && deliveryDate == date
+        }
+
+        results = query.order('id', 'asc').list()
+        results
+    }
+
+    @Override
+    def getBySalesmanYetNotSold(Salesman s, String sd) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(sdf.parse(sd));
+
+
+        def results
+        def query = Bracelet.where {
+            salesman == s && deliveryDate < now.getTime() && sold == false
         }
         results = query.order('id', 'asc').list()
         results

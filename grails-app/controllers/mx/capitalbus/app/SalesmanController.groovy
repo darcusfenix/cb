@@ -93,6 +93,8 @@ class SalesmanController {
 
         results = braceletRepository.getBySalesmanAndDate(s, ss, false)
         series = braceletRepository.getCostBraceletsBySalesman(s, ss, false)
+        def notSold = braceletRepository.getBySalesmanYetNotSold(s, ss)
+        def seriesDos = braceletRepository.getBySalesmanOrderAndGroupBySold(s)
 
         series.each { item ->
             totalBracelets += item[1]
@@ -100,7 +102,7 @@ class SalesmanController {
         }
 
         if (results)
-            render(view:"acuse-recibido-as",  model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series])
+            render(view:"acuse-recibido-as",  model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series, brazaletesNoVendedios : notSold, series2 : seriesDos])
         else
             redirect(uri: "/")
     }
