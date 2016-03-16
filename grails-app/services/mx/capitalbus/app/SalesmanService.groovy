@@ -12,7 +12,7 @@ class SalesmanService {
     def springSecurityService
 
     def saveBraceletsSold(String j) {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
+       // TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
         def jsonSlurper = new JsonSlurper()
         def object = jsonSlurper.parseText(j)
 

@@ -22,6 +22,13 @@
         margin-bottom: 10px;
     }
 
+    .sold {
+        background-color: red;
+        color: #fff;
+        margin: 1px;
+        font-weight: bold;
+    }
+
     td {
         padding: 5px;
     }
@@ -49,15 +56,15 @@
             <div class="col-md-6">
                 <table>
                     <tr>
-                        <td>FECHA: </td>
+                        <td>FECHA:</td>
                         <td>${date}</td>
                     </tr>
                     <tr>
-                        <td>AUDÍFONOS: </td>
+                        <td>AUDÍFONOS:</td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>PROMOTOR: </td>
+                        <td>PROMOTOR:</td>
                         <td><b id="name-salesman">${salesman.firstName}  ${salesman.lastName}</b></td>
                     </tr>
                 </table>
@@ -97,7 +104,8 @@
 
         <g:each var="brazalete" in="${brazaletes}">
             <div class="row separacion text-center">
-                <h5><b>folios entregados con fecha: <g:formatDate format="yyyy-MM-dd hh:mm:ss a" date="${brazalete.key}"/></b></h5>
+                <h5><b>folios entregados con fecha: <g:formatDate format="yyyy-MM-dd hh:mm:ss a"
+                                                                  date="${brazalete.key}"/></b></h5>
             </div>
 
             <div class="row" style="margin-top: 5px;">
@@ -109,7 +117,9 @@
                                 <td style="width: 90%">
                                     <g:each var="b" in="${brazalete.value}">
                                         <g:if test="${b.costBracelet.id == serie[0].id}">
-                                            ${b.id} -
+                                            <span class="${b.sold ? 'sold' : ''}">
+                                                ${b.id}
+                                            </span>
                                         </g:if>
                                     </g:each>
                                 </td>
@@ -149,11 +159,13 @@
                         <td>Total</td>
                         <g:each var="serie" in="${series}">
                             <th class="text-right">
-                                <g:formatNumber number="${serie[0].cost * serie[1]}" type="currency" currencyCode="MXN" currencySymbol="\$ "  />
+                                <g:formatNumber number="${serie[0].cost * serie[1]}" type="currency" currencyCode="MXN"
+                                                currencySymbol="\$ "/>
                             </th>
                         </g:each>
                         <td class="text-right">
-                            <g:formatNumber number="${totalMoney}" type="currency" currencyCode="MXN" currencySymbol="\$ " />
+                            <g:formatNumber number="${totalMoney}" type="currency" currencyCode="MXN"
+                                            currencySymbol="\$ "/>
                         </td>
                     </tr>
                     </tbody>

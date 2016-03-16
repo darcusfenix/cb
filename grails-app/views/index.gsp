@@ -83,7 +83,7 @@
 </div>
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
-<g:include view="tpl/sidebafooterr.gsp"/>
+<g:include view="tpl/sidebafooter.gsp"/>
 <!-- END FOOTER -->
 
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

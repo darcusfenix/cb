@@ -23,7 +23,7 @@
     }
 
     td {
-        padding: 10px;
+        padding: 2px;
     }
 
     </style>
@@ -77,7 +77,7 @@
             <h5><b>folios entregados</b></h5>
         </div>
 
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 15px;">
             <table class="table table-striped">
                 <g:each var="serie" in="${series}">
                     <tr>
@@ -94,11 +94,34 @@
             </table>
         </div>
 
+        <g:if test="${brazaletesNoVendedios.size > 0}">
+            <div class="row separacion text-center">
+                <h5><b>folios no vendidos hasta la fecha: ${date} </b></h5>
+            </div>
+
+            <div class="row" style="margin-top: 15px;">
+                <table class="table table-striped">
+                    <g:each var="serie" in="${series2}">
+                        <tr>
+                            <td style="width: 10%">SERIE ${serie[0].id}</td>
+                            <td style="width: 90%">
+                                <g:each var="brazalete" in="${brazaletesNoVendedios}">
+                                    <g:if test="${brazalete.costBracelet.id == serie[0].id}">
+                                        ${brazalete.id} -
+                                    </g:if>
+                                </g:each>
+                            </td>
+                        </tr>
+                    </g:each>
+                </table>
+            </div>
+        </g:if>
+
         <div class="row separacion text-center">
             <h5><b>Resumen</b></h5>
         </div>
 
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 15px;">
             <div class="col-md-12" style="margin-top: 10px;">
                 <table class="table table-bordered">
                     <thead>
@@ -123,7 +146,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 15px;">
             <div class="col-md-6 text-center">
                 <hr style="border: 1px  solid black; margin-top: 85px"/>
                 <h6>ENTREGA</h6>
