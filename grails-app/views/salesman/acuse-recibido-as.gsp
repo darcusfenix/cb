@@ -101,6 +101,13 @@
 
             <div class="row" style="margin-top: 15px;">
                 <table class="table table-striped">
+                    <tr>
+                        <th style="width: 5%">SERIE</th>
+                        <th style="width: 90%">SERIE</th>
+                        <th style="width: 5%">
+                            Total
+                        </th>
+                    </tr>
                     <g:each var="serie" in="${series2}">
                         <tr>
                             <td style="width: 10%">SERIE ${serie[0].id}</td>
@@ -108,6 +115,13 @@
                                 <g:each var="brazalete" in="${brazaletesNoVendedios}">
                                     <g:if test="${brazalete.costBracelet.id == serie[0].id}">
                                         ${brazalete.id} -
+                                    </g:if>
+                                </g:each>
+                            </td>
+                            <td class="text-center">
+                                <g:each var="t" in="${totalNotSOld}">
+                                    <g:if test="${t.key == serie[0].id}">
+                                        <span class="text-danger">${t.value}</span>
                                     </g:if>
                                 </g:each>
                             </td>

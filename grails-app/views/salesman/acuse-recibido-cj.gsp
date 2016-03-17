@@ -110,6 +110,13 @@
 
             <div class="row" style="margin-top: 5px;">
                 <table class="table table-striped">
+                    <tr>
+                        <th style="width: 5%">SERIE</th>
+                        <th style="width: 90%">SERIE</th>
+                        <th style="width: 5%">
+                            Total
+                        </th>
+                    </tr>
                     <g:each var="serie" in="${series}">
                         <g:if test="${brazalete.value[0].costBracelet.id == serie[0].id}">
                             <tr>
@@ -122,6 +129,9 @@
                                             </span>
                                         </g:if>
                                     </g:each>
+                                </td>
+                                <td class="text-center">
+                                    <span class="text-danger">${serie[1]}</span>
                                 </td>
                             </tr>
                         </g:if>

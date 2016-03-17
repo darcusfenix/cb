@@ -77,8 +77,6 @@ class SalesmanController {
         def ss = params.ss
         def idSalesman = params.long('idS')
 
-        log.error(ss)
-        log.error(idSalesman)
 
         def principal = springSecurityService.principal
         long id = principal.id
@@ -89,20 +87,29 @@ class SalesmanController {
         def totalMoney = 0
         def s = Salesman.findById(idSalesman ? idSalesman  :id)
 
-        log.error(s)
+
 
         results = braceletRepository.getBySalesmanAndDate(s, ss, false)
         series = braceletRepository.getCostBraceletsBySalesman(s, ss, false)
         def notSold = braceletRepository.getBySalesmanYetNotSold(s, ss)
         def seriesDos = braceletRepository.getBySalesmanOrderAndGroupBySold(s)
+        def totalNotSOld = [:]
 
         series.each { item ->
             totalBracelets += item[1]
             totalMoney += item[0].cost * item[1]
         }
+        seriesDos.eachWithIndex {item, i ->
+            totalNotSOld.put(item[0].id,notSold.count{it.costBracelet.id == item[0].id})
+        }
+
+        log.error seriesDos
 
         if (results)
-            render(view:"acuse-recibido-as",  model: [resultados: results, salesman: s, date: ss, totalBracelets: totalBracelets, totalMoney: totalMoney, series: series, brazaletesNoVendedios : notSold, series2 : seriesDos])
+            render(view:"acuse-recibido-as",  model: [resultados: results, salesman: s, date: ss,
+                                                      totalBracelets: totalBracelets, totalMoney: totalMoney, series: series,
+                                                      brazaletesNoVendedios : notSold, series2 : seriesDos,
+                                                      totalNotSOld:totalNotSOld])
         else
             redirect(uri: "/")
     }
