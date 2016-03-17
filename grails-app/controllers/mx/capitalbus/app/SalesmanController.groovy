@@ -103,8 +103,6 @@ class SalesmanController {
             totalNotSOld.put(item[0].id,notSold.count{it.costBracelet.id == item[0].id})
         }
 
-        log.error seriesDos
-
         if (results)
             render(view:"acuse-recibido-as",  model: [resultados: results, salesman: s, date: ss,
                                                       totalBracelets: totalBracelets, totalMoney: totalMoney, series: series,
