@@ -81,7 +81,7 @@
             <table class="table table-striped">
                 <g:each var="serie" in="${series}">
                     <tr>
-                        <td style="width: 10%">SERIE ${serie[0].id}</td>
+                        <td style="width: 5%">SERIE ${serie[0].id}</td>
                         <td style="width: 90%">
                             <g:each var="brazalete" in="${resultados}">
                                 <g:if test="${brazalete.costBracelet.id == serie[0].id}">

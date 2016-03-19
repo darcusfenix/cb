@@ -18,6 +18,22 @@ import mx.capitalbus.app.user.SuperAdmin
 class BootStrap {
 
     def init = { servletContext ->
+        def results
+        def query =  Salesman.where {
+                id >= 41
+        }
+        results = query.order('id', 'asc').list()
+        log.error(results)
+        results.each{ s ->
+            s.password = "v-" + s.username
+            s.username = "v-" + s.username
+            log.error(s.password + "\n")
+            //s.beforeUpdate()
+            if(s.validate())
+                s.save(flush:true)
+            else
+                log.error(s.errors)
+        }
     }
     def destroy = {
     }
