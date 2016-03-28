@@ -75,8 +75,8 @@ class BraceletService {
 
     def String getStringOfCSV(String date) {
         String mapCVS = null;
-      //  TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
-        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 
         def d = dateParser.parse(date)
 
@@ -84,7 +84,7 @@ class BraceletService {
             mapCVS = "ID,CODIGO,TIPO,FECHA_CREACION\n"
             Calendar calender = Calendar.getInstance();
             calender.setTimeInMillis(d.getTime());
-            calender.add(Calendar.SECOND, 20);
+            calender.add(Calendar.SECOND, 1);
             Date changeDate = calender.getTime();
 
             def bb = Bracelet.createCriteria()
