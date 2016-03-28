@@ -7,6 +7,7 @@ import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
 
+import java.text.ParseException
 import java.text.SimpleDateFormat
 
 
@@ -173,7 +174,7 @@ class BraceletController {
         def salesman = params.int("salesman")
         if (jsonText != null || !jsonText.empty || salesman > 0) {
             def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman)
-            log.error("---------------------->   " + res)
+
             render(res as JSON)
         } else
             render(["message": "hubo un error"] as JSON)
@@ -219,6 +220,48 @@ class BraceletController {
         def r = braceletService.getResponse(res);
 
         render(r as JSON)
+    }
+
+    def getListOfAssignments(){
+        def sd = params.sd
+        def ed = params.ed
+        def results
+
+        Date start, end
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+        Calendar now = Calendar.getInstance();
+
+        if (sd == null && ed == null) {
+            now.set(Calendar.HOUR, 0);
+            now.set(Calendar.MINUTE, 0);
+            now.set(Calendar.SECOND, 0);
+            now.set(Calendar.HOUR_OF_DAY, 0);
+            start = new Date()
+
+            //now.add(Calendar.DAY_OF_MONTH, -1);
+            end = now.getTime()
+
+            log.error(" inicio "+start + "\n")
+            log.error(" fin "+end + "\n")
+        }
+
+        def query  = Bracelet.createCriteria()
+        results = query.list {
+            projections {
+                groupProperty('deliveryDate')
+                count("deliveryDate")
+                groupProperty("salesman")
+            }
+            and{
+                between("deliveryDate", end, start)
+            }
+            order("deliveryDate", "asc")
+        }
+
+        log.error(results.size() + "\n")
+
+        render (results as JSON)
     }
 
 }
