@@ -18,6 +18,7 @@ import mx.capitalbus.app.user.SuperAdmin
 class BootStrap {
 
     def init = { servletContext ->
+        /*
         def results
         def query = Salesman.where {
             id >= 41
@@ -35,6 +36,8 @@ class BootStrap {
                     log.error(s.errors)
             }
         }
+        */
+
     }
     def destroy = {
     }
