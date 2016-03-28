@@ -31,7 +31,9 @@ class MyUserDetailsService implements GrailsUserDetailsService {
 
         User user = User.findByUsername(username)
 
-        Salesman s = Salesman.findById(user.id)
+        Salesman s = null
+        if (user)
+            s = Salesman.findById(user.id)
 
         if (!user) throw new NoStackUsernameNotFoundException()
 
