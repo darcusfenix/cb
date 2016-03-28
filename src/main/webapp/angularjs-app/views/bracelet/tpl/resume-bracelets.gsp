@@ -16,21 +16,27 @@
 
                 <div class="col-md-4">
                     <span class="widget-thumb-subtitle text-center">TOTAL</span>
-                    <span class="widget-thumb-body-stat" >{{ avaliblecost[1] | number }}</span>
+                    <span class="widget-thumb-body-stat text-center" >{{ avaliblecost[1] | number }}</span>
                 </div>
 
                 <div class="col-md-4">
                     <span class="widget-thumb-subtitle text-center">{{isSalesman ? 'Vendidas': 'Asignadas'}}</span>
-                    <span class="widget-thumb-body-stat" ng-hide="isSalesman" >{{avaliblecost[2]| number}}</span>
-                    <span class="widget-thumb-body-stat" ng-show="isSalesman" >{{ getTotalBraceletsSold(avaliblecost[0].id) ? getTotalBraceletsSold(avaliblecost[0].id) : 0 | number}}</span>
+                    <span class="widget-thumb-body-stat text-center" ng-hide="isSalesman" >{{avaliblecost[2]| number}}</span>
+                    <span class="widget-thumb-body-stat text-center" ng-show="isSalesman" >{{ getTotalBraceletsSold(avaliblecost[0].id) ? getTotalBraceletsSold(avaliblecost[0].id) : 0 | number}}</span>
                 </div>
 
                 <div class="col-md-4">
                     <span class="widget-thumb-subtitle text-center">Restan</span>
-                    <span class="widget-thumb-body-stat" ng-hide="isSalesman" >{{ ( avaliblecost[1] - avaliblecost[2] )| number}}</span>
-                    <span class="widget-thumb-body-stat" ng-show="isSalesman" >{{ getTotalBraceletsSold(avaliblecost[0].id) ? ( avaliblecost[1] - getTotalBraceletsSold(avaliblecost[0].id) ) : 0 | number}}</span>
+                    <span class="widget-thumb-body-stat text-center" ng-hide="isSalesman" >{{ ( avaliblecost[1] - avaliblecost[2] )| number}}</span>
+                    <span class="widget-thumb-body-stat text-center" ng-show="isSalesman" >{{ getTotalBraceletsSold(avaliblecost[0].id) ? ( avaliblecost[1] - getTotalBraceletsSold(avaliblecost[0].id) ) : 0 | number}}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .widget-thumb-body-stat, .widget-thumb-subtitle{
+        font-size: 16px !important;
+    }
+</style>

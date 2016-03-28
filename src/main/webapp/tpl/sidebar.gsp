@@ -40,6 +40,12 @@
                         <span class="title">Aasignar brazaletes</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#/asignaciones">
+                        <i class="icon-settings"></i>
+                        <span class="title">Asignaciones</span>
+                    </a>
+                </li>
             </sec:access>
             <sec:access expression="hasRole('ROLE_SALESMAN')">
                 <li class="nav-item">

@@ -75,5 +75,24 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                     });
                 }]
             }
+        }).state('braceletAssignments', {
+            url: "/asignaciones",
+            templateUrl: "angularjs-app/views/bracelet/assignmentsList.gsp",
+            data: {pageTitle: 'Asignaciones de brazaletes', pageSubTitle: ''},
+            controller: "AssignmentsBraceletController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'CapitalBusApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            BASE_URL + 'rs/pages/scripts/dashboard.js',
+                            BASE_URL + 'angularjs-app/controllers/bracelet/AssignmentsBraceletController.js'
+                        ]
+                    });
+                }]
+            }
         })
 }]);
