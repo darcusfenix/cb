@@ -236,7 +236,7 @@ class BraceletController {
             now.set(Calendar.HOUR, 0);
             now.set(Calendar.MINUTE, 0);
             now.set(Calendar.SECOND, 0);
-            now.set(Calendar.HOUR_OF_DAY, 0);
+            now.set(Calendar.DAY_OF_WEEK_IN_MONTH, -30);
             start = new Date()
 
             //now.add(Calendar.DAY_OF_MONTH, -1);
@@ -256,7 +256,7 @@ class BraceletController {
             and{
                 between("deliveryDate", end, start)
             }
-            order("deliveryDate", "asc")
+            order("deliveryDate", "desc")
         }
 
         log.error(results.size() + "\n")

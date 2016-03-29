@@ -28,12 +28,14 @@
                         <tr class="uppercase">
                             <th class="bold ">#</th>
                             <th class="bold ">Vendedor</th>
+                            <th class="bold ">Fecha</th>
                             <th class="bold ">Total asignados</th>
                         </tr>
                         </thead>
                         <tr ng-repeat="assignment in assignmentsList">
                             <td>{{$index + 1}}</td>
                             <td>{{assignment[2].firstName}} {{assignment[2].lastName}}</td>
+                            <td>{{assignment[0] | date:'yyyy-MM-dd hh:mm:ss a' }}</td>
                             <td>{{assignment[1]}}</td>
                         </tr>
                     </table>
