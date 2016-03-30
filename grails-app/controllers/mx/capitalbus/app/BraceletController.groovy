@@ -172,8 +172,9 @@ class BraceletController {
     def toAssignForSalesman() {
         def jsonText = params.json
         def salesman = params.int("salesman")
+        def op = params.int("op")
         if (jsonText != null || !jsonText.empty || salesman > 0) {
-            def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman)
+            def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman, op)
 
             render(res as JSON)
         } else
@@ -248,14 +249,19 @@ class BraceletController {
             projections {
                 groupProperty('deliveryDate')
                 count("deliveryDate")
-
+                groupProperty('salesman')
             }
             and{
                 between("deliveryDate", end, start)
             }
-            maxResults(1)
+            maxResults(10)
             order("deliveryDate", "desc")
         }
+
+        Bracelet.where{
+
+        }
+
         render (results as JSON)
     }
 

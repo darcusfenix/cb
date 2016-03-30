@@ -8,6 +8,7 @@ class Bracelet {
     String code
     Date activationDate
     Date deliveryDate
+    Date assignmentDate
     Date creationDate
     Date soldDate
     boolean sold = false
@@ -18,6 +19,7 @@ class Bracelet {
         salesman nullable: true
         deliveryDate nullable: true
         activationDate nullable: true
+        assignmentDate nullable: true
         soldDate nullable: true
         code  unique: true
     }
@@ -28,5 +30,6 @@ class Bracelet {
         braceletState fetch: 'join'
         costBracelet fetch: 'join'
         sold defaultValue: false
+        assignmentDate defaultValue: null
     }
 }

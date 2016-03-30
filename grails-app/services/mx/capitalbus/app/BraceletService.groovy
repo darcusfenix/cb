@@ -100,7 +100,12 @@ class BraceletService {
         mapCVS
     }
 
-    def updateBraceletsWithSalesman(String textJson, Integer idSalesman) {
+    /*
+    * opción -> 1 sólo se asignan
+    * opción -> 2 sólo se entregan
+    * opción -> 3 se entregan y se asignan
+    * */
+    def updateBraceletsWithSalesman(String textJson, Integer idSalesman, Integer opcion = 1) {
         def s = Salesman.findById(idSalesman)
         def mapMessage = [:]
         def date = new Date()
