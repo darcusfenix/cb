@@ -147,7 +147,8 @@ function AssignBraceletsController($rootScope, $scope, $http, $filter, Salesman,
 
         $scope.breceletInstance.$toAssign({
             "json": $scope.prepareJSON(),
-            "salesman": $scope.salesmanSelected.id
+            "salesman": $scope.salesmanSelected.id,
+            "op": 1
         }, function (data) {
             $scope.responseList = data;
 
