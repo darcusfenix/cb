@@ -42,9 +42,9 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                 }]
             }
         }).state('brazaleteAssign', {
-            url: "/asignar-brazaletes",
+            url: "/entregar-brazaletes",
             templateUrl: "angularjs-app/views/bracelet/assigns.gsp",
-            data: {pageTitle: 'Asignación de Brazaletes a vendedores', pageSubTitle: ''},
+            data: {pageTitle: 'Entrega de Brazaletes a vendedores', pageSubTitle: ''},
             controller: "AssignBraceletsController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
