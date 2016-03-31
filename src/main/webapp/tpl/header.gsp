@@ -35,7 +35,7 @@
                             </span>
 
                             <img alt="" class="img-circle"
-                                 src=""${resource(dir: 'static/rs/layouts/layout4/img', file: 'avatar.png')}""/>
+                                 src="${resource(dir: 'rs/pages/media/profile', file: 'avatar.png')}"/>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
 
