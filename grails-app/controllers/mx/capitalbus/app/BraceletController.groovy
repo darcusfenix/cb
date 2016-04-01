@@ -3,6 +3,7 @@ package mx.capitalbus.app
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonSlurper
+import groovy.util.logging.Log
 import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
@@ -223,21 +224,25 @@ class BraceletController {
         render(r as JSON)
     }
 
-    def getListOfAssignments(){
+    def getHistorySalesman(){
         def sd = params.sd
         def ed = params.ed
         def results
-
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC-6"));
         Date start, end
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+        def a = sdf.parse("2016-03-27T19:21:41Z")
+        log.error(a)
         Calendar now = Calendar.getInstance();
-
+        a.clearTime()
+        log.error(a)
+        def w =  a+1
+        log.error(w)
         if (sd == null && ed == null) {
             now.set(Calendar.HOUR, 0);
             now.set(Calendar.MINUTE, 0);
             now.set(Calendar.SECOND, 0);
-            now.set(Calendar.DAY_OF_WEEK_IN_MONTH, -30);
+            now.set(Calendar.DAY_OF_WEEK_IN_MONTH, -7);
             start = new Date()
 
             end = now.getTime()
@@ -245,24 +250,31 @@ class BraceletController {
         }
 
         def query  = Bracelet.createCriteria()
+
         results = query.list {
+
             projections {
                 groupProperty('deliveryDate')
                 count("deliveryDate")
-                groupProperty('salesman')
             }
+/*
             and{
                 between("deliveryDate", end, start)
             }
-            maxResults(10)
-            order("deliveryDate", "desc")
-        }
+*/
 
-        Bracelet.where{
+            and{
+                between('deliveryDate', a,w)
+            }
+
+//            maxResults(5)
+
+            //order("salesman", "desc")
 
         }
 
         render (results as JSON)
+
     }
 
 }
