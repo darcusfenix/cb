@@ -13,11 +13,31 @@
         <div class="portlet light bordered ">
             <div class="portlet-title">
                 <div class="caption caption-md">
-                    <span class="caption-subject bold uppercase">Brazaletes asignados, coming soon</span>
+                    <span class="caption-subject bold uppercase">Brazaletes {{textCurrent}}</span>
                 </div>
-
-                <div class="tools">
-                    <a href="javascript:;" class="collapse"></a>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a href="" class="btn dark btn-outline btn-circle btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> Tipo reporte
+                            <span class="fa fa-angle-down"> </span>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="javascript:;" ng-click="changeReport(1)"> Entregas
+                                    <span class="label label-sm {{action == 1  ? 'label-success' : '' }}"> {{action == 1  ? 'seleccionada' : '' }} </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" ng-click="changeReport(2)"> Asignadas
+                                    <span class="label label-sm {{action == 2  ? 'label-success' : '' }}"> {{action == 2  ? 'seleccionada' : '' }} </span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="javascript:;" ng-click="changeReport(3)"> Asignadas y entregadas
+                                    <span class="label label-sm {{action == 3  ? 'label-success' : '' }}"> {{action == 3  ? 'seleccionada' : '' }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

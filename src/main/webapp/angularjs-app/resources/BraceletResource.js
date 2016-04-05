@@ -67,10 +67,10 @@ angular.module('CapitalBusApp').factory('Bracelet', function ($resource) {
             isArray: true,
             url: 'bracelet/salesman/yesSold'
         },
-        getListOfAssignments:{
+        getHistory:{
             method: 'GET',
             isArray: true,
-            url: 'bracelet/getListOfAssignments'
+            url: 'bracelet/getHistorySalesman'
         }
     });
 });

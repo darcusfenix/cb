@@ -76,10 +76,10 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                 }]
             }
         }).state('braceletAssignments', {
-            url: "/asignaciones",
+            url: "/historial-de-brazaletes",
             templateUrl: "angularjs-app/views/bracelet/assignmentsList.gsp",
             data: {pageTitle: 'Asignaciones de brazaletes', pageSubTitle: ''},
-            controller: "AssignmentsBraceletController",
+            controller: "HistoryBraceletController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -89,7 +89,7 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                             BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
                             BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
                             BASE_URL + 'rs/pages/scripts/dashboard.js',
-                            BASE_URL + 'angularjs-app/controllers/bracelet/AssignmentsBraceletController.js'
+                            BASE_URL + 'angularjs-app/controllers/bracelet/HistoryBraceletController.js'
                         ]
                     });
                 }]

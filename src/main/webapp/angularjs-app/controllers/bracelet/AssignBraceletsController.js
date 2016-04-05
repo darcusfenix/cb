@@ -33,13 +33,13 @@ function AssignBraceletsController($rootScope, $scope, $http, $filter, Salesman,
         var t;
         switch ($scope.action){
             case 1:
-                t = "Asignación de Brazaletes a vendedores"
+                t = "Asignación de Brazaletes a vendedores";
                 break;
             case 2:
-                t = "Entrega de Brazaletes a vendedores"
+                t = "Entrega de Brazaletes a vendedores";
                 break;
             case 3:
-                t = "Asignación y entrega de Brazaletes a vendedores"
+                t = "Asignación y entrega de Brazaletes a vendedores";
                 break;
         }
         $rootScope.$state.current.data.pageTitle = t;

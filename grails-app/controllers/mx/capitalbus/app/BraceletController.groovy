@@ -7,6 +7,7 @@ import groovy.util.logging.Log
 import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
+import sun.util.resources.cldr.en.TimeZoneNames_en_ZA
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -225,52 +226,70 @@ class BraceletController {
     }
 
     def getHistorySalesman(){
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
         def sd = params.sd
         def ed = params.ed
+        def op = params.int("op")
         def results
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC-6"));
+        log.error(sd)
+        log.error(ed)
         Date start, end
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
-        def a = sdf.parse("2016-03-27T19:21:41Z")
-        log.error(a)
-        Calendar now = Calendar.getInstance();
-        a.clearTime()
-        log.error(a)
-        def w =  a+1
-        log.error(w)
+
         if (sd == null && ed == null) {
-            now.set(Calendar.HOUR, 0);
-            now.set(Calendar.MINUTE, 0);
-            now.set(Calendar.SECOND, 0);
-            now.set(Calendar.DAY_OF_WEEK_IN_MONTH, -7);
-            start = new Date()
-
+            start = now.getTime()
             end = now.getTime()
-
+            end.clearTime();
+        }else{
+            start  = sdf.parse(sd)
+            end  = sdf.parse(ed).clearTime()
         }
 
         def query  = Bracelet.createCriteria()
 
+        log.error("END -----> "  + end)
+        log.error("START -----> "  + start)
+
         results = query.list {
-
             projections {
-                groupProperty('deliveryDate')
-                count("deliveryDate")
+                if (op == 1){
+                    groupProperty('deliveryDate')
+                    count("deliveryDate")
+                }
+                if (op == 2){
+                    groupProperty('assignmentDate')
+                    count("assignmentDate")
+                }
+                if (op == 3){
+                    groupProperty('activationDate')
+                    count("activationDate")
+                }
             }
-/*
             and{
-                between("deliveryDate", end, start)
+                if (op == 1){
+                    between("deliveryDate", start, end)
+                }
+                if (op == 2){
+                    between("assignmentDate", start, end)
+                }
+                if (op == 3){
+                    between("activationDate", start, end)
+                }
             }
-*/
-
-            and{
-                between('deliveryDate', a,w)
+            if (op == 1){
+                order("deliveryDate", "desc")
             }
-
-//            maxResults(5)
-
-            //order("salesman", "desc")
-
+            if (op == 2){
+                order("assignmentDate", "desc")
+            }
+            if (op == 3){
+                order("activationDate", "desc")
+            }
+        }
+        results.each{ r ->
+            log.error(r[0])
+            def  s = Bracelet.findAllBy
         }
 
         render (results as JSON)

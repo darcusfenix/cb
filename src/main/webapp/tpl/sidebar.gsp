@@ -41,9 +41,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#/asignaciones">
+                    <a href="#/historial-de-brazaletes">
                         <i class="icon-settings"></i>
-                        <span class="title">Asignaciones</span>
+                        <span class="title">Historial de brazaletes</span>
                     </a>
                 </li>
             </sec:access>

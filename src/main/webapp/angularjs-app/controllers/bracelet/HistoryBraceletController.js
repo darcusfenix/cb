@@ -2,21 +2,61 @@
  * Created by becm on 3/28/16.
  */
 
-function AssignmentsBraceletController($scope, $filter, Bracelet) {
+function HistoryBraceletController($rootScope, $scope, $filter, Bracelet) {
 
-    $scope.startDate;
-    $scope.endDate;
+    $scope.startDate = null;
+    $scope.endDate = null;
+    $scope.option = 1;
 
-    $scope.assignmentsList;
+    $scope.braceletList;
+
+    $scope.textCurrent;
+
+
+    $scope.changeReport = function (i) {
+        $scope.action = i;
+        var t;
+        switch ($scope.action){
+            case 1:
+                t = "Reporte entrega de brazaletes";
+                break;
+            case 2:
+                t = "Reporte asignación de brazaletes";
+                break;
+            case 3:
+                t = "Reporte asignación y entrega de brazaletes";
+                break;
+        }
+        $rootScope.$state.current.data.pageTitle = t;
+        switch ($scope.action){
+            case 1 :
+                t = "entregados";
+                break;
+            case 2 :
+                t = "asignados";
+                break;
+            case 3 :
+                t = "asignados y entregados";
+                break;
+        }
+        $scope.textCurrent = t;
+    };
+
 
     $scope.$on('$viewContentLoaded', function () {
         App.initAjax();
         $scope.updateRangeDate();
+        $scope.changeReport($scope.option);
     });
 
-    $scope.getListOfAssignments = function () {
-        Bracelet.getListOfAssignments(function(data){
-            $scope.assignmentsList = data;
+    $scope.getHistory = function () {
+        Bracelet.getHistory({
+            'op' : $scope.option,
+            'sd' : $scope.startDate,
+            'ed' : $scope.endDate
+        },function(data){
+            $scope.braceletList = data;
+            console.log($scope.braceletList)
         }, function (err) {
         });
     };
@@ -48,7 +88,9 @@ function AssignmentsBraceletController($scope, $filter, Bracelet) {
             $('#dashboard-report-range span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             $scope.startDate = start.format('YYYY-MM-DD hh:mm:ss a');
             $scope.endDate = end.format('YYYY-MM-DD hh:mm:ss a');
-            //$scope.getBraceletsNotSold($scope.idCost);
+            console.log($scope.startDate);
+            console.log($scope.endDate);
+            $scope.getHistory();
         });
 
         $('#dashboard-report-range span').html(moment().format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
@@ -56,6 +98,6 @@ function AssignmentsBraceletController($scope, $filter, Bracelet) {
 
         $scope.startDate = moment().format('YYYY-MM-DD hh:mm:ss a');
         $scope.endDate = moment().format('YYYY-MM-DD hh:mm:ss a');
-        $scope.getListOfAssignments();
+        $scope.getHistory();
     };
 }
