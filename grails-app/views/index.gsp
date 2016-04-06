@@ -131,6 +131,8 @@
         type="text/javascript"></script>
 <script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'angular-touch.min.js')}"
         type="text/javascript"></script>
+<script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'angular-locale_es-mx.js')}"
+        type="text/javascript"></script>
 <script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'plugins/angular-ui-router.min.js')}"
         type="text/javascript"></script>
 <script src="${resource(dir: 'rs/global/plugins/angularjs/plugins', file: 'ocLazyLoad.min.js')}"

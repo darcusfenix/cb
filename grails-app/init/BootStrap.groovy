@@ -14,6 +14,7 @@ import mx.capitalbus.app.security.UserRoleGroup
 import mx.capitalbus.app.user.AdminControlBracelets
 import mx.capitalbus.app.user.Salesman
 import mx.capitalbus.app.user.SuperAdmin
+import org.springframework.web.context.support.WebApplicationContextUtils
 
 class BootStrap {
 
@@ -37,7 +38,8 @@ class BootStrap {
             }
         }
         */
-
+        def springContext = WebApplicationContextUtils.getWebApplicationContext(servletContext)
+        springContext.getBean("customObjectMarshallers").register()
     }
     def destroy = {
     }

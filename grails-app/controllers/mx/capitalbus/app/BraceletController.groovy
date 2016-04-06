@@ -80,7 +80,7 @@ class BraceletController {
                 count("creationDate")
                 groupProperty('creationDate')
             }
-            order("creationDate", "asc")
+            order("creationDate", "desc")
         }
         render(results as JSON)
     }
@@ -97,7 +97,7 @@ class BraceletController {
             and {
                 eq("salesman", Salesman.findById(id))
             }
-            order("deliveryDate", "asc")
+            order("deliveryDate", "desc")
         }
         render(results as JSON)
     }
@@ -195,7 +195,7 @@ class BraceletController {
         def res
 
         if (code.length() == 10)
-            res = braceletRepository.validarSubida(code,bus,lon,lat)
+            res = braceletRepository.validarSubida(code, bus, lon, lat)
         else
             res = 12
 
@@ -216,7 +216,7 @@ class BraceletController {
         def res
 
         if (code.length() == 10)
-            res = braceletRepository.validarBajada(code,bus,lon,lat)
+            res = braceletRepository.validarBajada(code, bus, lon, lat)
         else
             res = 12
 
@@ -225,7 +225,7 @@ class BraceletController {
         render(r as JSON)
     }
 
-    def getHistorySalesman(){
+    def getHistorySalesman() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         Calendar now = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
@@ -233,67 +233,84 @@ class BraceletController {
         def ed = params.ed
         def op = params.int("op")
         def results
-        log.error(sd)
-        log.error(ed)
         Date start, end
 
-        if (sd == null && ed == null) {
-            start = now.getTime()
+        if (sd == null || ed == null || (sd.equals(ed))) {
             end = now.getTime()
-            end.clearTime();
-        }else{
-            start  = sdf.parse(sd)
-            end  = sdf.parse(ed).clearTime()
+            start = now.getTime()
+            start.clearTime();
+        } else {
+            start = sdf.parse(sd)
+            end = sdf.parse(ed)
         }
-
-        def query  = Bracelet.createCriteria()
-
-        log.error("END -----> "  + end)
-        log.error("START -----> "  + start)
-
+        def query = Bracelet.createCriteria()
         results = query.list {
             projections {
-                if (op == 1){
+                if (op == 1) {
                     groupProperty('deliveryDate')
                     count("deliveryDate")
                 }
-                if (op == 2){
+                if (op == 2) {
                     groupProperty('assignmentDate')
                     count("assignmentDate")
                 }
-                if (op == 3){
-                    groupProperty('activationDate')
-                    count("activationDate")
-                }
             }
-            and{
-                if (op == 1){
+            and {
+                if (op == 1) {
                     between("deliveryDate", start, end)
                 }
-                if (op == 2){
+                if (op == 2) {
                     between("assignmentDate", start, end)
                 }
-                if (op == 3){
-                    between("activationDate", start, end)
-                }
             }
-            if (op == 1){
+            if (op == 1) {
                 order("deliveryDate", "desc")
             }
-            if (op == 2){
+            if (op == 2) {
                 order("assignmentDate", "desc")
             }
-            if (op == 3){
-                order("activationDate", "desc")
+        }
+        def map = [:]
+
+        results.each { r ->
+            def s = [0, 1,2]
+            def a = Bracelet.createCriteria().list {
+                switch (op) {
+                    case 1:
+                        projections {
+                            groupProperty('costBracelet')
+                            count("costBracelet")
+                        }
+                        and {
+                            eq('deliveryDate', r[0])
+                        }
+                        break;
+                    case 2:
+                        projections {
+                            groupProperty('costBracelet')
+                            count("costBracelet")
+                        }
+                        and {
+                            eq('assignmentDate', r[0])
+                        }
+                        break;
+                }
             }
+            def b
+            switch (op){
+                case 1:
+                    b = Bracelet.findByDeliveryDate(r[0])
+                    break;
+                case 2:
+                    b = Bracelet.findByAssignmentDate(r[0])
+                    break;
+            }
+            s[0] = r[0]
+            s[1] = a
+            s[2] = b.salesman
+            map.put(b.salesman.id,s)
         }
-        results.each{ r ->
-            log.error(r[0])
-            def  s = Bracelet.findAllBy
-        }
-
-        render (results as JSON)
-
+        render(map as JSON)
     }
 
 }
