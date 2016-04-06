@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="report-bracelet">
     <div class="col-md-12">
         <!-- BEGIN PORTLET-->
         <div class="portlet light bordered ">
@@ -23,17 +23,12 @@
                         <ul class="dropdown-menu pull-right">
                             <li>
                                 <a href="javascript:;" ng-click="changeReport(1)"> Entregas
-                                    <span class="label label-sm {{action == 1  ? 'label-success' : '' }}"> {{action == 1  ? 'seleccionada' : '' }} </span>
+                                    <span class="label label-sm {{option == 1  ? 'label-success' : '' }}"> {{option == 1  ? 'seleccionada' : '' }} </span>
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;" ng-click="changeReport(2)"> Asignadas
-                                    <span class="label label-sm {{action == 2  ? 'label-success' : '' }}"> {{action == 2  ? 'seleccionada' : '' }} </span>
-                                </a>
-                            </li>
-                            <li class="active">
-                                <a href="javascript:;" ng-click="changeReport(3)"> Asignadas y entregadas
-                                    <span class="label label-sm {{action == 3  ? 'label-success' : '' }}"> {{action == 3  ? 'seleccionada' : '' }} </span>
+                                    <span class="label label-sm {{option == 2  ? 'label-success' : '' }}"> {{option == 2  ? 'seleccionada' : '' }} </span>
                                 </a>
                             </li>
                         </ul>
@@ -47,16 +42,24 @@
                         <thead>
                         <tr class="uppercase">
                             <th class="bold ">#</th>
-                            <th class="bold ">Vendedor</th>
                             <th class="bold ">Fecha</th>
-                            <th class="bold ">Total asignados</th>
+                            <th class="bold ">Vendedor</th>
+                            <th class="bold" ng-repeat=" cost in costs ">
+                                Serie {{cost.id}}
+                            </th>
+                            <th class="bold ">Total {{textCurrent}}</th>
                         </tr>
                         </thead>
-                        <tr ng-repeat="assignment in assignmentsList">
+                        <tr ng-repeat="m in map ">
                             <td>{{$index + 1}}</td>
-                            <td>{{assignment[2].firstName}} {{assignment[2].lastName}}</td>
-                            <td>{{assignment[0] | date:'yyyy-MM-dd hh:mm:ss a' }}</td>
-                            <td>{{assignment[1]}}</td>
+                            <td>{{m[0] | date:'MMMM dd yyyy, h:mm:ss a' }}</td>
+                            <td>{{m[2].firstName}} {{m[2].lastName}}</td>
+                            <th class="bold" ng-repeat=" cost in costs ">
+                                <span ng-repeat="s in m[1]">
+                                   {{ s[0].id == cost.id ? s[1] : '' }}
+                                </span>
+                            </th>
+                            <td></td>
                         </tr>
                     </table>
                 </div>

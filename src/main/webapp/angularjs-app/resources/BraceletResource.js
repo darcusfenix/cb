@@ -69,7 +69,7 @@ angular.module('CapitalBusApp').factory('Bracelet', function ($resource) {
         },
         getHistory:{
             method: 'GET',
-            isArray: true,
+
             url: 'bracelet/getHistorySalesman'
         }
     });

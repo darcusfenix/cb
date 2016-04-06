@@ -89,6 +89,7 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                             BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
                             BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
                             BASE_URL + 'rs/pages/scripts/dashboard.js',
+                            BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
                             BASE_URL + 'angularjs-app/controllers/bracelet/HistoryBraceletController.js'
                         ]
                     });
