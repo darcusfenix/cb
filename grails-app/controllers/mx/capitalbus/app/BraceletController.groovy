@@ -3,10 +3,13 @@ package mx.capitalbus.app
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonSlurper
+import groovy.util.logging.Log
 import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
+import sun.util.resources.cldr.en.TimeZoneNames_en_ZA
 
+import java.text.ParseException
 import java.text.SimpleDateFormat
 
 
@@ -77,7 +80,7 @@ class BraceletController {
                 count("creationDate")
                 groupProperty('creationDate')
             }
-            order("creationDate", "asc")
+            order("creationDate", "desc")
         }
         render(results as JSON)
     }
@@ -94,7 +97,7 @@ class BraceletController {
             and {
                 eq("salesman", Salesman.findById(id))
             }
-            order("deliveryDate", "asc")
+            order("deliveryDate", "desc")
         }
         render(results as JSON)
     }
@@ -171,9 +174,10 @@ class BraceletController {
     def toAssignForSalesman() {
         def jsonText = params.json
         def salesman = params.int("salesman")
+        def op = params.int("op")
         if (jsonText != null || !jsonText.empty || salesman > 0) {
-            def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman)
-            log.error("---------------------->   " + res)
+            def res = braceletService.updateBraceletsWithSalesman(jsonText, salesman, op)
+
             render(res as JSON)
         } else
             render(["message": "hubo un error"] as JSON)
@@ -191,7 +195,7 @@ class BraceletController {
         def res
 
         if (code.length() == 10)
-            res = braceletRepository.validarSubida(code,bus,lon,lat)
+            res = braceletRepository.validarSubida(code, bus, lon, lat)
         else
             res = 12
 
@@ -212,13 +216,22 @@ class BraceletController {
         def res
 
         if (code.length() == 10)
-            res = braceletRepository.validarBajada(code,bus,lon,lat)
+            res = braceletRepository.validarBajada(code, bus, lon, lat)
         else
             res = 12
 
         def r = braceletService.getResponse(res);
 
         render(r as JSON)
+    }
+
+    def getHistorySalesman() {
+
+        def sd = params.sd
+        def ed = params.ed
+        def op = params.int("op")
+        def map = braceletRepository.getHistory(sd, ed, op)
+        render(map as JSON)
     }
 
 }

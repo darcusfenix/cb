@@ -32,7 +32,6 @@ function SalesmanReportCashOutController($scope, $filter, Bracelet, Circuit, Kin
 
     $scope.braceletInstance = Bracelet.create(function (data) {
         $scope.braceletInstance = data;
-        console.log($scope.braceletInstance);
     });
 
     $scope.getMyAssignmentsSold = function () {

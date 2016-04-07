@@ -36,7 +36,7 @@
                                 ng-repeat="avaliblecost in avalibleCostsList">{{getTotalBySerie(h[1], avaliblecost[0].id) | number}}</th>
                             <td class="text-center">{{h[0]| number}}</td>
                             <td class="text-center">
-                                <a class="btn btn-circle btn-small purple btn-sm"  href="${request.contextPath}/vendedor/acuse/asignacion/{{h[1] | date:'yyyy-MM-dd hh:mm:ss a'}}" target="_blank">Ver acuse</a>
+                                <!--<a class="btn btn-circle btn-small purple btn-sm"  href="${request.contextPath}/vendedor/acuse/asignacion/{{h[1] | date:'yyyy-MM-dd hh:mm:ss a'}}" target="_blank">Ver acuse</a>-->
                             </td>
                         </tr>
                         </tbody>

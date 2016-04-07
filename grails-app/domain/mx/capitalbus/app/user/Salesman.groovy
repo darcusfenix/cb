@@ -12,8 +12,8 @@ class Salesman extends User{
     String telephone
     String gender
 
-    static hasMany = [bracelet: Bracelet]
-    static mappedBy = [bracelet: 'salesman']
+   // static hasMany = [bracelet: Bracelet]
+   // static mappedBy = [bracelet: 'salesman']
 
     static constraints = {
     }

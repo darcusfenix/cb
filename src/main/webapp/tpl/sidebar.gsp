@@ -35,9 +35,15 @@
 
             <sec:access expression="hasRole('ROLE_ADMIN_CONTROL_BRACELET')">
                 <li class="nav-item">
-                    <a href="#/asignar-brazaletes">
+                    <a href="#/entregar-brazaletes">
                         <i class="icon-settings"></i>
-                        <span class="title">Aasignar brazaletes</span>
+                        <span class="title">Brazaletes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#/historial-de-brazaletes">
+                        <i class="icon-settings"></i>
+                        <span class="title">Historial de brazaletes</span>
                     </a>
                 </li>
             </sec:access>

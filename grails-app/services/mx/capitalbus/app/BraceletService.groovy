@@ -100,13 +100,25 @@ class BraceletService {
         mapCVS
     }
 
-    def updateBraceletsWithSalesman(String textJson, Integer idSalesman) {
+    /*
+    * opción -> 1 sólo se asignan
+    * opción -> 2 sólo se entregan
+    * opción -> 3 se entregan y se asignan
+    * */
+    def updateBraceletsWithSalesman(String textJson, Integer idSalesman, Integer opcion = 1) {
         def s = Salesman.findById(idSalesman)
         def mapMessage = [:]
         def date = new Date()
 
         if (s != null) {
-            def bs = BraceletState.findById(2) // estado de brazalete como activado
+
+            def idEstado
+            if (opcion == 1)
+                idEstado = 1
+            if (opcion == 2 || opcion == 3)
+                idEstado = 2
+
+            def bs = BraceletState.findById(idEstado)
 
             def jsonSlurper = new JsonSlurper()
             def object = jsonSlurper.parseText(textJson)
@@ -119,24 +131,37 @@ class BraceletService {
 
                 def serie = CostBracelet.findById(i)
                 def query = Bracelet.where {
-                    (costBracelet == serie && salesman == null && deliveryDate == null && (id in sr..er))
+                    (costBracelet == serie && (id in sr..er))
+                    if (opcion == 1 || opcion == 3){
+                        deliveryDate == null && assignmentDate == null && salesman == null
+                    }
+                    if (opcion == 2){
+                        deliveryDate == null && assignmentDate != null && salesman == s
+                    }
                 }
                 def braceletsList = query.list()
 
-
                 if (braceletsList.size() > 0 && ((er - sr + 1) == braceletsList.size())) {
                     braceletsList.each { b ->
-                        b.deliveryDate = date
+
+                        if (opcion == 1){
+                            b.assignmentDate = date
+                        }
+                        if (opcion == 2){
+                            b.deliveryDate = date
+                        }
+                        if (opcion == 3){
+                                b.assignmentDate = date
+                            b.deliveryDate = date
+                        }
                         b.braceletState = bs
                         b.salesman = s
                         if (b.validate())
                             b.save(flush: true)
-                        else
-                            log.error(b.errors)
                     }
-                    mapMessage.put(i, ["idCost": i, "status": 1, "mensaje": "Se asignó el siguiente rango correctamente de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
+                    mapMessage.put(i, ["idCost": i, "status": 1, "mensaje": "Se "+getText(opcion)[0]+" el siguiente rango correctamente de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
                 } else {
-                    mapMessage.put(i, ["idCost": i, "status": 0, "mensaje": "No fue posible asignar este rango de brazaletes de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
+                    mapMessage.put(i, ["idCost": i, "status": 0, "mensaje": "No fue posible "+getText(opcion)[1]+" este rango de brazaletes de:  <b>" + sr + "</b> hasta:  <b>" + er + "</b>"])
                 }
 
             }
@@ -145,6 +170,25 @@ class BraceletService {
         mapMessage.put("fecha", date)
 
         mapMessage
+    }
+    def getText(Integer opcion){
+        def mensaje = []
+        if (opcion == 1)
+        {
+            mensaje[0] = 'asignó'
+            mensaje[1] = 'asignar'
+        }
+        if (opcion == 2)
+        {
+            mensaje[0] = 'entregó'
+            mensaje[1] = 'entregar'
+        }
+        if (opcion == 3)
+        {
+            mensaje[0] = 'asignó y entregó'
+            mensaje[1] = 'asignar y entregar'
+        }
+        mensaje
     }
 
     def validarSubida(Bracelet r) {

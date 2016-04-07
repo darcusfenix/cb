@@ -50,9 +50,29 @@
                 <div class="caption caption-md">
                     <span class="caption-subject bold uppercase">Resultados de la búsqueda</span>
                 </div>
-
-                <div class="tools">
-                    <a href="javascript:;" class="collapse"></a>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a href="" class="btn dark btn-outline btn-circle btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> Cambiar tarea
+                            <span class="fa fa-angle-down"> </span>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="javascript:;" ng-click="changeAction(1)"> Asignar
+                                    <span class="label label-sm {{action == 1  ? 'label-success' : '' }}"> {{action == 1  ? 'seleccionada' : '' }} </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" ng-click="changeAction(2)"> Entregar
+                                    <span class="label label-sm {{action == 2  ? 'label-success' : '' }}"> {{action == 2  ? 'seleccionada' : '' }} </span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="javascript:;" ng-click="changeAction(3)"> Asignar y entregar
+                                    <span class="label label-sm {{action == 3  ? 'label-success' : '' }}"> {{action == 3  ? 'seleccionada' : '' }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -65,7 +85,7 @@
                             <th class="bold ">Apellidos</th>
                             <th class="bold ">Correo</th>
                             <th class="bold ">NOmbre de Usuario</th>
-                            <th class="text-center bold ">Asignar Brazaletes</th>
+                            <th class="text-center bold ">{{getText(action)}} Brazaletes</th>
                         </tr>
                         </thead>
                         <tr ng-repeat="salesman in vendedorList|filter:filtro">
@@ -75,7 +95,9 @@
                             <td>{{salesman.username}}</td>
                             <td class="text-center">
                                 <a ng-click="selectSalesman(salesman)" class="btn " data-toggle="modal"
-                                   href="#asignar">Asignar</a>
+                                   href="#asignar">
+                                    {{getText(action)}}
+                                </a>
                             </td>
                         </tr>
                     </table>
@@ -91,7 +113,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Seleccione el rango de IDENTIFICADOR de entrega para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b>
+                <h4 class="modal-title">Seleccione el rango de IDENTIFICADOR para {{getText(action)}} a:
+                    <br><b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b>
                 </h4>
 
             </div>
@@ -175,10 +198,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Por favor confirme la siguiente asignación para <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b>
+                <h4 class="modal-title">Por favor confirme para {{getText(action)}} a:
+                    <br> <b>{{salesmanSelected.firstName}} {{salesmanSelected.lastName}}</b>
                 </h4>
             </div>
-
             <div class="modal-body">
                 <div class="table-scrollable table-scrollable-borderless">
                     <table class="table table-hover table-light">
@@ -238,7 +261,7 @@
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancelar</button>
                 <button class="btn green" data-dismiss="modal" ng-click="toAssignForSalesman()" ng-show="validate()">
-                    Sí, Asignar
+                    Sí, Entregar
                 </button>
             </div>
         </div>
