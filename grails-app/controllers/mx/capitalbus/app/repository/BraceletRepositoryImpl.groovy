@@ -7,6 +7,7 @@ import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.BraceletState
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
+import org.apache.commons.logging.Log
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -450,7 +451,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         def map = [:]
 
         results.eachWithIndex { r, index ->
-            def s = [0, 1,2]
+            def s = [0, 1,2,3,4]
             def a = Bracelet.createCriteria().list {
                 switch (op) {
                     case 1:
@@ -474,17 +475,24 @@ class BraceletRepositoryImpl implements BraceletRepository {
                 }
             }
             def b
+            def c
             switch (op){
                 case 1:
-                    b = Bracelet.findByDeliveryDate(r[0])
+                    b = Bracelet.findAllByDeliveryDate(r[0])
+                    c = Bracelet.countByDeliveryDate(r[0])
                     break;
                 case 2:
-                    b = Bracelet.findByAssignmentDate(r[0])
+                    b = Bracelet.findAllByAssignmentDate(r[0])
+                    c = Bracelet.countByAssignmentDate(r[0])
                     break;
             }
             s[0] = r[0]
             s[1] = a
-            s[2] = b.salesman
+            s[2] = b[0].salesman
+            s[3] = b[0].id
+            s[4] = b[b.size()-1].id
+            s[5] = c
+            println(s)
             map.put(index,s)
         }
         map
