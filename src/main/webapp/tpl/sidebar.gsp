@@ -14,12 +14,6 @@
 
             <sec:access expression="hasRole('ROLE_SUPER_ADMIN')">
                 <li class="nav-item">
-                    <a href="#/buscar-vendedor">
-                        <i class="icon-settings"></i>
-                        <span class="title">Buscar Vendedor</span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="#/generar-brazaletes">
                         <i class="icon-settings"></i>
                         <span class="title">Generar Brazaletes</span>
@@ -31,13 +25,25 @@
                         <span class="title">Historial de Brazaletes</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#/buscar-brazalete">
+                        <i class="icon-settings"></i>
+                        <span class="title">Buscar brazalete</span>
+                    </a>
+                </li>
             </sec:access>
 
             <sec:access expression="hasRole('ROLE_ADMIN_CONTROL_BRACELET')">
                 <li class="nav-item">
-                    <a href="#/asignar-brazaletes">
+                    <a href="#/entregar-brazaletes">
                         <i class="icon-settings"></i>
-                        <span class="title">Aasignar brazaletes</span>
+                        <span class="title">Brazaletes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#/historial-de-brazaletes">
+                        <i class="icon-settings"></i>
+                        <span class="title">Historial de brazaletes</span>
                     </a>
                 </li>
             </sec:access>

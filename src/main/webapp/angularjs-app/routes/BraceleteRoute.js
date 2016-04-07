@@ -42,9 +42,9 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                 }]
             }
         }).state('brazaleteAssign', {
-            url: "/asignar-brazaletes",
+            url: "/entregar-brazaletes",
             templateUrl: "angularjs-app/views/bracelet/assigns.gsp",
-            data: {pageTitle: 'Asignación de Brazaletes a vendedores', pageSubTitle: ''},
+            data: {pageTitle: 'Entrega de Brazaletes a vendedores', pageSubTitle: ''},
             controller: "AssignBraceletsController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -55,6 +55,42 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
                             BASE_URL + 'angularjs-app/resources/CircuitResource.js',
                             BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
                             BASE_URL + 'angularjs-app/controllers/bracelet/AssignBraceletsController.js'
+                        ]
+                    });
+                }]
+            }
+        }).state('brazaletSearch', {
+            url: "/buscar-brazalete",
+            templateUrl: "angularjs-app/views/bracelet/search.gsp",
+            data: {pageTitle: 'Búsqueda de brazaletes', pageSubTitle: ''},
+            controller: "SearchBraceletController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'CapitalBusApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            BASE_URL + 'angularjs-app/controllers/bracelet/SearchBraceletController.js'
+                        ]
+                    });
+                }]
+            }
+        }).state('braceletAssignments', {
+            url: "/historial-de-brazaletes",
+            templateUrl: "angularjs-app/views/bracelet/assignmentsList.gsp",
+            data: {pageTitle: 'Asignaciones de brazaletes', pageSubTitle: ''},
+            controller: "HistoryBraceletController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'CapitalBusApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            BASE_URL + 'rs/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            BASE_URL + 'rs/pages/scripts/dashboard.js',
+                            BASE_URL + 'angularjs-app/resources/CostBraceletResource.js',
+                            BASE_URL + 'angularjs-app/controllers/bracelet/HistoryBraceletController.js'
                         ]
                     });
                 }]

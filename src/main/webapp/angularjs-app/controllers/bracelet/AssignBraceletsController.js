@@ -4,9 +4,6 @@
 
 function AssignBraceletsController($rootScope, $scope, $http, $filter, Salesman, Bracelet, Circuit, KindPerson, DaysDuration) {
 
-    $scope.$on('$viewContentLoaded', function () {
-        App.initAjax();
-    });
     $scope.vendedorList = null;
     $scope.avalibleCostsList = null;
     $scope.kindPersontList;
@@ -16,15 +13,52 @@ function AssignBraceletsController($rootScope, $scope, $http, $filter, Salesman,
     $scope.salesmanSelected;
     $scope.responseList = null;
     $scope.isSalesman = false;
+    $scope.action = 1;
 
     $scope.f1 = false;
-    $scope.f2 = false;
 
+    $scope.f2 = false;
     $scope.deliveryBraceletResumen = [];
+
+    $scope.$on('$viewContentLoaded', function () {
+        App.initAjax();
+        $scope.changeText();
+    });
 
     $scope.breceletInstance = Bracelet.create(function (data) {
         $scope.breceletInstance = data;
     });
+
+    $scope.changeText = function(){
+        var t;
+        switch ($scope.action){
+            case 1:
+                t = "Asignación de Brazaletes a vendedores";
+                break;
+            case 2:
+                t = "Entrega de Brazaletes a vendedores";
+                break;
+            case 3:
+                t = "Asignación y entrega de Brazaletes a vendedores";
+                break;
+        }
+        $rootScope.$state.current.data.pageTitle = t;
+    };
+    $scope.changeAction = function(i){
+        $scope.action = i;
+        $scope.changeText();
+    };
+
+    $scope.getText = function (op){
+        switch (op){
+            case 1 :
+                return "ASIGNAR";
+            case 2 :
+                return "ENTREGAR";
+            case 3 :
+                return "ASIGNAR Y ENTREGAR";
+        }
+    };
 
     $scope.getVendedores = function () {
         if ($scope.q != null)
@@ -142,12 +176,13 @@ function AssignBraceletsController($rootScope, $scope, $http, $filter, Salesman,
         $('#asignar').modal('hide');
         App.blockUI({
             boxed: !0,
-            message: "Asignando brazaletes a " + $scope.salesmanSelected.firstName + " " + $scope.salesmanSelected.lastName + " ... \n NO ACTUALIZAR O CERRAR PÁGINA"
+            message: "Entregando brazaletes a " + $scope.salesmanSelected.firstName + " " + $scope.salesmanSelected.lastName + " ... \n NO ACTUALIZAR O CERRAR PÁGINA"
         });
 
         $scope.breceletInstance.$toAssign({
             "json": $scope.prepareJSON(),
-            "salesman": $scope.salesmanSelected.id
+            "salesman": $scope.salesmanSelected.id,
+            "op": $scope.action
         }, function (data) {
             $scope.responseList = data;
 
@@ -177,7 +212,6 @@ function AssignBraceletsController($rootScope, $scope, $http, $filter, Salesman,
             $scope.deliveryBraceletResumen[i].startRange = 0;
             $scope.deliveryBraceletResumen[i].endsRange = 0;
 
-            console.log($scope.deliveryBraceletResumen[i])
         }
 
     };

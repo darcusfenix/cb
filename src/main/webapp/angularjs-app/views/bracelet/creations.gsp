@@ -22,9 +22,9 @@
                     <tbody>
                     <tr ng-repeat="h in historyList">
                         <td class="text-center"> {{$index + 1}} </td>
-                        <td class="text-center"> {{h[1] | date:'yyyy-MM-dd hh:mm a' : 'GMT-6'}} </td>
+                        <td class="text-center"> {{h[1] | date:'yyyy-MM-dd hh:mm:ss a' }} </td>
                         <td class="text-center"> {{h[0]}} </td>
-                        <td class="text-center"> <a href="${request.contextPath}/bracelet/date?d={{h[1] | date:'yyyy-MM-dd hh:mm a'  : 'GMT-6'}}" class="btn"> Obtener csv</a> </td>
+                        <td class="text-center"> <a href="${request.contextPath}/bracelet/date?d={{h[1] | date:'yyyy-MM-dd hh:mm:ss a'}}" class="btn"> Obtener csv</a> </td>
                     </tr>
                     </tbody>
                 </table>

@@ -131,6 +131,8 @@
         type="text/javascript"></script>
 <script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'angular-touch.min.js')}"
         type="text/javascript"></script>
+<script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'angular-locale_es-mx.js')}"
+        type="text/javascript"></script>
 <script src="${resource(dir: 'rs/global/plugins/angularjs', file: 'plugins/angular-ui-router.min.js')}"
         type="text/javascript"></script>
 <script src="${resource(dir: 'rs/global/plugins/angularjs/plugins', file: 'ocLazyLoad.min.js')}"
@@ -153,6 +155,18 @@
 <script src="${resource(dir: 'rs/layouts/layout4/scripts', file: 'demo.min.js')}" type="text/javascript"></script>
 <!-- END APP LEVEL JQUERY SCRIPTS -->
 <!-- END JAVASCRIPTS -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-57942604-2', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
 </body>
 <!-- END BODY -->
 

@@ -405,4 +405,89 @@ class BraceletRepositoryImpl implements BraceletRepository {
         results
     }
 
+    def getHistory(String sd, String ed, Integer op){
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-5"))
+        Calendar now = Calendar.getInstance()
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a")
+        def results
+        Date start, end
+
+        if (sd == null || ed == null || (sd.equals(ed))) {
+            end = now.getTime()
+            start = now.getTime()
+            start.clearTime();
+        } else {
+            start = sdf.parse(sd)
+            end = sdf.parse(ed)
+        }
+        def query = Bracelet.createCriteria()
+        results = query.list {
+            projections {
+                if (op == 1) {
+                    groupProperty('deliveryDate')
+                    count("deliveryDate")
+                }
+                if (op == 2) {
+                    groupProperty('assignmentDate')
+                    count("assignmentDate")
+                }
+            }
+            and {
+                if (op == 1) {
+                    between("deliveryDate", start, end)
+                }
+                if (op == 2) {
+                    between("assignmentDate", start, end)
+                }
+            }
+            if (op == 1) {
+                order("deliveryDate", "desc")
+            }
+            if (op == 2) {
+                order("assignmentDate", "desc")
+            }
+        }
+        def map = [:]
+
+        results.eachWithIndex { r, index ->
+            def s = [0, 1,2]
+            def a = Bracelet.createCriteria().list {
+                switch (op) {
+                    case 1:
+                        projections {
+                            groupProperty('costBracelet')
+                            count("costBracelet")
+                        }
+                        and {
+                            eq('deliveryDate', r[0])
+                        }
+                        break;
+                    case 2:
+                        projections {
+                            groupProperty('costBracelet')
+                            count("costBracelet")
+                        }
+                        and {
+                            eq('assignmentDate', r[0])
+                        }
+                        break;
+                }
+            }
+            def b
+            switch (op){
+                case 1:
+                    b = Bracelet.findByDeliveryDate(r[0])
+                    break;
+                case 2:
+                    b = Bracelet.findByAssignmentDate(r[0])
+                    break;
+            }
+            s[0] = r[0]
+            s[1] = a
+            s[2] = b.salesman
+            map.put(index,s)
+        }
+        map
+    }
+
 }
