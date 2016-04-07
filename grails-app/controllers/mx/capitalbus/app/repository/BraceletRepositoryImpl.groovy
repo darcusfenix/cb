@@ -406,7 +406,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
     }
 
     def getHistory(String sd, String ed, Integer op){
-        //TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-5"))
         Calendar now = Calendar.getInstance()
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a")
         def results
@@ -449,7 +449,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         }
         def map = [:]
 
-        results.each { r ->
+        results.eachWithIndex { r, index ->
             def s = [0, 1,2]
             def a = Bracelet.createCriteria().list {
                 switch (op) {
@@ -485,7 +485,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             s[0] = r[0]
             s[1] = a
             s[2] = b.salesman
-            map.put(b.salesman.id,s)
+            map.put(index,s)
         }
         map
     }
