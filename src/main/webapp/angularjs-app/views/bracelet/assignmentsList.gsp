@@ -59,6 +59,11 @@
                             <th class="bold text-center" ng-repeat=" cost in costs ">
                                 <span ng-repeat="s in m[1]">
                                    {{ s[0].id == cost.id ? s[1] : '' }}
+                                    <br><br>
+
+                                    <b class="text-success" ng-repeat="rangos in m[6]">
+                                        {{rangos[0] == cost.id ? ('rango: ' + rangos[1] + ' - ' + rangos[2]): ''}}
+                                    </b>
                                 </span>
                             </th>
                             <td class="text-center">{{m[3]}}</td>
