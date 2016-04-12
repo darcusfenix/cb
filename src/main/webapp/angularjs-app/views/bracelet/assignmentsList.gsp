@@ -47,8 +47,7 @@
                             <th class="bold text-center" ng-repeat=" cost in costs ">
                                 Serie {{cost.id}}
                             </th>
-                            <th class="bold text-center">Rango Inicio</th>
-                            <th class="bold text-center">Rango Fin</th>
+
                             <th class="bold text-center ">Total {{textCurrent}}</th>
                         </tr>
                         </thead>
@@ -59,15 +58,12 @@
                             <th class="bold text-center" ng-repeat=" cost in costs ">
                                 <span ng-repeat="s in m[1]">
                                    {{ s[0].id == cost.id ? s[1] : '' }}
-                                    <br><br>
-
-                                    <b class="text-success" ng-repeat="rangos in m[6]">
-                                        {{rangos[0] == cost.id ? ('rango: ' + rangos[1] + ' - ' + rangos[2]): ''}}
-                                    </b>
                                 </span>
+                                <br> <br>
+                                <b class="text-success" ng-repeat="rangos in m[6]">
+                                    {{rangos[0] == cost.id  ? (rangos[1] + ' - ' + rangos[2]): ''}}
+                                </b>
                             </th>
-                            <td class="text-center">{{m[3]}}</td>
-                            <td class="text-center">{{m[4]}}</td>
                             <td class="text-center">{{m[5]}}</td>
                         </tr>
                     </table>
