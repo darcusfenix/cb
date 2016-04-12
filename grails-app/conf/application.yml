@@ -13,7 +13,7 @@ dataSource:
     dialect : org.hibernate.dialect.PostgreSQLDialect
     username: postgres
     password: 2706
-    logSql: true
+    logSql: false
 
 
 
@@ -28,7 +28,7 @@ environments:
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
         dataSource:
-            dbCreate: "update"
+            dbCreate: ""
             url: jdbc:postgresql://localhost/capitalbus
             properties:
                 jmxEnabled: true

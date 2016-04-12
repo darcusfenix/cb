@@ -19,25 +19,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils
 class BootStrap {
 
     def init = { servletContext ->
-        /*
-        def results
-        def query = Salesman.where {
-            id >= 41
-        }
-        results = query.order('id', 'asc').list()
-
-        results.each { s ->
-            if (s.version == 1) {
-                s.password = "v-" + s.username
-                s.username = "v-" + s.username
-                log.error(s.password + "\n")
-                if (s.validate())
-                    s.save(flush: true)
-                else
-                    log.error(s.errors)
-            }
-        }
-        */
         def springContext = WebApplicationContextUtils.getWebApplicationContext(servletContext)
         springContext.getBean("customObjectMarshallers").register()
     }

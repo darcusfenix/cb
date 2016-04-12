@@ -41,25 +41,30 @@
                     <table class="table table-hover table-light">
                         <thead>
                         <tr class="uppercase">
-                            <th class="bold ">#</th>
-                            <th class="bold ">Fecha</th>
-                            <th class="bold ">Vendedor</th>
-                            <th class="bold" ng-repeat=" cost in costs ">
+                            <th class="bold text-center">#</th>
+                            <th class="bold text-center">Fecha</th>
+                            <th class="bold text-center">Vendedor</th>
+                            <th class="bold text-center" ng-repeat=" cost in costs ">
                                 Serie {{cost.id}}
                             </th>
-                            <th class="bold ">Total {{textCurrent}}</th>
+
+                            <th class="bold text-center ">Total {{textCurrent}}</th>
                         </tr>
                         </thead>
                         <tr ng-repeat="m in map ">
-                            <td>{{$index + 1}}</td>
-                            <td>{{m[0] | date:'MMMM dd yyyy, h:mm:ss a' }}</td>
-                            <td>{{m[2].firstName}} {{m[2].lastName}}</td>
-                            <th class="bold" ng-repeat=" cost in costs ">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{m[0] | date:'MMMM dd yyyy, h:mm:ss a' }}</td>
+                            <td class="text-center">{{m[2].firstName}} {{m[2].lastName}}</td>
+                            <th class="bold text-center" ng-repeat=" cost in costs ">
                                 <span ng-repeat="s in m[1]">
                                    {{ s[0].id == cost.id ? s[1] : '' }}
                                 </span>
+                                <br> <br>
+                                <b class="text-success" ng-repeat="rangos in m[6]">
+                                    {{rangos[0] == cost.id  ? (rangos[1] + ' - ' + rangos[2]): ''}}
+                                </b>
                             </th>
-                            <td></td>
+                            <td class="text-center">{{m[5]}}</td>
                         </tr>
                     </table>
                 </div>
