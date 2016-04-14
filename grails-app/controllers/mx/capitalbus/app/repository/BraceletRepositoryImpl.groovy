@@ -7,6 +7,7 @@ import mx.capitalbus.app.bracelet.Bracelet
 import mx.capitalbus.app.bracelet.BraceletState
 import mx.capitalbus.app.bracelet.CostBracelet
 import mx.capitalbus.app.user.Salesman
+import static java.lang.Math.toIntExact;
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -131,8 +132,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             now.set(Calendar.DAY_OF_MONTH, -29);
             start = now.getTime()
         } else {
-            try
-            {
+            try {
                 now.setTime(sdf.parse(ed));
                 now.set(Calendar.HOUR, 23);
                 now.set(Calendar.MINUTE, 59);
@@ -148,7 +148,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
                 now.set(Calendar.HOUR_OF_DAY, 0);
                 start = now.getTime()
 
-            }catch(ParseException e) {
+            } catch (ParseException e) {
 
             }
         }
@@ -169,10 +169,9 @@ class BraceletRepositoryImpl implements BraceletRepository {
                 eq("sold", true)
                 if (ss) {
                     def a
-                    try
-                    {
+                    try {
                         a = sdf.parse(ss)
-                    }catch(ParseException pe) {
+                    } catch (ParseException pe) {
                         a = new Date()
                     }
 
@@ -206,8 +205,9 @@ class BraceletRepositoryImpl implements BraceletRepository {
 * 10 -> el brazalete sin fecha de activación
 *
 * */
+
     @Override
-    def validarSubida(String code, long bus, float lon, float lat ) {
+    def validarSubida(String code, long bus, float lon, float lat) {
         def r
 
         r = Bracelet.findByCode(code, [fetch: [salesman: 'eager']])
@@ -264,7 +264,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
     }
 
     @Override
-    def validarBajada(String code, long bus, float lon, float lat ) {
+    def validarBajada(String code, long bus, float lon, float lat) {
         def r
 
         r = Bracelet.findByCode(code, [fetch: [salesman: 'eager']])
@@ -302,7 +302,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             def timeStart = r.activationDate
             def timeStop = new Date()
             TimeDuration duration = TimeCategory.minus(timeStop, timeStart)
-            if (duration.days <= 1){
+            if (duration.days <= 1) {
                 r.braceletState = BraceletState.findById(4)
                 return 8
             }
@@ -333,15 +333,16 @@ class BraceletRepositoryImpl implements BraceletRepository {
         def results
         def query = Bracelet.where {
             salesman == s
-            if (f){
+            if (f) {
                 (soldDate >= start && soldDate <= end)
-            }else{
+            } else {
                 (deliveryDate >= start && deliveryDate <= end)
             }
         }
         results = query.order('id', 'asc').list()
         results
     }
+
     @Override
     def getBySalesmanAndDate(Salesman s, Date date) {
 
@@ -388,15 +389,15 @@ class BraceletRepositoryImpl implements BraceletRepository {
         def query = Bracelet.createCriteria()
         results = query.list {
             projections {
-                    groupProperty('costBracelet')
-                    count("costBracelet")
+                groupProperty('costBracelet')
+                count("costBracelet")
             }
             and {
                 eq("salesman", s)
-                if (f){
-                    eq("sold",f)
+                if (f) {
+                    eq("sold", f)
                     between("soldDate", start, end)
-                }else{
+                } else {
                     between("deliveryDate", start, end)
                 }
             }
@@ -405,7 +406,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         results
     }
 
-    def getHistory(String sd, String ed, Integer op){
+    def getHistory(String sd, String ed, Integer op) {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-5"))
         Calendar now = Calendar.getInstance()
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a")
@@ -420,6 +421,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
             start = sdf.parse(sd)
             end = sdf.parse(ed)
         }
+
         def query = Bracelet.createCriteria()
         results = query.list {
             projections {
@@ -450,7 +452,7 @@ class BraceletRepositoryImpl implements BraceletRepository {
         def map = [:]
 
         results.eachWithIndex { r, index ->
-            def s = [0, 1,2]
+            def s = [0, 1, 2, 3, 4, 5]
             def a = Bracelet.createCriteria().list {
                 switch (op) {
                     case 1:
@@ -474,18 +476,42 @@ class BraceletRepositoryImpl implements BraceletRepository {
                 }
             }
             def b
-            switch (op){
+            def c
+            def rangos = [:]
+
+            switch (op) {
                 case 1:
-                    b = Bracelet.findByDeliveryDate(r[0])
+                    b = Bracelet.findAllByDeliveryDate(r[0])
+                    c = Bracelet.countByDeliveryDate(r[0])
                     break;
                 case 2:
-                    b = Bracelet.findByAssignmentDate(r[0])
+                    b = Bracelet.findAllByAssignmentDate(r[0])
+                    c = Bracelet.countByAssignmentDate(r[0])
                     break;
+            }
+            a.eachWithIndex { qwe, item ->
+
+                    for (CostBracelet cb in qwe[0]) {
+                        def w = []
+                        for (Bracelet bb in b) {
+                            if (bb.costBracelet.id == cb.id) {
+                                w.add(bb.id)
+                            }
+                        }
+                        println("####################.........>" + w)
+                        rangos.put(cb.id, [cb.id, w.min(), w.max()])
+                    }
+
             }
             s[0] = r[0]
             s[1] = a
-            s[2] = b.salesman
-            map.put(index,s)
+            s[2] = b[0].salesman
+            s[3] = b[0].id
+            s[4] = b[b.size() - 1].id
+            s[5] = c
+            s[6] = rangos
+
+            map.put(index, s)
         }
         map
     }
