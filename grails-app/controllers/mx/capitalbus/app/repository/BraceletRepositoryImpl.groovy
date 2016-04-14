@@ -178,7 +178,6 @@ class BraceletRepositoryImpl implements BraceletRepository {
                     now.setTime(a);
                     now.add(Calendar.SECOND, 1);
                     def e = now.getTime()
-                    println(" -- " + a + " -- " + e)
                     between("soldDate", a, e)
                 } else {
                     between("soldDate", start, end)

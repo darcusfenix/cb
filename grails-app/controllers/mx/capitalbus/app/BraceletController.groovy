@@ -234,4 +234,22 @@ class BraceletController {
         render(map as JSON)
     }
 
+    def findByIdOrCode() {
+        def v = params.v
+        def l
+
+        try {
+            l = Long.parseLong(v)
+        }catch (Exception e){
+            l = 0l
+        }
+
+        def b = Bracelet.findByIdOrCode(l, v)
+
+        if (b){
+            render( b as JSON )
+        }else{
+            response.status = 404 render( ["message":"error 404"] as JSON )
+        }
+    }
 }
