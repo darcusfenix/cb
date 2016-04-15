@@ -74,6 +74,11 @@ angular.module('CapitalBusApp').factory('Bracelet', function ($resource) {
         findByIdOrCode:{
             method: 'GET',
             url: 'bracelet/findByIdOrCode'
+        },
+        findByIdOrCodeWithRange:{
+            method: 'GET',
+            isArray: true,
+            url: 'bracelet/findByIdOrCodeWithRange'
         }
     });
 });
