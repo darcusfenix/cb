@@ -100,22 +100,30 @@
                     <h4 class="text-danger">No hay brazalete con el id o código proporcionado</h4>
                 </div>
             </div>
+
             <div class="tab-pane" id="tab_actions_completed">
                 <div class="row ">
                     <div class="col-md-6 form">
                         <div class="form-body">
                             <div class="form-group">
                                 <div class="input-group input-group-lg ">
-                                    <input type="text" class="form-control" placeholder="Ingrese el inicio del rango" ng-model="st" required ng-trim="true" ng-change="null" onfocus="true">
+                                    <input type="number" class="form-control" placeholder="Ingrese el inicio del rango"
+                                           ng-model="st" required ng-trim="true" ng-change="null" onfocus="true">
+                                    <span class="input-group-btn">
+                                        <button class="btn green" type="button"
+                                                ng-click="findByIdOrCodeWithRange();">Buscar!</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 form text-center">
                         <div class="form-body">
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
-                                    <input type="text" class="form-control" placeholder="Ingrese el fin del rango" ng-model="ed" required ng-trim="true" ng-change="null" onfocus="true">
+                                    <input type="number" class="form-control" placeholder="Ingrese el fin del rango"
+                                           ng-model="ed" required ng-trim="true" ng-change="null" onfocus="true">
                                     <span class="input-group-btn">
                                         <button class="btn green" type="button"
                                                 ng-click="findByIdOrCodeWithRange();">Buscar!</button>
@@ -125,42 +133,44 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th> Identificador </th>
-                                <th> Código </th>
-                                <th> Vendedor </th>
-                                <th> Fecha de activación en autobús </th>
-                                <th> Fecha de asignación </th>
-                                <th> Fecha de entrega al vendedor </th>
-                                <th> Estado del brazalete </th>
-                                <th> Fecha de creación </th>
-                                <th> Serie </th>
-                                <th> Venta </th>
-                                <th> Fecha de corte de caja </th>
+                                <th>Identificador</th>
+                                <th>Código</th>
+                                <th>Vendedor</th>
+                                <th>Fecha de activación en autobús</th>
+                                <th>Fecha de asignación</th>
+                                <th>Fecha de entrega al vendedor</th>
+                                <th>Estado del brazalete</th>
+                                <th>Fecha de creación</th>
+                                <th>Serie</th>
+                                <th>Venta</th>
+                                <th>Fecha de corte de caja</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="bracelet in braceletList">
-                                <td> {{bracelet.id}} </td>
-                                <td> {{bracelet.code}} </td>
-                                <td> {{bracelet.salesman}} </td>
-                                <td> {{bracelet.activationDate | date:'MMMM dd yyyy, h:mm:ss a'}} </td>
-                                <td> {{bracelet.assignmentDate | date:'MMMM dd yyyy, h:mm:ss a'}} </td>
-                                <td> {{bracelet.deliveryDate | date:'MMMM dd yyyy, h:mm:ss a'}} </td>
-                                <td> {{bracelet.braceletState}} </td>
-                                <td> {{bracelet.creationDate | date:'MMMM dd yyyy, h:mm:ss a'}} </td>
-                                <td> {{bracelet.costBracelet}} </td>
-                                <td> {{bracelet.sold}} </td>
-                                <td> {{bracelet.soldDate | date:'MMMM dd yyyy, h:mm:ss a'}} </td>
+                                <td>{{bracelet.id}}</td>
+                                <td>{{bracelet.code}}</td>
+                                <td>{{bracelet.salesman}}</td>
+                                <td>{{bracelet.activationDate | date:'MMMM dd yyyy, h:mm:ss a'}}</td>
+                                <td>{{bracelet.assignmentDate | date:'MMMM dd yyyy, h:mm:ss a'}}</td>
+                                <td>{{bracelet.deliveryDate | date:'MMMM dd yyyy, h:mm:ss a'}}</td>
+                                <td>{{bracelet.braceletState}}</td>
+                                <td>{{bracelet.creationDate | date:'MMMM dd yyyy, h:mm:ss a'}}</td>
+                                <td>{{bracelet.costBracelet}}</td>
+                                <td>{{bracelet.sold}}</td>
+                                <td>{{bracelet.soldDate | date:'MMMM dd yyyy, h:mm:ss a'}}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>

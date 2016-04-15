@@ -266,9 +266,14 @@ class BraceletController {
         }
 
         if (st != null && ed != null) {
-            b = Bracelet.where{
-                id >= lEt && id <= lEd
-            }.list()
+            def c = Bracelet.createCriteria()
+            b = c.list() {
+                and {
+                    between("id", lEt, lEd)
+                }
+                order("id", "asc")
+            }
+
         }
 
         if (b) {
