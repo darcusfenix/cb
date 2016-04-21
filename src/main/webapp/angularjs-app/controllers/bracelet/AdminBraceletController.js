@@ -3,18 +3,14 @@
  */
 
 function AdminBraceletController($rootScope, $scope, $http, $filter, Bracelet){
-
     $scope.currentBracelet = null;
     $scope.braceletList = null;
     $scope.b;
     $scope.st;
     $scope.ed;
-
     $scope.$on('$viewContentLoaded', function () {
         App.initAjax();
-        //TableDatatablesManaged.init();
     });
-
     $scope.searchBracelet = function(){
         $scope.currentBracelet = Bracelet.findByIdOrCode({
             v : $scope.b
@@ -36,8 +32,8 @@ function AdminBraceletController($rootScope, $scope, $http, $filter, Bracelet){
             $scope.braceletList = null;
         });
     };
-
 }
+
 /*
 var TableDatatablesManaged = function () {
     var e = function () {
