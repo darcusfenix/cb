@@ -63,14 +63,14 @@ angular.module('CapitalBusApp').config(['$stateProvider', '$urlRouterProvider', 
             url: "/buscar-brazalete",
             templateUrl: "angularjs-app/views/bracelet/search.gsp",
             data: {pageTitle: 'Búsqueda de brazaletes', pageSubTitle: ''},
-            controller: "SearchBraceletController",
+            controller: "AdminBraceletController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'CapitalBusApp',
                         insertBefore: '#ng_load_plugins_before',
                         files: [
-                            BASE_URL + 'angularjs-app/controllers/bracelet/SearchBraceletController.js'
+                            BASE_URL + 'angularjs-app/controllers/bracelet/AdminBraceletController.js'
                         ]
                     });
                 }]

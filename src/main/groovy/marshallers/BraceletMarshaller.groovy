@@ -11,10 +11,11 @@ class BraceletMarshaller {
                     code : it.code,
                     activationDate : it.activationDate,
                     deliveryDate : it.assignmentDate,
+                    assignmentDate : it.assignmentDate,
                     creationDate : it.creationDate,
                     soldDate : it.soldDate,
                     sold : it.sold,
-                    salesman : it.salesman.firstName + ' ' + it.salesman.lastName,
+                    salesman : it.salesman != null ? (it.salesman != null ? it.salesman.firstName : '') + ' ' + (it.salesman != null ? it.salesman.lastName : '') : null,
                     braceletState : it.braceletState.name,
                     costBracelet : it.costBracelet.id
             ]

@@ -178,7 +178,6 @@ class BraceletRepositoryImpl implements BraceletRepository {
                     now.setTime(a);
                     now.add(Calendar.SECOND, 1);
                     def e = now.getTime()
-                    println(" -- " + a + " -- " + e)
                     between("soldDate", a, e)
                 } else {
                     between("soldDate", start, end)
@@ -322,7 +321,13 @@ class BraceletRepositoryImpl implements BraceletRepository {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 
         Calendar now = Calendar.getInstance();
-        now.setTime(sdf.parse(sd));
+
+         try{
+            now.setTime(sdf.parse(sd));
+        }catch (ParseException e){
+            println("+++++++++++++++++++++++++++++++++++ > " + e.getMessage())
+        }
+
         start = now.getTime()
 
         now.add(Calendar.SECOND, 1);
