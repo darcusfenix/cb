@@ -234,4 +234,53 @@ class BraceletController {
         render(map as JSON)
     }
 
+    def findByIdOrCode() {
+        def v = params.v
+        def l
+
+        try {
+            l = Long.parseLong(v)
+        } catch (Exception e) {
+            l = 0l
+        }
+        def b = Bracelet.findByIdOrCode(l, v)
+        if (b)
+            render(b as JSON)
+        else {
+            response.status = 500
+            render(["message": "error 404"] as JSON)
+        }
+    }
+    def findByIdOrCodeWithRange() {
+
+        def st = params.st
+        def ed = params.ed
+        def lEt, lEd, b
+
+        try {
+            lEt = Long.parseLong(st)
+            lEd = Long.parseLong(ed)
+        } catch (Exception e) {
+            lEt = 0l
+            lEd = 0l
+        }
+
+        if (st != null && ed != null) {
+            def c = Bracelet.createCriteria()
+            b = c.list() {
+                and {
+                    between("id", lEt, lEd)
+                }
+                order("id", "asc")
+            }
+
+        }
+
+        if (b) {
+            render(b as JSON)
+        } else {
+            response.status = 500
+            render(["message": "error 404"] as JSON)
+        }
+    }
 }
